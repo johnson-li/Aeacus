@@ -91,7 +91,6 @@ def init_quic(args):
 def init_socket(args):
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     client_socket.setblocking(0)
-    client_socket.connect(("localhost", 4433))
     return client_socket
 
 
@@ -125,10 +124,13 @@ def connect(client_socket, config, args):
     except ValueError:
         server_name = host
     infos = socket.getaddrinfo(host, port, type=socket.SOCK_DGRAM)
-    addr = infos[0][4]
-    config.server_name = server_name
-    conn = QuicConnection(configuration=config, session_ticket_handler=save_session_ticket)
-    conn.connect(addr, time.time())
+    for info in infos:
+        if info[0] == socket.AF_INET:
+            addr = info[4]
+            config.server_name = server_name
+            conn = QuicConnection(configuration=config, session_ticket_handler=save_session_ticket)
+            conn.connect(addr, time.time())
+            break
     return conn
 
 
@@ -163,7 +165,7 @@ def listen(client_socket, conn):
         except BlockingIOError as e:
             pass
         for data, addr in conn.datagrams_to_send(time.time()):
-            print(f'Send data: {len(data)} bytes')
+            print(f'Send data: {len(data)} bytes to {addr}')
             client_socket.sendto(data, addr)
 
 
