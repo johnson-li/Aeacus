@@ -114,13 +114,19 @@ def init_quic(args):
     return configuration
 
 
-def process_quic_events(connection):
-    event = connection.next_event()
+def handle_stream_data_received(conn, event: events.StreamDataReceived):
+    print(f'Stream data received, id: {event.stream_id}, data: {event.data.decode()}')
+    conn.send_stream_data(event.stream_id, ("0123456789" * 50).encode(), end_stream=True)
+
+
+def process_quic_events(conn):
+    event = conn.next_event()
     while event is not None:
+        print(f'Received event: {type(event)}')
         if isinstance(event, events.ConnectionIdIssued):
-            CONNECTIONS[event.connection_id] = connection
+            CONNECTIONS[event.connection_id] = conn
         elif isinstance(event, events.ConnectionIdRetired):
-            assert CONNECTIONS[event.connection_id] == connection
+            assert CONNECTIONS[event.connection_id] == conn
             del CONNECTIONS[event.connection_id]
         elif isinstance(event, events.ConnectionTerminated):
             pass
@@ -131,12 +137,8 @@ def process_quic_events(connection):
         elif isinstance(event, events.ConnectionTerminated):
             pass
         elif isinstance(event, events.StreamDataReceived):
-            print(f'Stream data received: {event.stream_id}')
-        event = connection.next_event()
-
-
-def transmit_quic_data(connection):
-    pass
+            handle_stream_data_received(conn, event)
+        event = conn.next_event()
 
 
 def handle_udp_msg(server_socket, msg, addr, config, args):
@@ -197,15 +199,19 @@ def handle_udp_msg(server_socket, msg, addr, config, args):
     if connection is not None:
         connection.receive_datagram(msg, addr, time.time())
         process_quic_events(connection)
-        transmit_quic_data(connection)
-        for data, addr in connection.datagrams_to_send(time.time()):
-            server_socket.sendto(data, addr)
 
 
 def serve(server_socket, config, args):
     while True:
-        msg, addr = server_socket.recvfrom(BUFFER_SIZE)
-        handle_udp_msg(server_socket, msg, addr, config, args)
+        try:
+            msg, addr = server_socket.recvfrom(BUFFER_SIZE)
+            handle_udp_msg(server_socket, msg, addr, config, args)
+        except BlockingIOError as e:
+            pass
+        for conn in CONNECTIONS.values():
+            for data, addr in conn.datagrams_to_send(time.time()):
+                print(f'Send data: {len(data)} bytes')
+                server_socket.sendto(data, addr)
 
 
 def main():

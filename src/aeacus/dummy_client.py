@@ -1,21 +1,28 @@
 import argparse
 import ipaddress
+import os.path
 import ssl
 import socket
 import time
 from urllib.parse import urlparse
 
+from aeacus import DEMO_SECRETS_PATH
+from aioquic._buffer import Buffer
 from aioquic.h3.connection import H3_ALPN
+from aioquic.quic import events
 from aioquic.quic.configuration import QuicConfiguration
 from aioquic.quic.connection import QuicConnection
 from aioquic.quic.logger import QuicFileLogger
 from aioquic.tls import SessionTicket
 
+BUFFER_SIZE = 102400
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="QUIC client")
     parser.add_argument(
-        "--ca-certs", type=str, help="load CA certificates from the specified file"
+        "--ca-certs", type=str, default=os.path.join(DEMO_SECRETS_PATH, "pycacert.pem"),
+        help="load CA certificates from the specified file"
     )
     parser.add_argument(
         "url", type=str, nargs="+", default="https://localhost:4433/",
@@ -83,6 +90,7 @@ def init_quic(args):
 
 def init_socket(args):
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_socket.setblocking(0)
     client_socket.connect(("localhost", 4433))
     return client_socket
 
@@ -118,17 +126,53 @@ def connect(client_socket, config, args):
         server_name = host
     infos = socket.getaddrinfo(host, port, type=socket.SOCK_DGRAM)
     addr = infos[0][4]
-    print(infos)
     config.server_name = server_name
-    connection = QuicConnection(configuration=config, session_ticket_handler=save_session_ticket)
-    connection.connect(addr, time.time())
+    conn = QuicConnection(configuration=config, session_ticket_handler=save_session_ticket)
+    conn.connect(addr, time.time())
+    return conn
+
+
+def send_new_query_stream(conn):
+    stream_id = conn.get_next_available_stream_id()
+    conn.send_stream_data(stream_id, "query".encode())
+
+
+def on_stream_data_received(data):
+    print(f'Stream data received: {len(data)} bytes')
+
+
+def handle_quic_events(conn):
+    event = conn.next_event()
+    while event is not None:
+        print(f'Received event: {type(event)}')
+        if isinstance(event, events.HandshakeCompleted):
+            send_new_query_stream(conn)
+        elif isinstance(event, events.StreamDataReceived):
+            on_stream_data_received(event.data.decode())
+
+        event = conn.next_event()
+
+
+def listen(client_socket, conn):
+    while True:
+        try:
+            msg, addr = client_socket.recvfrom(BUFFER_SIZE)
+            print(f'Received {len(msg)} bytes')
+            conn.receive_datagram(msg, addr, time.time())
+            handle_quic_events(conn)
+        except BlockingIOError as e:
+            pass
+        for data, addr in conn.datagrams_to_send(time.time()):
+            print(f'Send data: {len(data)} bytes')
+            client_socket.sendto(data, addr)
 
 
 def main():
     args = parse_args()
     client_socket = init_socket(args)
     config = init_quic(args)
-    connect(client_socket, config, args)
+    conn = connect(client_socket, config, args)
+    listen(client_socket, conn)
 
 
 if __name__ == '__main__':
