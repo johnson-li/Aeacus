@@ -11,6 +11,8 @@ from aioquic.h3.connection import H3_ALPN
 from aioquic.quic.configuration import QuicConfiguration
 from aioquic.quic.connection import QuicConnection
 from aioquic.quic.packet import pull_quic_header
+from dnslib import DNSRecord, DNSQuestion
+from aeacus.dns import resolver
 
 BUFFER_SIZE = 102400
 
@@ -18,8 +20,13 @@ BUFFER_SIZE = 102400
 def parse_args():
     parser = argparse.ArgumentParser(description="QUIC server")
     parser.add_argument(
-        "-n",
-        "--nic",
+        "--nic-ingress",
+        type=str,
+        default="lo",
+        help="listen on the specified address (defaults to ::)",
+    )
+    parser.add_argument(
+        "--nic-egress",
         type=str,
         default="lo",
         help="listen on the specified address (defaults to ::)",
@@ -34,9 +41,11 @@ def parse_args():
 
 
 def init_socket(args):
-    server_socket = socket.socket(socket.AF_PACKET, socket.SOCK_RAW)
-    server_socket.bind((args.nic, 0x0800))
-    return server_socket
+    ingress_socket = socket.socket(socket.AF_PACKET, socket.SOCK_RAW)
+    ingress_socket.bind((args.nic_ingress, 0x0800))
+    egress_socket = socket.socket(socket.AF_PACKET, socket.SOCK_RAW)
+    egress_socket.bind((args.nic_egress, 0x0800))
+    return ingress_socket, egress_socket
 
 
 def init_quic(args):
@@ -49,7 +58,7 @@ def init_quic(args):
     return configuration
 
 
-def handle_udp_msg(server_socket, msg, addr, config, args):
+def handle_udp_msg(msg, addr, config, args):
     buf = Buffer(data=msg)
     header = pull_quic_header(
         buf, host_cid_length=config.connection_id_length
@@ -60,13 +69,22 @@ def handle_udp_msg(server_socket, msg, addr, config, args):
     )
     connection.receive_datagram(msg, addr, time.time())
     server_name = connection.tls._client_hello_server_name
-    print(f"Server name: {server_name}")
+    print(f"Received a QUIC packet, server name: {server_name}")
+    return server_name
 
 
-def serve(server_socket, config, args):
+def get_ip_str(data):
+    return '.'.join(map(str, data))
+
+
+def parse_ip_str(data: str):
+    return struct.pack('!4s', b''.join([int(d).to_bytes(1, 'big') for d in data.split('.')]))
+
+
+def serve(ingress_socket, egress_socket, config, args):
     while True:
         try:
-            msg, addr = server_socket.recvfrom(BUFFER_SIZE)
+            msg, addr = ingress_socket.recvfrom(BUFFER_SIZE)
             ip_header = struct.unpack('!BBHHHBBH4s4s', msg[14:34])
             ip_protocol = ip_header[6]
             if ip_protocol == 17:
@@ -75,7 +93,13 @@ def serve(server_socket, config, args):
                 if dest_port == args.port:
                     data = msg[42:]
                     try:
-                        handle_udp_msg(server_socket, data, addr, config, args)
+                        server_name = handle_udp_msg(data, addr, config, args)
+                        ip_addr = resolver.resolve_name(server_name)[0]
+                        src_ip_addr = parse_ip_str("195.148.127.234")
+                        print(f'Forward QUIC packet to {ip_addr}')
+                        ip_bytes = parse_ip_str(ip_addr)
+                        msg_new = b''.join([msg[:26], src_ip_addr, ip_bytes, msg[34:]])
+                        egress_socket.send(msg_new)
                     except Exception as e:
                         print(e)
         except BlockingIOError as e:
@@ -84,9 +108,9 @@ def serve(server_socket, config, args):
 
 def main():
     args = parse_args()
-    server_socket = init_socket(args)
+    ingress_socket, egress_socket = init_socket(args)
     config = init_quic(args)
-    serve(server_socket, config, args)
+    serve(ingress_socket, egress_socket, config, args)
 
 
 if __name__ == '__main__':
