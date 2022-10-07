@@ -1,6 +1,7 @@
 import argparse
 import ipaddress
 import os.path
+import pickle
 import ssl
 import socket
 import time
@@ -16,6 +17,7 @@ from aioquic.quic.logger import QuicFileLogger
 from aioquic.tls import SessionTicket
 
 BUFFER_SIZE = 102400
+SESSION_TICKET_FILE = None
 
 
 def parse_args():
@@ -80,6 +82,8 @@ def init_quic(args):
     if args.secrets_log:
         configuration.secrets_log_file = open(args.secrets_log, "a")
     if args.session_ticket:
+        global SESSION_TICKET_FILE
+        SESSION_TICKET_FILE = args.session_ticket
         try:
             with open(args.session_ticket, "rb") as fp:
                 configuration.session_ticket = pickle.load(fp)
@@ -99,11 +103,9 @@ def save_session_ticket(ticket: SessionTicket) -> None:
     Callback which is invoked by the TLS engine when a new session ticket
     is received.
     """
-    print("New session ticket received")
-    pass
-    # if args.session_ticket:
-    #     with open(args.session_ticket, "wb") as fp:
-    #         pickle.dump(ticket, fp)
+    if SESSION_TICKET_FILE:
+        with open(SESSION_TICKET_FILE, "wb") as fp:
+            pickle.dump(ticket, fp)
 
 
 def connect(client_socket, config, args):
@@ -131,6 +133,8 @@ def connect(client_socket, config, args):
             conn = QuicConnection(configuration=config, session_ticket_handler=save_session_ticket)
             conn.connect(addr, time.time())
             break
+    if args.zero_rtt:
+        send_new_query_stream(conn)
     return conn
 
 
@@ -148,6 +152,7 @@ def handle_quic_events(conn):
     while event is not None:
         print(f'Received event: {type(event)}')
         if isinstance(event, events.HandshakeCompleted):
+            print(f'Early data accepted: {event.early_data_accepted}')
             send_new_query_stream(conn)
         elif isinstance(event, events.StreamDataReceived):
             on_stream_data_received(event.data.decode())
@@ -155,7 +160,7 @@ def handle_quic_events(conn):
         event = conn.next_event()
 
 
-def listen(client_socket, conn):
+def listen(client_socket, conn, args):
     while True:
         try:
             msg, addr = client_socket.recvfrom(BUFFER_SIZE)
@@ -174,7 +179,7 @@ def main():
     client_socket = init_socket(args)
     config = init_quic(args)
     conn = connect(client_socket, config, args)
-    listen(client_socket, conn)
+    listen(client_socket, conn, args)
 
 
 if __name__ == '__main__':

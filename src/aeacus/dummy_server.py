@@ -1,5 +1,6 @@
 import argparse
 import os.path
+import pickle
 import socket
 import time
 from typing import Dict, Optional
@@ -19,6 +20,7 @@ from aioquic.tls import SessionTicket
 BUFFER_SIZE = 102400
 CONNECTIONS: Dict[bytes, QuicConnection] = {}
 RETRY = QuicRetryTokenHandler()
+SESSION_TICKET_FILE = 'server_session_ticket.bin'
 
 
 class SessionTicketStore:
@@ -28,12 +30,29 @@ class SessionTicketStore:
 
     def __init__(self) -> None:
         self.tickets: Dict[bytes, SessionTicket] = {}
+        self.load()
 
     def add(self, ticket: SessionTicket) -> None:
         self.tickets[ticket.ticket] = ticket
+        self.save()
 
     def pop(self, label: bytes) -> Optional[SessionTicket]:
-        return self.tickets.pop(label, None)
+        res = self.tickets.pop(label, None)
+        self.save()
+        return res
+
+    def save(self):
+        if SESSION_TICKET_FILE:
+            with open(SESSION_TICKET_FILE, 'wb') as f:
+                pickle.dump(self.tickets, f)
+
+    def load(self):
+        if SESSION_TICKET_FILE:
+            try:
+                with open(SESSION_TICKET_FILE, 'rb') as f:
+                    self.tickets = pickle.load(f)
+            except FileNotFoundError:
+                pass
 
 
 SESSION_TICKET_STORE = SessionTicketStore()
