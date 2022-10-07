@@ -2,15 +2,15 @@
 
 ## Machines
 
-| HostName                          | Management IP Address | VM Subnet IP Address | Core Network IP Address | Public IP Address |          
-|-----------------------------------|-----------------------|----------------------|-------------------------|-------------------|
-| VM1 (MEC)                         | 192.168.56.101        | 192.168.57.3         | /                       | /                 |          
-| VM2 (GRE endpoint)                | 192.168.56.102        | 192.168.57.4         | /                       | /                 |          
-| VM3                               | 192.168.56.103        | 192.168.57.5         | /                       | /                 |          
-| 5GC (with UPF, GRE endpoint)      | 192.168.56.104        | /                    | 10.128.1.230            | /                 |          
-| johnson-HP-Z240-Tower-Workstation | 192.168.56.1          | 192.168.57.1         | 10.128.1.231            | /                 |          
-| Base station                      | /                     | /                    | x.x.x.x                 | /                 |          
-| MOBIX (Cloud Server)              | 195.148.127.230       | /                    | /                       | 195.148.127.230   |          
+| HostName                          | Management IP Address | VM Subnet IP Address | GRE Tunnel Address | Core Network IP Address | Public IP Address |          
+|-----------------------------------|-----------------------|----------------------|--------------------|-------------------------|-------------------|
+| VM1 (MEC)                         | 192.168.56.101        | 192.168.57.3         |                    | /                       | /                 |          
+| VM2 (UPF extension)               | 192.168.56.102        | 192.168.57.4         | 10.0.10.14         | /                       | /                 |          
+| VM3                               | 192.168.56.103        | 192.168.57.5         | 10.0.10.13         | /                       | /                 |          
+| 5GC (with UPF, GRE endpoint)      | 192.168.56.104        | /                    | 10.0.10.15         | 10.128.1.230            | /                 |          
+| johnson-HP-Z240-Tower-Workstation | 192.168.56.1          | 192.168.57.1         |                    | 10.128.1.231            | /                 |          
+| Base station                      | /                     | /                    |                    | x.x.x.x                 | /                 |          
+| MOBIX (Cloud Server)              | 195.148.127.230       | /                    |                    | /                       | 195.148.127.230   |          
 
 ## Network Topology
 
