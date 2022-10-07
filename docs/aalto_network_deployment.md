@@ -2,15 +2,15 @@
 
 ## Machines
 
-| HostName                          | VM Subnet IP Address | Core Network IP Address | Public IP Address |          
-|-----------------------------------|----------------------|-------------------------|-------------------|
-| VM1 (MEC)                         | 192.168.56.101       | /                       | /                 |          
-| VM2 (GRE endpoint)                | 192.168.56.102       | /                       | /                 |          
-| VM3                               | 192.168.56.103       | /                       | /                 |          
-| 5GC (with UPF, GRE endpoint)      | 192.168.56.104       | 10.128.1.230            | /                 |          
-| johnson-HP-Z240-Tower-Workstation | 192.168.56.1         | 10.128.1.231            | /                 |          
-| Base station                      | /                    | x.x.x.x                 | /                 |          
-| MOBIX (Cloud Server)              | /                    | /                       | 195.148.127.230   |          
+| HostName                          | Management IP Address | VM Subnet IP Address | Core Network IP Address | Public IP Address |          
+|-----------------------------------|-----------------------|----------------------|-------------------------|-------------------|
+| VM1 (MEC)                         | 192.168.56.101        | 192.168.57.3         | /                       | /                 |          
+| VM2 (GRE endpoint)                | 192.168.56.102        | 192.168.57.4         | /                       | /                 |          
+| VM3                               | 192.168.56.103        | 192.168.57.5         | /                       | /                 |          
+| 5GC (with UPF, GRE endpoint)      | 192.168.56.104        | /                    | 10.128.1.230            | /                 |          
+| johnson-HP-Z240-Tower-Workstation | 192.168.56.1          | 192.168.57.1         | 10.128.1.231            | /                 |          
+| Base station                      | /                     | /                    | x.x.x.x                 | /                 |          
+| MOBIX (Cloud Server)              | 195.148.127.230       | /                    | /                       | 195.148.127.230   |          
 
 ## Network Topology
 
@@ -28,10 +28,10 @@
 | VM1      | QUIC Server                  | ``python -m aeacus.dummy_server --certificate ../resources/aeacus_secrets/fullchain.pem --private-key ../resources/aeacus_secrets/privkey.pem`` |
 | MOBIX    | QUIC Server                  | ``python -m aeacus.dummy_server --certificate ../resources/aeacus_secrets/fullchain.pem --private-key ../resources/aeacus_secrets/privkey.pem`` |
 
-
 ## OVS Setup
 
 ### 5GC
+
 ```
 Bridge br0
     Port gre0
@@ -43,13 +43,14 @@ Bridge br0
             type: internal
             
 ```
-           
+
 ```
 cookie=0x0, duration=4241113.360s, table=0, n_packets=4551550, n_bytes=545810184, in_port=gre0 actions=mod_dl_dst:3a:4d:a7:05:2a:45,LOCAL
 cookie=0x0, duration=4241113.352s, table=0, n_packets=4345894, n_bytes=419067664, in_port=LOCAL actions=output:gre0
 ```
 
 ### VM2
+
 ```
 Bridge br0
     Port gre0
