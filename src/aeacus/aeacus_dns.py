@@ -95,10 +95,10 @@ def serve(ingress_socket, egress_socket, config, args):
                     try:
                         server_name = handle_udp_msg(data, addr, config, args)
                         ip_addr = resolver.resolve_name(server_name)[0]
-                        src_ip_addr = parse_ip_str("195.148.127.234")
+                        # src_ip_addr = parse_ip_str("195.148.127.234")
                         print(f'Forward QUIC packet to {ip_addr}')
                         ip_bytes = parse_ip_str(ip_addr)
-                        msg_new = b''.join([msg[:26], src_ip_addr, ip_bytes, msg[34:]])
+                        msg_new = b''.join([msg[:30], ip_bytes, msg[34:]])
                         egress_socket.send(msg_new)
                     except Exception as e:
                         print(e)
