@@ -1,0 +1,20 @@
+version: '3.7'
+
+services: 
+  server: 
+    build: 
+      context: .
+      dockerfile: ./containers/server/DockerFile
+    image: johnson163/aeacus_server
+    restart: 'always'
+    ports:
+      - 4433:4433/udp
+
+  client:
+    build: 
+      context: .
+      dockerfile: ./containers/client/DockerFile
+    image: johnson163/aeacus_client
+    restart: 'always'
+    depends_on:
+      - server
