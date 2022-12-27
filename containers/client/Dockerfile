@@ -1,7 +1,7 @@
 FROM python:3.8.5
 
 COPY src/aeacus /app/aeacus
-COPY containers/server/requirements.txt /app/requirements.txt
+COPY containers/client/requirements.txt /app/requirements.txt
 COPY submodules/aioquic /app/aioquic
 
 WORKDIR /app/aioquic

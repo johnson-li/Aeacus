@@ -4,17 +4,42 @@ services:
   server: 
     build: 
       context: .
-      dockerfile: ./containers/server/DockerFile
+      dockerfile: ./containers/server/Dockerfile
     image: johnson163/aeacus_server
     restart: 'always'
     ports:
       - 4433:4433/udp
+    networks:
+      - data_plane
 
   client:
     build: 
       context: .
-      dockerfile: ./containers/client/DockerFile
+      dockerfile: ./containers/client/Dockerfile
     image: johnson163/aeacus_client
     restart: 'always'
     depends_on:
       - server
+      - easdf_legacy
+    networks:
+      - data_plane
+
+  easdf_legacy:
+    build: 
+      context: .
+      dockerfile: ./containers/easdf_legacy/Dockerfile
+    image: johnson163/aeacus_easdf_legacy
+    restart: 'always'
+    ports:
+      - 8053:8053/udp
+    networks:
+      - data_plane
+
+
+networks:
+  control_plane:
+    name: control_plane
+    driver: bridge
+  data_plane:
+    name: data_plane
+    driver: bridge

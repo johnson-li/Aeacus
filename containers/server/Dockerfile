@@ -13,5 +13,3 @@ WORKDIR /app
 RUN pip install -r requirements.txt
 
 CMD ["python", "-m", "aeacus.dummy_server", "--certificate", "fullchain.pem", "--private-key", "privkey.pem"]
-
-EXPOSE 4433
