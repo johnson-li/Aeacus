@@ -17,7 +17,9 @@
     - name: Install Python
       when: python == true
       apt:
-        name: python3.8
+        name: 
+          - python3.8
+          - python3-pip
         state: present
     # - name: Copy aioquic
     #   when: aioquic == true
@@ -30,10 +32,18 @@
     #   shell: 
     #     chdir: ~/libs/aioquic
     #     cmd: python setup install
-    - name: Copy project files
-      copy:
-        src: ../../src
-        dest: ~/python 
+    # - name: Copy project files
+    #   copy:
+    #     src: ../../src
+    #     dest: ~/python 
+    # - name: Copy scripts
+    #   copy:
+    #     src: ../../scripts/run.sh
+    #     dest: ~/run.sh
+    #     register: copy_script
+    # - name: Run programs
+    #   when: copy_script|success
+    #   shell: ~/run.sh
 - hosts: upf
   become: yes
   tasks:
