@@ -35,6 +35,15 @@ services:
     networks:
       - data_plane
 
+  asdf:
+    build:
+      context: .
+      dockerfile: ./containers/asdf/Dockerfile
+    image: johnson163/aeacus_asdf
+    restart: 'always'
+    networks:
+      - control_plane
+
 
 networks:
   control_plane:

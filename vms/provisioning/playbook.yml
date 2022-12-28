@@ -1,0 +1,51 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Install essential packets
+      apt:
+        name:
+          - net-tools
+          - vim
+        state: present
+    - name: Install Open vSwitch
+      when: ovs == true
+      apt:
+        name: 
+          - openvswitch-switch
+          - openvswitch-common
+        state: present
+    - name: Install Python
+      when: python == true
+      apt:
+        name: python3.8
+        state: present
+    # - name: Copy aioquic
+    #   when: aioquic == true
+    #   synchronize:
+    #     src: ../../submodules/aioquic
+    #     dest: ~/libs 
+    #   register: aioquic_copy
+    # - name: Install aioquic
+    #   when: aioquic == true and aioquic_copy|success
+    #   shell: 
+    #     chdir: ~/libs/aioquic
+    #     cmd: python setup install
+    - name: Copy project files
+      copy:
+        src: ../../src
+        dest: ~/python 
+- hosts: upf
+  become: yes
+  tasks:
+    - name: Init network
+      shell: ifconfig enp0s8 192.168.57.11 up
+- hosts: esdf
+  become: yes
+  tasks:
+    - name: Init network
+      shell: ifconfig enp0s8 192.168.57.12 up
+- hosts: easdf
+  become: yes
+  tasks:
+    - name: Init network
+      shell: ifconfig enp0s8 192.168.57.13 up

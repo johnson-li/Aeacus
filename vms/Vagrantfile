@@ -1,0 +1,81 @@
+Vagrant.configure("2") do |config|
+#   config.vm.provider "virtualbox" do |vb|
+#     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+#   end
+
+  config.vm.define "upf" do |vm|
+    vm.vm.box = "ubuntu/focal64"
+
+    vm.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
+    end
+
+    vm.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/playbook.yml"
+      ansible.extra_vars = {
+        ovs: true,
+        python: true,
+        aioquic: true,
+        dnslib: false,
+      }
+    end
+  end
+
+  config.vm.define "easdf" do |vm|
+    vm.vm.box = "ubuntu/focal64"
+
+    vm.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
+    end
+
+    vm.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/playbook.yml"
+      ansible.extra_vars = {
+        ovs: true,
+        python: true,
+        aioquic: false,
+        dnslib: false,
+      }
+    end
+  end
+
+  config.vm.define "asdf" do |vm|
+    vm.vm.box = "ubuntu/focal64"
+
+    vm.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
+    end
+
+    vm.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/playbook.yml"
+      ansible.extra_vars = {
+        ovs: true,
+        python: true, 
+        aioquic: true,
+        dnslib: false,
+      }
+    end
+  end
+
+  config.vm.define "server" do |vm|
+    vm.vm.box = "ubuntu/focal64"
+
+    vm.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
+    end
+
+    vm.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/playbook.yml"
+      ansible.extra_vars = {
+        ovs: false,
+        python: true, 
+        aioquic: true,
+        dnslib: false,
+      }
+    end
+  end
+end
