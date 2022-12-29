@@ -9,13 +9,13 @@ tmux send-key -t main:0 "ping 192.168.57.1" Enter
 tmux send-key -t main:1 "ping 192.168.58.1" Enter
 
 if [[ $(hostname) == 'easdf' ]]; then
-  tmux send-key -t main:3 "cd python; python3 -m aeacus.dns_legacy" Enter
-  tmux send-key -t main:4 "cd python; python3 -m aeacus.dns_easdf" Enter
+  tmux send-key -t main:3 "cd ~/python; python3 -m aeacus.dns_legacy" Enter
+  tmux send-key -t main:4 "cd ~/python; sudo python3 -m aeacus.dns_aeacus" Enter
 elif [[ $(hostname) == 'server' ]]; then
-  tmux send-key -t main:4 "cd python; python3 -m aeacus.dummy_server --certificate ../resources/aeacus_secrets/fullchain.pem --private-key ../resources/aeacus_secrets/privkey.pem" Enter
+  tmux send-key -t main:4 "cd ~/python; python3 -m aeacus.dummy_server --certificate ../resources/aeacus_secrets/fullchain.pem --private-key ../resources/aeacus_secrets/privkey.pem" Enter
 elif [[ $(hostname) == 'upf' ]]; then
   tmux send-key -t main:2 "sudo ip route del default; sudo ip route add default via 10.0.10.14 dev br0" Enter
-  tmux send-key -t main:4 "cd python; python3 -m aeacus.dummy_client https://192.168.58.14:4433" Enter
+  tmux send-key -t main:4 "cd ~/python; python3 -m aeacus.dummy_client https://aeacus.xuebing.me:4433" Enter
 elif [[ $(hostname) == 'asdf' ]]; then
   echo 'Nothing to do'
 fi

@@ -34,8 +34,8 @@ def parse_args():
     parser.add_argument(
         "--port",
         type=int,
-        default=8433,
-        help="listen on the specified port (defaults to 8433)",
+        default=4433,
+        help="listen on the specified port (defaults to 4433)",
     )
     return parser.parse_args()
 
@@ -85,6 +85,7 @@ def serve(ingress_socket, egress_socket, config, args):
     while True:
         try:
             msg, addr = ingress_socket.recvfrom(BUFFER_SIZE)
+            print(f'Received {len(msg)} bytes from {addr}')
             ip_header = struct.unpack('!BBHHHBBH4s4s', msg[14:34])
             ip_protocol = ip_header[6]
             if ip_protocol == 17:

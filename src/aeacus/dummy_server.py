@@ -138,7 +138,7 @@ def handle_stream_data_received(conn, event: events.StreamDataReceived):
     conn.send_stream_data(event.stream_id, ("0123456789" * 50).encode(), end_stream=True)
 
 
-def process_quic_events(conn):
+def process_quic_events(conn: QuicConnection):
     event = conn.next_event()
     while event is not None:
         print(f'Received event: {type(event)}')

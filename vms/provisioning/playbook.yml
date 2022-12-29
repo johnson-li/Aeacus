@@ -64,7 +64,6 @@
     - name: Init network
       shell: |
           ifconfig enp0s8 192.168.57.11 up
-          ifconfig enp0s9 192.168.58.11 up
           ovs-vsctl del-br br0
           ovs-vsctl add-br br0
           ovs-vsctl set bridge br0 other_config:hwaddr=3a:4d:a7:05:2a:45
@@ -73,6 +72,7 @@
           ovs-ofctl del-flows br0
           ovs-ofctl add-flow br0 in_port=gre0,actions=br0
           ovs-ofctl add-flow br0 in_port=br0,actions=gre0
+          echo 192.168.58.13 aeacus.xuebing.me >> /etc/hosts
 - hosts: asdf
   become: yes
   tasks:
@@ -85,7 +85,7 @@
           ovs-vsctl add-port br0 gre0 -- set interface gre0 type=gre options:remote_ip=192.168.57.11
           ovs-vsctl add-port br0 gre1 -- set interface gre1 type=gre options:remote_ip=192.168.57.13
           ovs-ofctl del-flows br0
-          ovs-ofctl add-flow br0 in_port=gre0,ip,nw_proto=17,nw_dst=192.168.57.13/32,actions=gre1
+          ovs-ofctl add-flow br0 in_port=gre0,ip,nw_proto=17,nw_dst=192.168.58.13/32,actions=gre1
           ovs-ofctl add-flow br0 in_port=gre0,actions=br0
           ovs-ofctl add-flow br0 in_port=br0,actions=gre0
           ovs-ofctl add-flow br0 in_port=gre1,actions=br0
@@ -104,7 +104,7 @@
           ovs-vsctl del-br br0
           ovs-vsctl add-br br0
           ovs-vsctl add-port br0 gre1 -- set interface gre1 type=gre options:remote_ip=192.168.57.12
-          ifconfig br0 10.0.10.14
+          ifconfig br0 192.168.58.13
           ovs-ofctl del-flows br0
           ovs-ofctl add-flow br0 in_port=gre1,actions=br0
           ovs-ofctl add-flow br0 in_port=br0,actions=gre1

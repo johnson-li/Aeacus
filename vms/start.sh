@@ -12,11 +12,12 @@ for host in 'upf' 'asdf' 'server'; do
   ssh -F tmp/ssh-config $host 'cd aioquic; sudo python3 setup.py install > /dev/null'
 done
 
-echo Setup resource files in the server and the client
-rsync -e 'ssh -F tmp/ssh-config' -r ../resources server:~/
-rsync -e 'ssh -F tmp/ssh-config' -r ../resources upf:~/
+for host in 'upf' 'server' 'easdf'; do
+  echo Setup resource files in $host
+  rsync -e 'ssh -F tmp/ssh-config' -r ../resources $host:~/
+done
 
-for host in 'upf' 'asdf' 'server' 'easdf'; do
+for host in 'asdf' 'server' 'easdf' 'upf'; do
   echo Setup project files in $host
   rsync -e 'ssh -F tmp/ssh-config' -r ../src/aeacus $host:~/python
   rsync -e 'ssh -F tmp/ssh-config' -r ../scripts/run.sh $host:~/

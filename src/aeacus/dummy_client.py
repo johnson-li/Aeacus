@@ -8,7 +8,6 @@ import time
 from urllib.parse import urlparse
 
 from aeacus import DEMO_SECRETS_PATH
-from aioquic._buffer import Buffer
 from aioquic.h3.connection import H3_ALPN
 from aioquic.quic import events
 from aioquic.quic.configuration import QuicConfiguration
@@ -18,6 +17,7 @@ from aioquic.tls import SessionTicket
 
 BUFFER_SIZE = 102400
 SESSION_TICKET_FILE = None
+CLOSE = False
 
 
 def parse_args():
@@ -147,7 +147,7 @@ def on_stream_data_received(data):
     print(f'Stream data received: {len(data)} bytes')
 
 
-def handle_quic_events(conn):
+def handle_quic_events(conn: QuicConnection):
     event = conn.next_event()
     while event is not None:
         print(f'Received event: {type(event)}')
@@ -156,12 +156,16 @@ def handle_quic_events(conn):
             send_new_query_stream(conn)
         elif isinstance(event, events.StreamDataReceived):
             on_stream_data_received(event.data.decode())
+            if event.end_stream:
+                conn.close()
+                global CLOSE
+                CLOSE = True
 
         event = conn.next_event()
 
 
 def listen(client_socket, conn, args):
-    while True:
+    while not CLOSE:
         try:
             msg, addr = client_socket.recvfrom(BUFFER_SIZE)
             print(f'Received {len(msg)} bytes')
