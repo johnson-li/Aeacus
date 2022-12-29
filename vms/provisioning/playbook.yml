@@ -3,6 +3,7 @@
   tasks:
     - name: Install essential packets
       apt:
+        update_cache: true
         name:
           - net-tools
           - vim
@@ -21,6 +22,10 @@
           - python3.8
           - python3-pip
         state: present
+    - name: Install dns python package
+      when: dnslib == true
+      pip:
+        name: dnslib
     # - name: Copy aioquic
     #   when: aioquic == true
     #   synchronize:
@@ -48,14 +53,27 @@
   become: yes
   tasks:
     - name: Init network
-      shell: ifconfig enp0s8 192.168.57.11 up
-- hosts: esdf
+      shell: |
+          ifconfig enp0s8 192.168.57.11 up
+          ifconfig enp0s9 192.168.58.11 up
+- hosts: asdf
   become: yes
   tasks:
     - name: Init network
-      shell: ifconfig enp0s8 192.168.57.12 up
+      shell: |
+          ifconfig enp0s8 192.168.57.12 up
+          ifconfig enp0s9 192.168.58.12 up
 - hosts: easdf
   become: yes
   tasks:
     - name: Init network
-      shell: ifconfig enp0s8 192.168.57.13 up
+      shell: |
+          ifconfig enp0s8 192.168.57.13 up
+          ifconfig enp0s9 192.168.58.13 up
+- hosts: server
+  become: yes
+  tasks:
+    - name: Init network
+      shell: |
+          ifconfig enp0s8 192.168.57.14 up
+          ifconfig enp0s9 192.168.58.14 up
