@@ -82,4 +82,24 @@ Vagrant.configure("2") do |config|
       }
     end
   end
+
+  config.vm.define "pubsub" do |vm|
+    vm.vm.box = "ubuntu/focal64"
+    vm.vm.hostname = "pubsub"
+
+    vm.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.customize ["modifyvm", :id, "--nic3", "hostonly", "--hostonlyadapter3", "vboxnet2"]
+    end
+
+    vm.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/playbook.yml"
+      ansible.extra_vars = {
+        ovs: false,
+        python: false,
+        aioquic: false,
+        dnslib: false,
+      }
+    end
+  end
 end
