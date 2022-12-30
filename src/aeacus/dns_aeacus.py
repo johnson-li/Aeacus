@@ -106,8 +106,7 @@ def serve(ingress_socket, egress_socket, config, args):
                         mac_dst_bytes = b'\x3a\x4d\xa7\x05\x2a\x12'
                         mac_bytes = b''.join([mac_dst_bytes, mac_src_bytes, msg[12:14]])
                         mac_bytes = mac_head
-                        # ip_bytes = b''.join([ip_head[:10], b'\x00\x00', ip_head[12:16], ip_dst_bytes])
-                        ip_bytes = b''.join([ip_head[:10], b'\x00\x00', ip_src_bytes, ip_dst_bytes])
+                        ip_bytes = b''.join([ip_head[:10], b'\x00\x00', ip_head[12:16], ip_dst_bytes])
                         check_sum = 0
                         for i in range(0, 20, 2):
                             check_sum += ip_bytes[i] << 8 | ip_bytes[i + 1]
