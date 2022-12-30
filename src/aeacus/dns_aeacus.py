@@ -85,6 +85,9 @@ def serve(ingress_socket, egress_socket, config, args):
     while True:
         try:
             msg, addr = ingress_socket.recvfrom(BUFFER_SIZE)
+            mac_head = msg[:14]
+            ip_head = msg[14:34]
+            payload = msg[34:]
             print(f'Received {len(msg)} bytes from {addr}')
             ip_header = struct.unpack('!BBHHHBBH4s4s', msg[14:34])
             ip_protocol = ip_header[6]
@@ -96,10 +99,25 @@ def serve(ingress_socket, egress_socket, config, args):
                     try:
                         server_name = handle_udp_msg(data, addr, config, args)
                         ip_addr = resolver.resolve_name(server_name)[0]
-                        # src_ip_addr = parse_ip_str("195.148.127.234")
                         print(f'Forward QUIC packet to {ip_addr}')
-                        ip_bytes = parse_ip_str(ip_addr)
-                        msg_new = b''.join([msg[:30], ip_bytes, msg[34:]])
+                        ip_dst_bytes = parse_ip_str(ip_addr)
+                        ip_src_bytes = parse_ip_str("10.0.10.13")
+                        mac_src_bytes = b'\x3a\x4d\xa7\x05\x2a\x13'
+                        mac_dst_bytes = b'\x3a\x4d\xa7\x05\x2a\x12'
+                        mac_bytes = b''.join([mac_dst_bytes, mac_src_bytes, msg[12:14]])
+                        mac_bytes = mac_head
+                        # ip_bytes = b''.join([ip_head[:10], b'\x00\x00', ip_head[12:16], ip_dst_bytes])
+                        ip_bytes = b''.join([ip_head[:10], b'\x00\x00', ip_src_bytes, ip_dst_bytes])
+                        check_sum = 0
+                        for i in range(0, 20, 2):
+                            check_sum += ip_bytes[i] << 8 | ip_bytes[i + 1]
+                            if check_sum >= 0x10000:
+                                check_sum %= 0x10000
+                                check_sum += 1
+                        check_sum ^= 0xFFFF
+                        ip_bytes = b''.join([ip_bytes[:10], check_sum.to_bytes(2, "big"), ip_bytes[12:]])
+                        payload = b''.join([payload[:6], b'\x00\x00', payload[8:]])
+                        msg_new = b''.join([mac_bytes, ip_bytes, payload])
                         egress_socket.send(msg_new)
                     except Exception as e:
                         print(e)
