@@ -1,5 +1,5 @@
 import asyncio
-import os
+
 from amqtt.broker import Broker
 
 config = {
@@ -14,18 +14,16 @@ config = {
         "allow-anonymous": True,
         "plugins": ["auth_anonymous"],
     },
-    "topic-check": {"enabled": False},
+    "topic-check": {"enabled": True, "plugins": []},
 }
 
 broker = Broker(config)
 
 
-async def test_coro():
+async def start_server():
     await broker.start()
-    # await asyncio.sleep(5)
-    # await broker.shutdown()
 
 
 if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(test_coro())
+    asyncio.get_event_loop().run_until_complete(start_server())
     asyncio.get_event_loop().run_forever()

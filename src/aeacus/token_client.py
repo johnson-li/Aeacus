@@ -1,46 +1,41 @@
 import asyncio
 
-from amqtt.client import MQTTClient, ConnectException
-from amqtt.mqtt.constants import QOS_1, QOS_2
+from amqtt.client import MQTTClient
+from amqtt.mqtt.constants import QOS_0
+
+topic = 'aeacus'
+# url = "mqtt://195.148.127.230"
+url = "mqtt://127.0.0.1"
 
 
-config = {
-    "aeacus": {
-        "topic": "/aeacus/token",
-        "message": b"Dead or alive",
-        "qos": 0x01,
-        "retain": True,
-    }
-}
+async def run_sub():
+    client = MQTTClient()
+    await client.connect(url)
+    await client.subscribe([(topic, QOS_0)])
+    while True:
+        print("Waiting for the next message")
+        msg = await client.deliver_message()
+        pkt = msg.publish_packet
+        print(f'Receive msg: {pkt}')
 
 
-async def test_coro():
-    C = MQTTClient(config=config)
-    await C.connect("mqtt://test.mosquitto.org/")
-    tasks = [
-        asyncio.ensure_future(C.publish("a/b", b"TEST MESSAGE WITH QOS_0")),
-        asyncio.ensure_future(C.publish("a/b", b"TEST MESSAGE WITH QOS_1", qos=QOS_1)),
-        asyncio.ensure_future(C.publish("a/b", b"TEST MESSAGE WITH QOS_2", qos=QOS_2)),
-    ]
-    await asyncio.wait(tasks)
-    print("messages published")
-    await C.disconnect()
+async def run_pub():
+    client = MQTTClient()
+    await asyncio.sleep(1)
+    await client.connect(url)
+    for i in range(10):
+        await client.publish(topic, "test".encode())
+        print(f'Sent msg: test')
+        await asyncio.sleep(1)
+    await client.disconnect()
+    print(f'Disconnected')
 
 
-async def test_coro2():
-    try:
-        C = MQTTClient()
-        await C.connect("mqtt://localhost:1883/")
-        await C.publish("a/b", b"TEST MESSAGE WITH QOS_0", qos=0x00)
-        await C.publish("a/b", b"TEST MESSAGE WITH QOS_1", qos=0x01)
-        await C.publish("a/b", b"TEST MESSAGE WITH QOS_2", qos=0x02)
-        print("messages published")
-        await C.disconnect()
-    except ConnectException as ce:
-        print("Connection failed: %s" % ce)
-        asyncio.get_event_loop().stop()
+async def main():
+    asyncio.create_task(run_sub())
+    asyncio.create_task(run_pub())
+    await asyncio.sleep(1000)
 
 
 if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(test_coro())
-    asyncio.get_event_loop().run_until_complete(test_coro2())
+    asyncio.run(main())
