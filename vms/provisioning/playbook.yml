@@ -115,16 +115,21 @@
           ovs-ofctl del-flows br0
           ovs-ofctl add-flow br0 in_port=gre1,actions=br0,mod_nw_dst:10.0.10.13
           ovs-ofctl add-flow br0 in_port=br0,actions=gre1,mod_dl_src:3a:4d:a7:05:2a:13
-- hosts: server
-  become: yes
-  tasks:
-    - name: Init network
-      shell: |
-          ifconfig enp0s8 192.168.57.14 up
-          ifconfig enp0s9 192.168.58.14 up
 - hosts: pubsub
   become: yes
   tasks:
     - name: Init network
       shell: |
+          ifconfig enp0s9 192.168.58.14 up
+- hosts: server1
+  become: yes
+  tasks:
+    - name: Init network
+      shell: |
           ifconfig enp0s9 192.168.58.15 up
+- hosts: server2
+  become: yes
+  tasks:
+    - name: Init network
+      shell: |
+          ifconfig enp0s9 192.168.58.16 up
