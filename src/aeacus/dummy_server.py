@@ -3,7 +3,11 @@ import os.path
 import pickle
 import socket
 import time
+import threading
 from typing import Dict, Optional
+
+from paho.mqtt.client import MQTTMessage
+
 from aeacus import DEMO_SECRETS_PATH
 from aioquic._buffer import Buffer
 from aioquic.h0.connection import H0_ALPN
@@ -16,11 +20,14 @@ from aioquic.quic.packet import pull_quic_header, encode_quic_version_negotiatio
     encode_quic_retry
 from aioquic.quic.retry import QuicRetryTokenHandler
 from aioquic.tls import SessionTicket
+from paho.mqtt import client as mqtt_client
 
 BUFFER_SIZE = 102400
 CONNECTIONS: Dict[bytes, QuicConnection] = {}
 RETRY = QuicRetryTokenHandler()
-SESSION_TICKET_FILE = 'server_session_ticket.bin'
+MQTT_CLIENT = mqtt_client.Client()
+MQTT_CLIENT.on_connect = lambda client, userdata, flags, rc: print("Connected to the MQTT server")
+MQTT_CLIENT.connect("mobix.xuebing.me")
 
 
 class SessionTicketStore:
@@ -33,26 +40,28 @@ class SessionTicketStore:
         self.load()
 
     def add(self, ticket: SessionTicket) -> None:
+        def publish_ticket():
+            MQTT_CLIENT.publish("aeacus", pickle.dumps(ticket))
+
+        ticket_id = {"".join("{:02x}".format(x) for x in ticket.ticket)}
+        print(f'[From local] Add ticket: 0x{ticket_id}')
         self.tickets[ticket.ticket] = ticket
-        self.save()
+        threading.Thread(target=publish_ticket).start()
 
     def pop(self, label: bytes) -> Optional[SessionTicket]:
         res = self.tickets.pop(label, None)
-        self.save()
         return res
 
-    def save(self):
-        if SESSION_TICKET_FILE:
-            with open(SESSION_TICKET_FILE, 'wb') as f:
-                pickle.dump(self.tickets, f)
-
     def load(self):
-        if SESSION_TICKET_FILE:
-            try:
-                with open(SESSION_TICKET_FILE, 'rb') as f:
-                    self.tickets = pickle.load(f)
-            except FileNotFoundError:
-                pass
+        def on_message(client, userdata, msg: MQTTMessage):
+            ticket: SessionTicket = pickle.loads(msg.payload)
+            if ticket.ticket not in self.tickets:
+                ticket_id = {"".join("{:02x}".format(x) for x in ticket.ticket)}
+                print(f'[From remote] Add ticket: 0x{ticket_id}')
+                self.tickets[ticket.ticket] = ticket
+
+        MQTT_CLIENT.subscribe("aeacus")
+        MQTT_CLIENT.on_message = on_message
 
 
 SESSION_TICKET_STORE = SessionTicketStore()
@@ -77,6 +86,12 @@ def parse_args():
         type=str,
         default="0.0.0.0",
         help="listen on the specified address (defaults to ::)",
+    )
+    parser.add_argument(
+        "--mqtt",
+        type=str,
+        default="mobix.xuebing.me",
+        help="The address of the MQTT server for sharing the session token",
     )
     parser.add_argument(
         "-k",
@@ -237,7 +252,8 @@ def main():
     args = parse_args()
     server_socket = init_socket(args)
     config = init_quic(args)
-    serve(server_socket, config, args)
+    threading.Thread(target=lambda: serve(server_socket, config, args)).start()
+    MQTT_CLIENT.loop_forever()
 
 
 if __name__ == '__main__':

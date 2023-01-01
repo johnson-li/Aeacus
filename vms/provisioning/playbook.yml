@@ -111,29 +111,37 @@
           ovs-vsctl set bridge br0 other_config:hwaddr=3a:4d:a7:05:2a:13
           ovs-vsctl add-port br0 gre1 -- set interface gre1 type=gre options:remote_ip=192.168.57.12
           ifconfig br0 10.0.10.13
-          arp -s 10.0.10.11 3a:4d:a7:05:2a:11 
-          arp -s 10.0.10.12 3a:4d:a7:05:2a:12 
+          arp -s 10.0.10.11 3a:4d:a7:05:2a:11
+          arp -s 10.0.10.12 3a:4d:a7:05:2a:12
           ovs-ofctl del-flows br0
           ovs-ofctl add-flow br0 in_port=gre1,actions=br0,mod_nw_dst:10.0.10.13
           ovs-ofctl add-flow br0 in_port=br0,actions=gre1,mod_dl_src:3a:4d:a7:05:2a:13
-- hosts: server
-  become: yes
-  tasks:
-    - name: Init network
-      shell: |
-          ifconfig enp0s8 192.168.57.14 up
-          ifconfig enp0s9 192.168.58.14 up
 - hosts: pubsub
   become: yes
   tasks:
     - name: Init network
       shell: |
-          ifconfig enp0s9 192.168.58.15 up
+          ifconfig enp0s9 192.168.58.14 up
     - name: Install software
       apt:
         name:
           - mosquitto
         state: present
+- hosts: server1
+  become: yes
+  tasks:
+    - name: Init network
+      shell: |
+          ifconfig enp0s9 192.168.58.15 up
+    - name: Install python libs
+      pip:
+        name: paho-mqtt
+- hosts: server2
+  become: yes
+  tasks:
+    - name: Init network
+      shell: |
+          ifconfig enp0s9 192.168.58.16 up
     - name: Install python libs
       pip:
         name: paho-mqtt
