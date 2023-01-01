@@ -208,7 +208,7 @@ class DNSServer(object):
 
 
 class UdpServerProtocol:
-    def __int__(self, resolver):
+    def __init__(self, resolver):
         self.resolver: BaseResolver = resolver
 
     def get_reply(self, data):
@@ -221,8 +221,8 @@ class UdpServerProtocol:
         self.transport = transport
 
     def datagram_received(self, data, addr):
-        reply = self.get_reply(data)
-        self.transport.sendto(data, addr)
+        rdata = self.get_reply(data)
+        self.transport.sendto(rdata, addr)
 
 
 async def main():
