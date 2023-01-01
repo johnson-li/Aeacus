@@ -4,6 +4,7 @@ import struct
 import threading
 
 import socketserver
+from asyncio import DatagramProtocol
 from datetime import datetime
 
 from dnslib import DNSRecord, DNSError, QTYPE, RCODE, RR, EDNS0, CLASS, DNSQuestion, EDNSOption
@@ -24,11 +25,11 @@ def get_edns_version(dns_record):
         pass
 
 
-def send_with_retry(request, address_and_port, timeout, max_retries):
+async def send_with_retry(request: DNSRecord, address_and_port, timeout, max_retries):
     tries = 0
     while tries < max_retries + 1:
         try:
-            reply = DNSRecord.parse(request.send(*address_and_port, timeout=timeout))
+            reply = DNSRecord.parse(await request.send(*address_and_port, timeout=timeout))
             if reply.header.id != request.header.id:
                 raise DNSError("Reply ID mismatch", request, reply)
             return reply
@@ -114,14 +115,14 @@ class BaseResolver(object):
                 return str(rr.rdata)
         raise Exception(f"No A records found for the authoritative nameserver '{soa_rr.rdata.mname}'")
 
-    def query_authoritative_nameserver(self, auth_request, ns_ip):
+    async def query_authoritative_nameserver(self, auth_request, ns_ip):
         try:
-            return send_with_retry(
+            return await send_with_retry(
                 auth_request, (ns_ip, 53), self.timeout, self.max_retries)
         except DNSError as exc:
             raise Exception(f"Querying the authoritative nameserver for '{auth_request.q}'") from exc
 
-    def resolve(self, request, handler):
+    async def resolve(self, request):
         reply = self.try_fail_early(request)
         if reply:
             return reply
@@ -135,7 +136,7 @@ class BaseResolver(object):
             edns_options = [EDNSOption(PCI_EDNS_OPTION_CODE, struct.pack(PCI_EDNS_OPTION_DATA_FMT, PCI))]
             auth_request = DNSRecord.question(request.q.qname, qtype=QTYPE[request.q.qtype])
             auth_request.add_ar(EDNS0(udp_len=self.udplen, opts=edns_options))
-            auth_reply = self.query_authoritative_nameserver(auth_request, ns_ip)
+            auth_reply = await self.query_authoritative_nameserver(auth_request, ns_ip)
             # reply.add_answer(*cname_rrs, *auth_reply.rr)
             reply.add_answer(*auth_reply.rr)
             if auth_reply.auth:
@@ -151,69 +152,14 @@ class BaseResolver(object):
         return reply
 
 
-class DNSHandler(socketserver.BaseRequestHandler):
-    def handle(self):
-        data, connection = self.request
-        try:
-            rdata = self.get_reply(data)
-            connection.sendto(rdata, self.client_address)
-        except DNSError as e:
-            print(e)
-
-    def get_reply(self, data):
-        request = DNSRecord.parse(data)
-        resolver = self.server.resolver
-        reply = resolver.resolve(request, self)
-        rdata = reply.pack()
-        return rdata
-
-
-class UDPServer(socketserver.ThreadingMixIn, socketserver.UDPServer, object):
-    def __init__(self, server_address, handler):
-        self.allow_reuse_address = True
-        self.daemon_threads = True
-        if server_address[0] != '' and ':' in server_address[0]:
-            self.address_family = socket.AF_INET6
-        super(UDPServer, self).__init__(server_address, handler)
-
-
-class DNSServer(object):
-    def __init__(self, resolver,
-                 address="0.0.0.0",
-                 port=53,
-                 handler=DNSHandler,
-                 server=None):
-        if not server:
-            server = UDPServer
-        self.server = server((address, port), handler)
-        self.server.resolver = resolver
-        self.thread = None
-
-    def start(self):
-        self.server.serve_forever()
-
-    def start_thread(self):
-        self.thread = threading.Thread(target=self.server.serve_forever)
-        self.thread.daemon = True
-        self.thread.start()
-
-    def stop(self):
-        self.server.shutdown()
-
-    def is_alive(self):
-        return self.thread.is_alive()
-
-    def wait(self):
-        return self.thread.join()
-
-
-class UdpServerProtocol:
+class UdpServerProtocol(DatagramProtocol):
     def __init__(self, resolver):
         self.resolver: BaseResolver = resolver
+        self.transport = None
 
-    def get_reply(self, data):
+    async def get_reply(self, data):
         request = DNSRecord.parse(data)
-        reply = self.resolver.resolve(request, self)
+        reply = await self.resolver.resolve(request)
         rdata = reply.pack()
         return rdata
 
@@ -221,17 +167,17 @@ class UdpServerProtocol:
         self.transport = transport
 
     def datagram_received(self, data, addr):
-        rdata = self.get_reply(data)
+        asyncio.create_task(self.datagram_received0(data, addr))
+
+    async def datagram_received0(self, data, addr):
+        rdata = await self.get_reply(data)
         self.transport.sendto(rdata, addr)
 
 
 async def main():
     resolver = BaseResolver()
-    # server = DNSServer(resolver, port=8053, address="0.0.0.0")
-    # server.start_thread()
-    # server.wait()
     loop = asyncio.get_running_loop()
-    transport, protocol = await loop.create_datagram_endpoint(
+    await loop.create_datagram_endpoint(
         lambda: UdpServerProtocol(resolver),
         local_addr=('0.0.0.0', 8053))
     await asyncio.sleep(10000)
