@@ -27,9 +27,10 @@
     - name: Install Python
       when: python == true
       apt:
-        name: 
+        name:
           - python3.8
           - python3-pip
+          - ipython3
         state: present
     - name: Install dns python package
       when: dnslib == true
@@ -128,3 +129,11 @@
     - name: Init network
       shell: |
           ifconfig enp0s9 192.168.58.15 up
+    - name: Install software
+      apt:
+        name:
+          - mosquitto
+        state: present
+    - name: Install python libs
+      pip:
+        name: paho-mqtt
