@@ -1,7 +1,6 @@
 import argparse
 import ipaddress
 import os.path
-import pickle
 import ssl
 import socket
 import time
@@ -16,7 +15,7 @@ from aioquic.quic.logger import QuicFileLogger
 from aioquic.tls import SessionTicket
 
 BUFFER_SIZE = 102400
-SESSION_TICKET_FILE = None
+SESSION_TICKET = None
 CLOSE = False
 
 
@@ -27,8 +26,12 @@ def parse_args():
         help="load CA certificates from the specified file"
     )
     parser.add_argument(
-        "url", type=str, nargs="+", default="https://localhost:4433/",
+        "url", type=str, nargs=1, default="https://localhost:4433/",
         help="the URL to query (must be HTTPS)"
+    )
+    parser.add_argument(
+        "url2", type=str, nargs=1, default="https://localhost:4434/",
+        help="the second URL to query (must be HTTPS)"
     )
     parser.add_argument(
         "-k",
@@ -81,14 +84,8 @@ def init_quic(args):
         configuration.quic_logger = QuicFileLogger(args.quic_log)
     if args.secrets_log:
         configuration.secrets_log_file = open(args.secrets_log, "a")
-    if args.session_ticket:
-        global SESSION_TICKET_FILE
-        SESSION_TICKET_FILE = args.session_ticket
-        try:
-            with open(args.session_ticket, "rb") as fp:
-                configuration.session_ticket = pickle.load(fp)
-        except FileNotFoundError:
-            pass
+    if SESSION_TICKET:
+        configuration.session_ticket = SESSION_TICKET
     return configuration
 
 
@@ -105,13 +102,15 @@ def save_session_ticket(ticket: SessionTicket) -> None:
     """
     ticket_id = {"".join("{:02x}".format(x) for x in ticket.ticket)}
     print(f'Add ticket: 0x{ticket_id}')
-    if SESSION_TICKET_FILE:
-        with open(SESSION_TICKET_FILE, "wb") as fp:
-            pickle.dump(ticket, fp)
+    global SESSION_TICKET
+    SESSION_TICKET = ticket
 
 
-def connect(client_socket, config, args):
-    url = args.url[0]
+def connect(client_socket, config, args, round=1):
+    if round == 0:
+        url = args.url[0]
+    else:
+        url = args.url2[0]
     parsed = urlparse(url)
     assert parsed.scheme in (
         "https",
@@ -186,6 +185,14 @@ def main():
     config = init_quic(args)
     conn = connect(client_socket, config, args)
     listen(client_socket, conn, args)
+    client_socket.close()
+    global CLOSE
+    CLOSE = False
+    client_socket = init_socket(args)
+    config = init_quic(args)
+    conn = connect(client_socket, config, args, round=2)
+    listen(client_socket, conn, args)
+    client_socket.close()
 
 
 if __name__ == '__main__':
