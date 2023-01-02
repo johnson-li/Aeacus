@@ -1,6 +1,7 @@
 import argparse
 import asyncio
 import os.path
+import random
 import socket
 import struct
 import time
@@ -16,6 +17,7 @@ from dnslib import DNSRecord, DNSQuestion
 from aeacus.dns import resolver
 
 BUFFER_SIZE = 102400
+BENCHMARK = False
 
 
 def parse_args():
@@ -37,6 +39,10 @@ def parse_args():
         type=int,
         default=4433,
         help="listen on the specified port (defaults to 4433)",
+    )
+    parser.add_argument(
+        "--benchmark",
+        action='store_true'
     )
     return parser.parse_args()
 
@@ -101,7 +107,11 @@ async def serve(ingress_socket, egress_socket, config, args):
                     try:
                         server_name = handle_udp_msg(data, addr, config, args)
                         ip_addr = (await resolver.resolve_name_async(server_name))[0]
-                        # ip_addr = "195.148.127.230"
+                        if BENCHMARK:
+                            if random.randint(0, 1) > 0:
+                                ip_addr = "192.168.58.15"
+                            else:
+                                ip_addr = "192.168.58.16"
                         print(f'Forward QUIC packet to {ip_addr}')
                         ip_dst_bytes = parse_ip_str(ip_addr)
                         ip_src_bytes = parse_ip_str("10.0.10.13")
@@ -129,6 +139,9 @@ async def serve(ingress_socket, egress_socket, config, args):
 
 async def main():
     args = parse_args()
+    if args.benchmark:
+        global BENCHMARK
+        BENCHMARK = True
     loop = asyncio.get_running_loop()
     ingress_socket, egress_socket = init_socket(args)
     config = init_quic(args)
