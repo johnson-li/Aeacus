@@ -1,11 +1,9 @@
 import asyncio
 import socket
 import struct
-import threading
 
-import socketserver
-from asyncio import DatagramProtocol
-from datetime import datetime
+import traceback
+from asyncio import DatagramProtocol, Future
 
 from dnslib import DNSRecord, DNSError, QTYPE, RCODE, RR, EDNS0, CLASS, DNSQuestion, EDNSOption
 
@@ -25,17 +23,42 @@ def get_edns_version(dns_record):
         pass
 
 
+class DnsSendProtocol(DatagramProtocol):
+    def __init__(self, request, future):
+        self.future: Future = future
+        self.message = request
+        self.transport = None
+
+    def connection_made(self, transport):
+        self.transport = transport
+        self.transport.sendto(self.message)
+
+    def datagram_received(self, data, addr):
+        if not self.future.done():
+            self.future.set_result(data)
+
+
+async def dns_send(address, port, request: DNSRecord, future):
+    loop = asyncio.get_running_loop()
+    await loop.create_datagram_endpoint(lambda: DnsSendProtocol(request, future), remote_addr=(address, port))
+
+
 async def send_with_retry(request: DNSRecord, address_and_port, timeout, max_retries):
     tries = 0
-    while tries < max_retries + 1:
+    record = asyncio.get_running_loop().create_future()
+    while tries < max_retries:
         try:
-            reply = DNSRecord.parse(await request.send(*address_and_port, timeout=timeout))
+            await dns_send(*address_and_port, request.pack(), record)
+            ans = await asyncio.wait_for(record, timeout)
+            reply = DNSRecord.parse(ans)
             if reply.header.id != request.header.id:
                 raise DNSError("Reply ID mismatch", request, reply)
             return reply
         except (socket.timeout, DNSError):
             tries += 1
-    raise DNSError("Giving up", request, address_and_port, tries)
+        except Exception:
+            traceback.print_exc()
+    # raise DNSError("Giving up", request, address_and_port, tries)
 
 
 def check_rcode(reply):
@@ -144,11 +167,12 @@ class BaseResolver(object):
             # else:
             #    reply.add_auth(soa_rr)
         except Exception as exc:
-            print("Failed to resolve:", exc)
+            traceback.print_exc()
+            # print("Failed to resolve:", exc)
             reply.header.rcode = RCODE.NXDOMAIN
             if edns_in_request:
                 reply.add_ar(EDNS0(udp_len=self.udplen))
-        print(f'Ts: {datetime.now().strftime("%Y/%m/%d-%H:%M:%S")}\nReply: {reply}', flush=True)
+        # print(f'Ts: {datetime.now().strftime("%Y/%m/%d-%H:%M:%S")}\nReply: {reply}', flush=True)
         return reply
 
 
