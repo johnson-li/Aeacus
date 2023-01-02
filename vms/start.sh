@@ -6,10 +6,14 @@
 mkdir -p tmp
 vagrant ssh-config >tmp/ssh-config
 
-for host in 'upf' 'asdf' 'server1' 'server2'; do
+for host in 'upf' 'easdf' 'server1' 'server2'; do
   echo Setup aioquic in $host
   rsync -e 'ssh -F tmp/ssh-config' -r ../submodules/aioquic $host:~/
-  ssh -F tmp/ssh-config $host 'cd aioquic; sudo python3 setup.py install > /dev/null'
+  if [[ $host == 'easdf' ]]; then
+      ssh -F tmp/ssh-config $host 'cd aioquic; sudo python3.11 setup.py install > /dev/null'
+    else
+      ssh -F tmp/ssh-config $host 'cd aioquic; sudo python3 setup.py install > /dev/null'
+  fi
 done
 
 for host in 'upf' 'server1' 'server2' 'easdf'; do
