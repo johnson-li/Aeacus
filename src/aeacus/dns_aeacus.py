@@ -98,7 +98,7 @@ def serve(ingress_socket, egress_socket, config, args):
                     data = msg[42:]
                     try:
                         server_name = handle_udp_msg(data, addr, config, args)
-                        ip_addr = resolver.resolve_name(server_name)[0]
+                        ip_addr = resolver.resolve_name_iteratively(server_name)[0]
                         print(f'Forward QUIC packet to {ip_addr}')
                         ip_dst_bytes = parse_ip_str(ip_addr)
                         ip_src_bytes = parse_ip_str("10.0.10.13")

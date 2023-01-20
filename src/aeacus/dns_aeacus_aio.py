@@ -106,7 +106,7 @@ async def serve(ingress_socket, egress_socket, config, args):
                     data = msg[42:]
                     try:
                         server_name = handle_udp_msg(data, addr, config, args)
-                        ip_addr = (await resolver.resolve_name_async(server_name))[0]
+                        ip_addr = (await resolver.resolve_name_iteratively_async(server_name))[0][0]
                         if BENCHMARK:
                             if random.randint(0, 1) > 0:
                                 ip_addr = "192.168.58.15"

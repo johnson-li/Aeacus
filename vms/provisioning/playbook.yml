@@ -32,7 +32,7 @@
           - python3-pip
           - ipython3
         state: present
-    - name: Install dns python package
+    - name: Install dns_ttl.py python package
       when: dnslib == true
       pip:
         name: dnslib
