@@ -13,12 +13,13 @@ async def resolve(domain, results, resolver='127.0.0.53'):
             ans = await resolve_name_iteratively_async(domain, resolver)
         else:
             ans = await resolve_name_recursively_async(domain)
+        print(ans)
         ans = ans[2]
         results[domain] = ans
-    except Exception:
+    except Exception as e:
         traceback.print_exc()
         results[domain] = ('', '')
-        print(f'No result for {domain}')
+        print(f'No result for {domain}: {e}')
 
 
 async def main():
@@ -26,13 +27,15 @@ async def main():
     domains = open(path).readlines()
     domains = [d.strip() for d in domains]
     domains = ['douyu.com']
+    domains = ['mobix.xuebing.me']
+    domains = ['pdns196.ultradns.com.']
     data = {}
     loop = asyncio.get_event_loop()
     step = 100
     for i in range(0, len(domains), step):
         for d in domains[i: i + step]:
+            # loop.create_task(resolve(d, data, resolver="1.1.1.1"))
             loop.create_task(resolve(d, data, resolver=None))
-            # loop.create_task(resolve(d, data))
         await asyncio.sleep(1)
     await asyncio.sleep(1)
     print(f'{len(data)} domains have been queried')
@@ -45,5 +48,6 @@ def illustrate():
 
 
 if __name__ == '__main__':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     asyncio.run(main())
     illustrate()
