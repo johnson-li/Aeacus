@@ -113,7 +113,7 @@ def get_ns_from_soa(domain_name: DNSLabel):
             cc = get_from_cache((DNSLabel(domain_name.label[i:]), 'NS', 'IN'))
             if cc:
                 return cc[1]
-            return cached[1]
+            # return cached[1]
     return None
 
 
@@ -122,9 +122,12 @@ async def resolve_ns_async(domain_name: DNSLabel, ns_level=0):
     if ns and ns != domain_name:
         print(f'[Cache] {domain_name} has the SOA {ns}')
         return await resolve_name_recursively_async(ns)
+    cached = get_from_cache((domain_name, 'NS', 'IN'))
+    if cached:
+        return cached
     ns_request = DNSRecord.question(domain_name, "NS")
     ns_request.add_ar(EDNS0(udp_len=1024))
-    for i in range(1, len(domain_name.label) - ns_level + 1):
+    for i in range(0, len(domain_name.label) - ns_level + 1):
         if i == len(domain_name.label):
             print(f'Query NS of {domain_name} from DNS root')
             update_cache(await send_with_retry_async(ns_request, (DNS_ROOT_LIST['l.root-servers.net.'], 53)))
@@ -159,12 +162,15 @@ async def resolve_name_recursively_async(domain_name):
         update_cache(await send_with_retry_async(a_request, (ns[1], 53)))
     cached = get_from_cache((domain_name, 'A', 'IN'))
     if cached:
-        print(f'[Cache] {domain_name} has the IP {cached[1]}')
+        print(f'{domain_name} has the IP {cached[1]}')
         return cached
+    cached = get_from_cache((domain_name, 'CNAME', 'IN'))
+    if cached:
+        return await resolve_name_recursively_async(cached[1])
     raise Exception(f'Failed to resolve {domain_name}')
 
 
-async def resolve_name_iteratively_async(domain_name, resolver='127.0.0.53'):
+async def resolve_name_iteratively_async(domain_name, resolver):
     domain_name = DNSLabel(domain_name)
     print(f'Resolve {domain_name} iteratively, resolver: {resolver}')
     cached = get_from_cache((DNSLabel(domain_name), 'A', 'IN'))
