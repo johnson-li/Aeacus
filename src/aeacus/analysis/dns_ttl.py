@@ -13,7 +13,6 @@ async def resolve(domain, results, resolver='127.0.0.53'):
             ans = await resolve_name_iteratively_async(domain, resolver)
         else:
             ans = await resolve_name_recursively_async(domain)
-        print(ans)
         ans = ans[2]
         results[domain] = ans
     except Exception as e:
@@ -27,8 +26,7 @@ async def main():
     domains = open(path).readlines()
     domains = [d.strip() for d in domains]
     domains = ['douyu.com']
-    domains = ['mobix.xuebing.me']
-    domains = ['pdns196.ultradns.com.']
+    domains = ['test.test.xuebing.me']
     data = {}
     loop = asyncio.get_event_loop()
     step = 100
@@ -48,6 +46,6 @@ def illustrate():
 
 
 if __name__ == '__main__':
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     asyncio.run(main())
     illustrate()
