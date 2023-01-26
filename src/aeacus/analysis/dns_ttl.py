@@ -52,12 +52,6 @@ async def collect_ttl_data(resolver, title):
         json.dump(data, f)
 
 
-async def main():
-    for i in range(100000):
-        for tc in test_cases[1:]:
-            await collect_ttl_data(*tc)
-
-
 def draw_cdf(values, x_label, name, legend):
     font_size = 16
     fig, ax = plt.subplots(figsize=(4, 2))
@@ -103,7 +97,13 @@ def illustrate():
     draw_cdf(dataset, 'DNS TTL (s)', f"dns_ttl.pdf", ['Authoritative Name Server', 'Public DNS', 'LDNS'])
 
 
+async def main():
+    for i in range(1):
+        for tc in test_cases[1:]:
+            await collect_ttl_data(*tc)
+
+
 if __name__ == '__main__':
     # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    # asyncio.run(main())
-    illustrate()
+    asyncio.run(main())
+    # illustrate()
