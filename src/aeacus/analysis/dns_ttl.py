@@ -53,14 +53,14 @@ async def collect_ttl_data(resolver, title):
 
 
 async def main():
-    for i in range(10):
+    for i in range(100000):
         for tc in test_cases[1:]:
             await collect_ttl_data(*tc)
 
 
 def draw_cdf(values, x_label, name, legend):
     font_size = 16
-    fig, ax = plt.subplots(figsize=(4, 2.5))
+    fig, ax = plt.subplots(figsize=(4, 2))
     for value in values:
         value = np.array(value)
         value.sort()
@@ -78,7 +78,7 @@ def draw_cdf(values, x_label, name, legend):
         spl = make_interp_spline(x_new, y_new, 3)
         y = spl(x)
         plt.plot(x_new, y_new, linewidth=2)
-    plt.legend(legend)
+    plt.legend(legend, framealpha=.0)
     matplotlib.rcParams.update({'font.size': font_size})
     ax.tick_params(axis='both', which='major', labelsize=font_size)
     ax.tick_params(axis='both', which='minor', labelsize=font_size)
@@ -100,7 +100,7 @@ def illustrate():
         data = json.load(open(path))
         data = list(filter(lambda x: x > 0, data.values()))
         dataset.append(data)
-    draw_cdf(dataset, 'DNS TTL (s)', f"dns_ttl.pdf", [t[1] for t in test_cases])
+    draw_cdf(dataset, 'DNS TTL (s)', f"dns_ttl.pdf", ['Authoritative Name Server', 'Public DNS', 'LDNS'])
 
 
 if __name__ == '__main__':

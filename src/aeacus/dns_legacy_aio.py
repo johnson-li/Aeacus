@@ -5,7 +5,10 @@ import struct
 import traceback
 from asyncio import DatagramProtocol, Future
 
-from dnslib import DNSRecord, DNSError, QTYPE, RCODE, RR, EDNS0, CLASS, DNSQuestion, EDNSOption
+from dnslib import DNSRecord, DNSError, QTYPE, RCODE, RR, EDNS0, CLASS, DNSQuestion, EDNSOption, A, CNAME
+
+from aeacus.dns.resolver import resolve_name_recursively_async, resolve_name_iteratively_async, get_ns_from_soa, \
+    resolve_ns_async, send_with_retry_async, CACHE
 
 PCI_EDNS_OPTION_CODE = 65001
 PCI_EDNS_OPTION_DATA_FMT = '!H'
@@ -90,10 +93,9 @@ def match_soa_cname(qname, soa):
 
 
 class BaseResolver(object):
-    def __init__(self):
+    def __init__(self, ns='1.1.1.1'):
         self.udplen = 1024
-        # self.system_resolver = ("127.0.0.53", 53)
-        self.system_resolver = ("1.1.1.1", 53)
+        self.system_resolver = (ns, 53)
         self.timeout = 3
         self.max_retries = 3
 
@@ -146,32 +148,37 @@ class BaseResolver(object):
             raise Exception(f"Querying the authoritative nameserver for '{auth_request.q}'") from exc
 
     async def resolve(self, request):
-        reply = self.try_fail_early(request)
-        if reply:
-            return reply
-        edns_in_request = (get_edns_version(request) is not None)
+        domain_name = request.q.qname
         reply = request.reply(ra=1, aa=0)
+        edns_options = [EDNSOption(PCI_EDNS_OPTION_CODE, struct.pack(PCI_EDNS_OPTION_DATA_FMT, PCI))]
+        req = DNSRecord.question(request.q.qname, qtype=QTYPE[request.q.qtype])
+        req.add_ar(EDNS0(udp_len=self.udplen, opts=edns_options))
         try:
-            # soa = self.get_start_of_authority(request.q.qname)
-            # soa_rr, cname, cname_rrs = match_soa_cname(request.q.qname, soa)
-            # ns_ip = self.resolve_authoritative_nameserver(request.q.qname)
-            ns_ip = self.system_resolver[0]
-            edns_options = [EDNSOption(PCI_EDNS_OPTION_CODE, struct.pack(PCI_EDNS_OPTION_DATA_FMT, PCI))]
-            auth_request = DNSRecord.question(request.q.qname, qtype=QTYPE[request.q.qtype])
-            auth_request.add_ar(EDNS0(udp_len=self.udplen, opts=edns_options))
-            auth_reply = await self.query_authoritative_nameserver(auth_request, ns_ip)
-            # reply.add_answer(*cname_rrs, *auth_reply.rr)
-            reply.add_answer(*auth_reply.rr)
-            if auth_reply.auth:
-                reply.add_auth(*auth_reply.auth)
-            # else:
-            #    reply.add_auth(soa_rr)
+            resolver = self.system_resolver[0]
+            if resolver:
+                await resolve_name_iteratively_async(domain_name, resolver)
+            else:
+                await resolve_name_recursively_async(domain_name)
+            cname = domain_name
+            while cname:
+                record = CACHE.get((cname, 'A', 'IN'), None)
+                if record:
+                    reply.add_answer(*RR.fromZone(f"{cname} {record[2]} A {record[1]}"))
+                    # reply.add_answer([RR(cname, QTYPE.A, CLASS.IN, record[2], A(record[1]))])
+                    break
+                record = CACHE.get((cname, 'CNAME', 'IN'), None)
+                if record:
+                    reply.add_answer(*RR.fromZone(f"{cname} {record[2]} CNAME {record[1]}"))
+                    # reply.add_answer([RR(cname, QTYPE.CNAME, CLASS.IN, record[2], CNAME(record[1]))])
+                    cname = record[1]
+                else:
+                    break
         except Exception as exc:
             traceback.print_exc()
             # print("Failed to resolve:", exc)
             reply.header.rcode = RCODE.NXDOMAIN
-            if edns_in_request:
-                reply.add_ar(EDNS0(udp_len=self.udplen))
+            # if edns_in_request:
+            #     reply.add_ar(EDNS0(udp_len=self.udplen))
         # print(f'Ts: {datetime.now().strftime("%Y/%m/%d-%H:%M:%S")}\nReply: {reply}', flush=True)
         return reply
 
@@ -199,7 +206,11 @@ class UdpServerProtocol(DatagramProtocol):
 
 
 async def main():
-    resolver = BaseResolver()
+    ns = None
+    # ns = '1.1.1.1'
+    # ns = '8.8.8.8'
+    # ns = '127.0.0.53'
+    resolver = BaseResolver(ns)
     loop = asyncio.get_running_loop()
     await loop.create_datagram_endpoint(
         lambda: UdpServerProtocol(resolver),
