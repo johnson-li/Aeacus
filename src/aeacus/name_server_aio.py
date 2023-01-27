@@ -6,7 +6,7 @@ from dnslib import DNSLabel, RR, QTYPE, SOA
 
 from aeacus.dns_legacy_aio import UdpServerProtocol
 
-DATA_PATH = '/tmp/dns_record.json'
+DATA_PATH = '/tmp/dns_aeacus.json'
 
 
 class BaseResolver(object):
@@ -36,7 +36,7 @@ async def main():
     resolver = BaseResolver()
     await loop.create_datagram_endpoint(
         lambda: UdpServerProtocol(resolver),
-        local_addr=('0.0.0.0', 53))
+        local_addr=('195.148.127.230', 53))
     await asyncio.sleep(10000)
 
 
