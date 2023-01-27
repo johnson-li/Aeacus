@@ -6,17 +6,21 @@ from dnslib import DNSLabel, RR, QTYPE, SOA
 
 from aeacus.dns_legacy_aio import UdpServerProtocol
 
-DATA_PATH = '/tmp/dns_aeacus.json'
-
 
 class BaseResolver(object):
-    def load_data(self):
-        if os.path.exists(DATA_PATH):
-            data = json.load(open(DATA_PATH))
+    def load_data(self, path):
+        if os.path.exists(path):
+            data = json.load(open(path))
             data = {DNSLabel(k): v for k, v in data.items()}
         else:
             data = {}
         return data
+
+    def load_a_data(self):
+        return self.load_data('/tmp/dns_aeacus.json')
+
+    def load_txt_data(self):
+        return self.load_data('/tmp/dns_aeacus_txt.json')
 
     async def resolve(self, request):
         domain_name = request.q.qname
@@ -24,10 +28,15 @@ class BaseResolver(object):
         reply.add_auth(RR("aeacus.xuebing.me", QTYPE.SOA, ttl=60,
                           rdata=SOA("mobix.xuebing.me", "admin.xuebing.me", (20140101, 3600, 3600, 3600, 3600))))
         if request.q.qtype == QTYPE.A:
-            data = self.load_data()
+            data = self.load_a_data()
             ip = data.get(domain_name, None)
             if ip:
                 reply.add_answer(*RR.fromZone(f'{domain_name} 60 IN A {ip}'))
+        elif request.q.qtype == QTYPE.TXT:
+            data = self.load_txt_data()
+            txt = data.get(domain_name, None)
+            if txt:
+                reply.add_answer(*RR.fromZone(f'{domain_name} 60 IN TXT "{txt}"'))
         return reply
 
 
