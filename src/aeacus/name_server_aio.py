@@ -36,6 +36,7 @@ async def main():
     resolver = BaseResolver()
     await loop.create_datagram_endpoint(
         lambda: UdpServerProtocol(resolver),
+        reuse_address=True,
         local_addr=('0.0.0.0', 53))
     await asyncio.sleep(10000)
 
