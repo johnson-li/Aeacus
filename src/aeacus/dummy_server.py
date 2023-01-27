@@ -22,12 +22,17 @@ from aioquic.quic.retry import QuicRetryTokenHandler
 from aioquic.tls import SessionTicket
 from paho.mqtt import client as mqtt_client
 
+START_TS = time.time()
 BUFFER_SIZE = 102400
 CONNECTIONS: Dict[bytes, QuicConnection] = {}
 RETRY = QuicRetryTokenHandler()
 MQTT_CLIENT = mqtt_client.Client()
-MQTT_CLIENT.on_connect = lambda client, userdata, flags, rc: print("Connected to the MQTT server")
+MQTT_CLIENT.on_connect = lambda client, userdata, flags, rc: log("Connected to the MQTT server")
 MQTT_CLIENT.connect("mobix.xuebing.me")
+
+
+def log(s):
+    print(f'[{(time.time() - START_TS) * 1000:.02f} ms] {s}')
 
 
 class SessionTicketStore:
@@ -44,7 +49,7 @@ class SessionTicketStore:
             MQTT_CLIENT.publish("aeacus", pickle.dumps(ticket))
 
         ticket_id = {"".join("{:02x}".format(x) for x in ticket.ticket)}
-        print(f'[From local] Add ticket: 0x{ticket_id}')
+        log(f'[From local] Add ticket: 0x{ticket_id}')
         self.tickets[ticket.ticket] = ticket
         threading.Thread(target=publish_ticket).start()
 
@@ -57,7 +62,7 @@ class SessionTicketStore:
             ticket: SessionTicket = pickle.loads(msg.payload)
             if ticket.ticket not in self.tickets:
                 ticket_id = {"".join("{:02x}".format(x) for x in ticket.ticket)}
-                print(f'[From remote] Add ticket: 0x{ticket_id}')
+                log(f'[From remote] Add ticket: 0x{ticket_id}')
                 self.tickets[ticket.ticket] = ticket
 
         MQTT_CLIENT.subscribe("aeacus")
@@ -149,14 +154,14 @@ def init_quic(args):
 
 
 def handle_stream_data_received(conn, event: events.StreamDataReceived):
-    print(f'Stream data received, id: {event.stream_id}, data: {event.data.decode()}')
+    log(f'Stream data received, id: {event.stream_id}, data: {event.data.decode()}')
     conn.send_stream_data(event.stream_id, ("0123456789" * 50).encode(), end_stream=True)
 
 
 def process_quic_events(conn: QuicConnection):
     event = conn.next_event()
     while event is not None:
-        print(f'Received event: {type(event)}')
+        log(f'Received event: {type(event)}')
         if isinstance(event, events.ConnectionIdIssued):
             CONNECTIONS[event.connection_id] = conn
         elif isinstance(event, events.ConnectionIdRetired):
@@ -239,12 +244,13 @@ def serve(server_socket, config, args):
     while True:
         try:
             msg, addr = server_socket.recvfrom(BUFFER_SIZE)
+            log(f'Received {len(msg)} bytes from {addr}')
             handle_udp_msg(server_socket, msg, addr, config, args)
         except BlockingIOError as e:
             pass
         for conn in CONNECTIONS.values():
             for data, addr in conn.datagrams_to_send(time.time()):
-                print(f'Send data: {len(data)} bytes')
+                log(f'Send data: {len(data)} bytes')
                 server_socket.sendto(data, addr)
 
 

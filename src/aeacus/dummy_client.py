@@ -18,6 +18,7 @@ from aioquic.tls import SessionTicket
 BUFFER_SIZE = 102400
 SESSION_TICKET_FILE = None
 CLOSE = False
+START_TS = time.time()
 
 
 def parse_args():
@@ -104,7 +105,7 @@ def save_session_ticket(ticket: SessionTicket) -> None:
     is received.
     """
     ticket_id = {"".join("{:02x}".format(x) for x in ticket.ticket)}
-    print(f'Add ticket: 0x{ticket_id}')
+    log(f'Add ticket: 0x{ticket_id}')
     if SESSION_TICKET_FILE:
         with open(SESSION_TICKET_FILE, "wb") as fp:
             pickle.dump(ticket, fp)
@@ -145,16 +146,20 @@ def send_new_query_stream(conn):
     conn.send_stream_data(stream_id, "query".encode())
 
 
+def log(s):
+    print(f'[{(time.time() - START_TS) * 1000:.02f} ms] {s}')
+
+
 def on_stream_data_received(data):
-    print(f'Stream data received: {len(data)} bytes')
+    log(f'Stream data received: {len(data)} bytes')
 
 
 def handle_quic_events(conn: QuicConnection):
     event = conn.next_event()
     while event is not None:
-        print(f'Received event: {type(event)}')
+        log(f'Received event: {type(event)}')
         if isinstance(event, events.HandshakeCompleted):
-            print(f'Early data accepted: {event.early_data_accepted}')
+            log(f'Early data accepted: {event.early_data_accepted}')
             send_new_query_stream(conn)
         elif isinstance(event, events.StreamDataReceived):
             on_stream_data_received(event.data.decode())
@@ -162,18 +167,18 @@ def handle_quic_events(conn: QuicConnection):
                 conn.close()
                 global CLOSE
                 CLOSE = True
-
+                log('Close connection')
         event = conn.next_event()
 
 
 def listen(client_socket, conn, args):
     while not CLOSE:
         for data, addr in conn.datagrams_to_send(time.time()):
-            print(f'Send data: {len(data)} bytes to {addr}')
+            log(f'Send data: {len(data)} bytes to {addr}')
             client_socket.sendto(data, addr)
         try:
             msg, addr = client_socket.recvfrom(BUFFER_SIZE)
-            print(f'Received {len(msg)} bytes')
+            log(f'Received {len(msg)} bytes')
             conn.receive_datagram(msg, addr, time.time())
             handle_quic_events(conn)
         except BlockingIOError as e:
