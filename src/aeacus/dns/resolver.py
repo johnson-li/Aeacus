@@ -56,7 +56,7 @@ def get_from_cache(key, check_ttl=True):
     ans = CACHE.get(key, None)
     if ans:
         if check_ttl:
-            if ans[0] + ans[2] >= time.time():
+            if ans[0] + max(ans[2], 300) >= time.time():
                 return ans
             else:
                 CACHE.pop(key)
@@ -176,7 +176,8 @@ async def resolve_name_iteratively_async(domain_name, resolver):
     q.add_ar(EDNS0(opts=edns_options))
     q.add_ar(EDNS0(udp_len=1024))
     print(f'Query A of {domain_name} from {resolver}')
-    update_cache(await send_with_retry_async(q, (resolver, 53)))
+    ans = await send_with_retry_async(q, (resolver, 53))
+    update_cache(ans)
     cached = get_from_cache((DNSLabel(domain_name), 'A', 'IN'))
     if cached:
         return cached

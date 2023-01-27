@@ -209,7 +209,7 @@ async def main():
     ns = None
     # ns = '1.1.1.1'
     # ns = '8.8.8.8'
-    # ns = '127.0.0.53'
+    ns = '127.0.0.53'
     resolver = BaseResolver(ns)
     loop = asyncio.get_running_loop()
     await loop.create_datagram_endpoint(

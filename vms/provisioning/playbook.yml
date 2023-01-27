@@ -69,7 +69,7 @@
           ovs-vsctl add-br br0
           ovs-vsctl set bridge br0 other_config:hwaddr=3a:4d:a7:05:2a:11
           ovs-vsctl add-port br0 gre0 -- set interface gre0 type=gre options:remote_ip=192.168.57.12
-          ifconfig br0 10.0.10.11
+          ifconfig br0 10.0.10.11 up
           arp -s 10.0.10.12 3a:4d:a7:05:2a:12 
           ovs-ofctl del-flows br0
           ovs-ofctl add-flow br0 in_port=gre0,actions=br0
@@ -92,7 +92,7 @@
           ovs-ofctl add-flow br0 in_port=gre0,actions=br0
           ovs-ofctl add-flow br0 in_port=br0,actions=gre0
           ovs-ofctl add-flow br0 in_port=gre1,actions=br0
-          ifconfig br0 10.0.10.12
+          ifconfig br0 10.0.10.12 up
           arp -s 10.0.10.11 3a:4d:a7:05:2a:11 
           arp -s 10.0.10.13 3a:4d:a7:05:2a:13 
           modprobe iptable_nat
@@ -110,7 +110,7 @@
           ovs-vsctl add-br br0
           ovs-vsctl set bridge br0 other_config:hwaddr=3a:4d:a7:05:2a:13
           ovs-vsctl add-port br0 gre1 -- set interface gre1 type=gre options:remote_ip=192.168.57.12
-          ifconfig br0 10.0.10.13
+          ifconfig br0 10.0.10.13 up
           arp -s 10.0.10.11 3a:4d:a7:05:2a:11
           arp -s 10.0.10.12 3a:4d:a7:05:2a:12
           ovs-ofctl del-flows br0

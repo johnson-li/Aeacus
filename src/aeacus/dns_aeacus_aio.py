@@ -29,6 +29,12 @@ def parse_args():
         help="listen on the specified address (defaults to ::)",
     )
     parser.add_argument(
+        "--resolver",
+        type=str,
+        default="127.0.0.53",
+        help="the IP of the resolver (defaults to 127.0.0.53)"
+    )
+    parser.add_argument(
         "--nic-egress",
         type=str,
         default="lo",
@@ -106,7 +112,7 @@ async def serve(ingress_socket, egress_socket, config, args):
                     data = msg[42:]
                     try:
                         server_name = handle_udp_msg(data, addr, config, args)
-                        ip_addr = (await resolver.resolve_name_iteratively_async(server_name))[0][0]
+                        ip_addr = str((await resolver.resolve_name_iteratively_async(server_name, args.resolver))[1])
                         if BENCHMARK:
                             if random.randint(0, 1) > 0:
                                 ip_addr = "192.168.58.15"
