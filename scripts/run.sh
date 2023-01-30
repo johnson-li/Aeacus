@@ -15,7 +15,7 @@ elif [[ $(hostname) == 'server1' || $(hostname) == 'server2' ]]; then
   tmux send-key -t main:4 "cd ~/python; python3 -m aeacus.dummy_server --certificate ../resources/aeacus_secrets/fullchain.pem --private-key ../resources/aeacus_secrets/privkey.pem" Enter
 elif [[ $(hostname) == 'upf' ]]; then
   tmux send-key -t main:2 "sudo ip route del default; sudo ip route add default via 10.0.10.12 dev br0" Enter
-  tmux send-key -t main:4 "cd ~/python; python3 -m aeacus.dummy_client https://mobix.aeacus.xuebing.me:4433 -k" Enter
+  tmux send-key -t main:4 "~/bin/http3-client https://mobix.aeacus.xuebing.me:4433" Enter
 elif [[ $(hostname) == 'asdf' ]]; then
   echo 'Nothing to do'
 fi
