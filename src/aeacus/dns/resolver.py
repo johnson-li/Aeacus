@@ -76,6 +76,7 @@ def update_cache(record: DNSRecord):
             data = data.mname
         elif type(data) == list:
             continue
+        print(f'Update cache, {(r.rname, QTYPE.get(r.rtype), CLASS.get(r.rclass))} : {(time.time(), data, r.ttl)}')
         CACHE[(r.rname, QTYPE.get(r.rtype), CLASS.get(r.rclass))] = (time.time(), data, r.ttl)
 
 
@@ -167,6 +168,7 @@ async def resolve_name_iteratively_async(domain_name, resolver):
     print(f'Resolve {domain_name} iteratively, resolver: {resolver}')
     cached = get_from_cache((DNSLabel(domain_name), 'A', 'IN'))
     if cached:
+        print(f'Cache hit')
         return cached
     cached = get_from_cache((DNSLabel(domain_name), 'CNAME', 'IN'))
     if cached:
