@@ -18,6 +18,7 @@ from aeacus.dns import resolver
 
 BUFFER_SIZE = 102400
 BENCHMARK = False
+START_TS = time.time()
 
 
 def parse_args():
@@ -82,7 +83,7 @@ def handle_udp_msg(msg, addr, config, args):
     )
     connection.receive_datagram(msg, addr, time.time())
     server_name = connection.tls._client_hello_server_name
-    print(f"Received a QUIC packet, server name: {server_name}")
+    log(f"Received a QUIC packet, server name: {server_name}")
     return server_name
 
 
@@ -94,6 +95,10 @@ def parse_ip_str(data: str):
     return struct.pack('!4s', b''.join([int(d).to_bytes(1, 'big') for d in data.split('.')]))
 
 
+def log(s):
+    print(f'[{(time.time() - START_TS) * 1000:.02f} ms] {s}')
+
+
 async def serve(ingress_socket, egress_socket, config, args):
     loop = asyncio.get_running_loop()
     while True:
@@ -102,7 +107,7 @@ async def serve(ingress_socket, egress_socket, config, args):
             mac_head = msg[:14]
             ip_head = msg[14:34]
             payload = msg[34:]
-            print(f'Received {len(msg)} bytes from {addr}')
+            log(f'Received {len(msg)} bytes from {addr}')
             ip_header = struct.unpack('!BBHHHBBH4s4s', msg[14:34])
             ip_protocol = ip_header[6]
             if ip_protocol == 17:
@@ -113,12 +118,12 @@ async def serve(ingress_socket, egress_socket, config, args):
                     try:
                         server_name = handle_udp_msg(data, addr, config, args)
                         ip_addr = str((await resolver.resolve_name_iteratively_async(server_name, args.resolver))[1])
+                        log(f'Name resolution result {server_name} : {ip_addr}')
                         if BENCHMARK:
                             if random.randint(0, 1) > 0:
                                 ip_addr = "192.168.58.15"
                             else:
                                 ip_addr = "192.168.58.16"
-                        print(f'Forward QUIC packet to {ip_addr}')
                         ip_dst_bytes = parse_ip_str(ip_addr)
                         ip_src_bytes = parse_ip_str("10.0.10.13")
                         mac_src_bytes = b'\x3a\x4d\xa7\x05\x2a\x13'
@@ -136,6 +141,7 @@ async def serve(ingress_socket, egress_socket, config, args):
                         ip_bytes = b''.join([ip_bytes[:10], check_sum.to_bytes(2, "big"), ip_bytes[12:]])
                         payload = b''.join([payload[:6], b'\x00\x00', payload[8:]])
                         msg_new = b''.join([mac_bytes, ip_bytes, payload])
+                        log(f'Forward QUIC packet to {ip_addr}')
                         await loop.sock_sendall(egress_socket, msg_new)
                     except Exception as e:
                         print(e)
