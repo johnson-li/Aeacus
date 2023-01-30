@@ -81,6 +81,7 @@ def handle_udp_msg(msg, addr, config, args):
         configuration=config,
         original_destination_connection_id=header.destination_cid,
     )
+    connection.client_hello_only = True
     connection.receive_datagram(msg, addr, time.time())
     server_name = connection.tls._client_hello_server_name
     log(f"Received a QUIC packet, server name: {server_name}")
