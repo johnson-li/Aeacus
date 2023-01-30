@@ -172,7 +172,7 @@ def handle_quic_events(conn: QuicConnection):
 
 
 def listen(client_socket, conn, args):
-    while not CLOSE:
+    while not CLOSE and time.time() - START_TS < 5:
         for data, addr in conn.datagrams_to_send(time.time()):
             log(f'Send data: {len(data)} bytes to {addr}')
             client_socket.sendto(data, addr)
@@ -191,6 +191,7 @@ def main():
     config = init_quic(args)
     conn = connect(client_socket, config, args)
     listen(client_socket, conn, args)
+    # conn._configuration.quic_logger.end_trace(conn._quic_logger)
 
 
 if __name__ == '__main__':
