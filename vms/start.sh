@@ -6,7 +6,12 @@
 mkdir -p tmp
 vagrant ssh-config >tmp/ssh-config
 
-for host in 'upf' 'easdf' 'server1' 'server2'; do
+for host in 'upf'; do
+  echo Setup quiche in $host
+  rsync -e 'ssh -F tmp/ssh-config' -L -r ../bin $host:~/
+done
+
+for host in 'easdf'; do
   echo Setup aioquic in $host
   rsync -e 'ssh -F tmp/ssh-config' -r ../submodules/aioquic $host:~/
   if [[ $host == 'easdf' ]]; then
@@ -16,12 +21,12 @@ for host in 'upf' 'easdf' 'server1' 'server2'; do
   fi
 done
 
-for host in 'upf' 'server1' 'server2' 'easdf'; do
+for host in 'upf' 'easdf'; do
   echo Setup resource files in $host
   rsync -e 'ssh -F tmp/ssh-config' -r ../resources $host:~/
 done
 
-for host in 'asdf' 'server1' 'server2' 'easdf' 'upf'; do
+for host in 'asdf' 'easdf' 'upf'; do
   echo Setup project files in $host
   rsync -e 'ssh -F tmp/ssh-config' -r ../src/aeacus $host:~/python
   rsync -e 'ssh -F tmp/ssh-config' -r ../scripts/run.sh $host:~/
