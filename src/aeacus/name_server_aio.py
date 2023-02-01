@@ -46,7 +46,7 @@ async def main():
     await loop.create_datagram_endpoint(
         lambda: UdpServerProtocol(resolver),
         local_addr=('195.148.127.230', 53))
-    await asyncio.sleep(10000)
+    await asyncio.sleep(100000000)
 
 
 if __name__ == "__main__":
