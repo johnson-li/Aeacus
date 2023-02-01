@@ -129,7 +129,7 @@ def illustrate():
     path = os.path.join(RESULTS_PATH, f'dns_ns_delay.json')
     data = json.load(open(path))
     data = [d * 1000 for d in data.values() if d > 0]
-    print(f'Data size: {len(data)}')
+    print(f'Data size: {len(data)}, median: {np.median(data)}')
     dataset = [data]
     draw_cdf(dataset, 'RTT (ms)', f"dns_ns_delay.pdf", [])
 
