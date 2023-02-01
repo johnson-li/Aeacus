@@ -6,7 +6,7 @@
 mkdir -p tmp
 vagrant ssh-config >tmp/ssh-config
 
-for host in 'upf'; do
+for host in 'upf' 'easdf'; do
   echo Setup quiche in $host
   rsync -e 'ssh -F tmp/ssh-config' -L -r ../bin $host:~/
 done
