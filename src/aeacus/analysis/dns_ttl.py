@@ -1,17 +1,21 @@
 import asyncio
 import json
 import os
+import time
 import traceback
 
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+from dnslib import DNSRecord, EDNS0, DNSLabel
 
 from aeacus import RESOURCE_PATH, RESULTS_PATH, DIAGRAM_PATH
-from aeacus.dns.resolver import resolve_name_iteratively_async, resolve_name_recursively_async, CACHE
+from aeacus.dns.resolver import resolve_name_iteratively_async, resolve_name_recursively_async, CACHE, \
+    send_with_retry_async
 from scipy.interpolate import make_interp_spline, BSpline
 
-test_cases = [(None, 'ns'), ('1.1.1.1', 'public_dns'), ('127.0.0.53', 'ldns')]
+# test_cases = [(None, 'ns'), ('1.1.1.1', 'public_dns'), ('127.0.0.53', 'ldns')]
+test_cases = [(None, 'ns')]
 
 
 async def resolve(domain, results, resolver='127.0.0.53'):
@@ -50,6 +54,31 @@ async def collect_ttl_data(resolver, title):
     print(f'{len(data)} domains have been queried')
     with open(path, 'w') as f:
         json.dump(data, f)
+
+
+async def measure_delay(data, ns):
+    data.setdefault(ns, -1)
+    ns_ip = await resolve_name_iteratively_async(ns, resolver="127.0.0.53")
+    a_request = DNSRecord.question("example.org", "A")
+    a_request.add_ar(EDNS0(udp_len=1024))
+    ts = time.time()
+    await send_with_retry_async(a_request, (ns_ip[1], 53))
+    data[ns] = time.time() - ts
+
+
+async def collect_ns_delay():
+    domains = open(os.path.join(RESOURCE_PATH, 'alexa_top_500.txt')).readlines()
+    domains = [d.strip() for d in domains]
+    data = {}
+    ns_list = list(filter(lambda x: x, [CACHE.get((DNSLabel(d), 'NS', 'IN'), None) for d in domains]))
+    ns_list = [ns[1] for ns in ns_list]
+    loop = asyncio.get_event_loop()
+    step = 10
+    for i in range(0, len(ns_list), step):
+        for d in ns_list[i: i + step]:
+            loop.create_task(measure_delay(data, ns=d))
+        await asyncio.sleep(1)
+    json.dump({str(k): v for k, v in data.items()}, open(os.path.join(RESULTS_PATH, 'dns_ns_delay.json'), 'w+'))
 
 
 def draw_cdf(values, x_label, name, legend):
@@ -93,17 +122,26 @@ def illustrate():
         path = os.path.join(RESULTS_PATH, f'dns_ttl_{title}.json')
         data = json.load(open(path))
         data = list(filter(lambda x: x > 0, data.values()))
+        print(f'Data size: {len(data)}')
         dataset.append(data)
     draw_cdf(dataset, 'DNS TTL (s)', f"dns_ttl.pdf", ['Authoritative Name Server', 'Public DNS', 'LDNS'])
+
+    path = os.path.join(RESULTS_PATH, f'dns_ns_delay.json')
+    data = json.load(open(path))
+    data = [d * 1000 for d in data.values() if d > 0]
+    print(f'Data size: {len(data)}')
+    dataset = [data]
+    draw_cdf(dataset, 'RTT (ms)', f"dns_ns_delay.pdf", [])
 
 
 async def main():
     for i in range(1):
-        for tc in test_cases[1:]:
+        for tc in test_cases:
             await collect_ttl_data(*tc)
+    await collect_ns_delay()
 
 
 if __name__ == '__main__':
     # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    asyncio.run(main())
-    # illustrate()
+    # asyncio.run(main())
+    illustrate()
