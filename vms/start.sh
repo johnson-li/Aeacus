@@ -11,15 +11,15 @@ for host in 'upf' 'easdf'; do
   rsync -e 'ssh -F tmp/ssh-config' -L -r ../bin $host:~/
 done
 
-for host in 'easdf'; do
-  echo Setup aioquic in $host
-  rsync -e 'ssh -F tmp/ssh-config' -r ../submodules/aioquic $host:~/
-  if [[ $host == 'easdf' ]]; then
-      ssh -F tmp/ssh-config $host 'cd aioquic; sudo python3.11 setup.py install > /dev/null'
-    else
-      ssh -F tmp/ssh-config $host 'cd aioquic; sudo python3 setup.py install > /dev/null'
-  fi
-done
+# for host in 'easdf'; do
+#   echo Setup aioquic in $host
+#   rsync -e 'ssh -F tmp/ssh-config' -r ../submodules/aioquic $host:~/
+#   if [[ $host == 'easdf' ]]; then
+#       ssh -F tmp/ssh-config $host 'cd aioquic; sudo python3.11 setup.py install > /dev/null'
+#     else
+#       ssh -F tmp/ssh-config $host 'cd aioquic; sudo python3 setup.py install > /dev/null'
+#   fi
+# done
 
 for host in 'upf' 'easdf'; do
   echo Setup resource files in $host
