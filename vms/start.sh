@@ -3,6 +3,8 @@
 # This file should be executed after `vagrant provision`
 # It exits because some provision tasks are not easy to be handled by ansible
 
+../scripts/build_quiche.sh
+
 mkdir -p tmp
 vagrant ssh-config >tmp/ssh-config
 
