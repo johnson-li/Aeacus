@@ -1,3 +1,5 @@
+rm /tmp/upf_*
+
 test_sequential() {
   for i in $(seq 100); do
     ~/bin/http3-client https://mobix.aeacus.xuebing.me:4433 2>>/tmp/upf_benchmark_aeacus.log
@@ -8,16 +10,19 @@ test_sequential() {
   done
 }
 
-concurrency=100
 test_parallel() {
-  for i in $(seq $concurrency); do
-    ~/bin/http3-client https://mobix.aeacus.xuebing.me:4433 2>>/tmp/upf_benchmark_parallel_aeacus.log &
-  done
+  for concurrency in 10 20 50 80 100 200 300 500; do
+    for i in $(seq $concurrency); do
+      ~/bin/http3-client https://mobix.aeacus.xuebing.me:4433 2>>/tmp/upf_benchmark_parallel_${concurrency}_aeacus.log &
+    done
+    sleep 20
 
-  for i in $(seq $concurrency); do
-    ~/bin/http3-client https://mobix.xuebing.me:4433 2>>/tmp/upf_benchmark_parallel_direct.log &
+    for i in $(seq $concurrency); do
+      ~/bin/http3-client https://mobix.xuebing.me:4433 2>>/tmp/upf_benchmark_parallel_${concurrency}_direct.log &
+    done
+    sleep 20
   done
 }
 
-test_sequential
-#test_parallel
+#test_sequential
+test_parallel
