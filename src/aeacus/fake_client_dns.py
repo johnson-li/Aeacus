@@ -1,19 +1,18 @@
 import socket
 import time
-from multiprocessing import Process
+import traceback
 
 from dnslib import DNSRecord, EDNS0, EDNSOption
 
 from aeacus.fake_server_dns import UDP_PORT
 
-SERVER_HOST = 'localhost'
-TIMEOUT = 3
-
 SERVER = 'edge'
 # SERVER = 'cloud'
-DOMAIN = 'mobix.xuebing.me' if SERVER == 'edge' else 'cloud.xuebing.me'
 RESOLVER_IP = "1.1.1.1"
 
+DOMAIN = 'mobix.xuebing.me' if SERVER == 'edge' else 'cloud.xuebing.me'
+SERVER_HOST = '195.148.127.230' if SERVER == 'edge' else '34.118.22.129'
+TIMEOUT = 3
 HANDSHAKE_INTERVAL = 1
 NAME_LOOKUP_LOG = {}
 
@@ -64,10 +63,12 @@ def main():
             query_ts = int(uuid) / 1000
             print(f'[{uuid}] DNS respond received, delay: {(time.time() - query_ts) * 1000:.02f} ms')
             ip = dns_response.rr[0].rdata
-            ip = '127.0.0.1'
             udp_socket.sendto((uuid + '!' * (1200 - len(uuid))).encode(), (ip, UDP_PORT))
-        except Exception:
+        except BlockingIOError:
             pass
+        except Exception as e:
+            print(e)
+            traceback.print_exc()
         try:
             msg, addr = udp_socket.recvfrom(1500)
             if len(msg) == 1200:
@@ -75,8 +76,10 @@ def main():
                 uuid = data[:data.find('!')]
                 query_ts = int(uuid) / 1000
                 print(f'[{uuid}] Handshake succeeded, delay: {(time.time() - query_ts) * 1000:.02f} ms')
-        except Exception:
+        except BlockingIOError:
             pass
+        except Exception as e:
+            print(e)
 
 
 if __name__ == '__main__':

@@ -6,12 +6,13 @@ from dnslib import DNSRecord, EDNS0, EDNSOption
 
 from aeacus.fake_server_aeacus import DNS_PORT, UDP_PORT
 
-SERVER_HOST = 'localhost'
+SERVER = 'edge'
+# SERVER = 'cloud'
+RESOLVER_IP = "1.1.1.1"
+
+SERVER_HOST = '195.148.127.230' if SERVER == 'edge' else '34.118.22.129'
+DOMAIN = 'edge.xuebing.me' if SERVER == 'edge' else 'cloud.xuebing.me'
 TIMEOUT = 3
-
-DOMAIN = 'edge.aeacus.xuebing.me'
-# DOMAIN = 'cloud.aeacus.xuebing.me'
-
 CLIENT_ID = 1
 UDP_DATA = f'C{CLIENT_ID}'.encode()
 HANDSHAKE_INTERVAL = 1
@@ -24,10 +25,10 @@ def dns_sender():
         uuid = str(int(time.time() * 1000))
         print(f'[{uuid}] Handshake sent')
         dns_question = DNSRecord.question(f"{CLIENT_ID}{uuid}.{DOMAIN}", "A")
-        dns_question.add_ar(
-            EDNS0(udp_len=1200, opts=[EDNSOption(12, ('0' * (1200 - 15 - len(dns_question.pack()))).encode())]))
+        # dns_question.add_ar(
+        #     EDNS0(udp_len=1200, opts=[EDNSOption(12, ('0' * (1200 - 15 - len(dns_question.pack()))).encode())]))
         dns_data = dns_question.pack()
-        dns_socket.sendto(dns_data, (SERVER_HOST, DNS_PORT))
+        dns_socket.sendto(dns_data, (RESOLVER_IP, DNS_PORT))
         time.sleep(HANDSHAKE_INTERVAL)
 
 
@@ -44,8 +45,10 @@ def connect():
                 if msg.decode() == '0':
                     success = True
                     print(f'UDP connection established')
-            except Exception:
+            except BlockingIOError:
                 pass
+            except Exception as e:
+                print(e)
         if success:
             break
     return udp_socket
@@ -67,8 +70,10 @@ def main():
                 uuid = data[:data.find('!')]
                 delay = time.time() - int(uuid) / 1000
                 print(f'[{uuid}] Handshake succeeded, delay: {delay * 1000:.02f} ms')
-        except Exception:
+        except BlockingIOError:
             pass
+        except Exception as e:
+            print(e)
 
 
 if __name__ == '__main__':
