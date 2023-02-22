@@ -4,7 +4,7 @@ from multiprocessing import Process
 
 from dnslib import DNSRecord, EDNS0, EDNSOption
 
-from aeacus.fake_server import DNS_PORT, UDP_PORT
+from aeacus.fake_server_aeacus import DNS_PORT, UDP_PORT
 
 SERVER_HOST = 'localhost'
 TIMEOUT = 3

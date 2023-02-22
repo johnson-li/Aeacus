@@ -51,7 +51,7 @@ async def main():
     await loop.create_datagram_endpoint(
         lambda: DnsServerProtocol(),
         local_addr=('0.0.0.0', DNS_PORT))
-    await asyncio.sleep(10000)
+    await asyncio.sleep(10000000)
 
 
 if __name__ == '__main__':
