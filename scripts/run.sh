@@ -10,7 +10,8 @@ tmux send-key -t main:1 "ping 192.168.58.1" Enter
 
 if [[ $(hostname) == 'easdf' ]]; then
   tmux send-key -t main:3 "cd ~/python; python3 -m aeacus.dns_legacy_aio" Enter
-  tmux send-key -t main:4 "cd ~/python; sudo python3.11 -m aeacus.dns_aeacus_aio --nic-ingress br0 --nic-egress br0" Enter
+#  tmux send-key -t main:4 "cd ~/python; sudo python3.11 -m aeacus.dns_aeacus_aio --nic-ingress br0 --nic-egress br0" Enter
+  tmux send-key -t main:4 "cd ~/bin; sudo ./quic-resolver" Enter
 elif [[ $(hostname) == 'server1' || $(hostname) == 'server2' ]]; then
   tmux send-key -t main:4 "cd ~/python; python3 -m aeacus.dummy_server --certificate ../resources/aeacus_secrets/fullchain.pem --private-key ../resources/aeacus_secrets/privkey.pem" Enter
 elif [[ $(hostname) == 'upf' ]]; then
