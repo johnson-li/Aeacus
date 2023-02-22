@@ -1,4 +1,5 @@
 import asyncio
+import time
 from asyncio import DatagramProtocol
 
 from dnslib import DNSRecord
@@ -17,11 +18,11 @@ class UdpServerProtocol(DatagramProtocol):
 
     def datagram_received(self, data, addr):
         data = data.decode()
-        uuid = data[:data.find('!')]
-        print(f'New client: {addr}, uuid: {uuid}')
-        PEERS.clear()
-        PEERS[uuid] = (self.transport, addr)
-        self.transport.sendto('0'.encode(), addr)
+        if len(data) == 2 and data[0] == 'C':
+            client_id = data[1]
+            print(f'New client {client_id} from {addr}')
+            PEERS[client_id] = (self.transport, addr)
+            self.transport.sendto('0'.encode(), addr)
 
 
 class DnsServerProtocol(DatagramProtocol):
@@ -34,8 +35,10 @@ class DnsServerProtocol(DatagramProtocol):
     def datagram_received(self, data, addr):
         dns_data = DNSRecord.parse(data)
         uuid = dns_data.q.qname.label[0].decode()
-        trans, peer = PEERS[uuid]
-        print(f'Reply to client: {peer} ({uuid})')
+        client_id = uuid[0]
+        uuid = uuid[1:]
+        trans, peer = PEERS[client_id]
+        print(f'Reply to client: {peer} ({client_id}), uuid: {uuid}')
         data = (uuid + "!" * (1200 - len(uuid))).encode()
         trans.sendto(data, peer)
 
