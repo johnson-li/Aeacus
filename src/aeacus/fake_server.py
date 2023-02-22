@@ -1,6 +1,12 @@
 import asyncio
 from asyncio import DatagramProtocol
 
+from dnslib import DNSRecord
+
+PEERS = {}
+UDP_PORT = 8083
+DNS_PORT = 8053
+
 
 class UdpServerProtocol(DatagramProtocol):
     def __init__(self):
@@ -10,7 +16,12 @@ class UdpServerProtocol(DatagramProtocol):
         self.transport = transport
 
     def datagram_received(self, data, addr):
-        pass
+        data = data.decode()
+        uuid = data[:data.find('!')]
+        print(f'New client: {addr}, uuid: {uuid}')
+        PEERS.clear()
+        PEERS[uuid] = (self.transport, addr)
+        self.transport.sendto('0'.encode(), addr)
 
 
 class DnsServerProtocol(DatagramProtocol):
@@ -21,17 +32,22 @@ class DnsServerProtocol(DatagramProtocol):
         self.transport = transport
 
     def datagram_received(self, data, addr):
-        pass
+        dns_data = DNSRecord.parse(data)
+        uuid = dns_data.q.qname.label[0].decode()
+        trans, peer = PEERS[uuid]
+        print(f'Reply to client: {peer} ({uuid})')
+        data = (uuid + "!" * (1200 - len(uuid))).encode()
+        trans.sendto(data, peer)
 
 
 async def main():
     loop = asyncio.get_running_loop()
     await loop.create_datagram_endpoint(
         lambda: UdpServerProtocol(),
-        local_addr=('0.0.0.0', 8083))
+        local_addr=('0.0.0.0', UDP_PORT))
     await loop.create_datagram_endpoint(
         lambda: DnsServerProtocol(),
-        local_addr=('0.0.0.0', 53))
+        local_addr=('0.0.0.0', DNS_PORT))
     await asyncio.sleep(10000)
 
 
