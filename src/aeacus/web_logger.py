@@ -1,5 +1,7 @@
 import json
 import os.path
+import time
+
 from aiohttp import web
 
 from aeacus import RESULTS_PATH
@@ -11,9 +13,11 @@ log_file = os.path.join(RESULTS_PATH, 'ue.log')
 @routes.post('/log')
 async def log(request):
     data = await request.text()
+    data = json.loads(data)
     print(f'Receive log: {data}')
+    data = {'ts': int(time.time() * 1000), 'data': data}
     with open(log_file, 'a+') as f:
-        f.write(f'{data}\n')
+        f.write(f'{json.dumps(data)}\n')
     return web.json_response({'status': 'ok'})
 
 
