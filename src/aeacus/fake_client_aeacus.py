@@ -1,3 +1,4 @@
+import argparse
 import socket
 import time
 from multiprocessing import Process
@@ -6,12 +7,14 @@ from dnslib import DNSRecord, EDNS0, EDNSOption
 
 from aeacus.fake_server_aeacus import DNS_PORT, UDP_PORT
 
-SERVER = 'edge'
-# SERVER = 'cloud'
-RESOLVER_IP = "1.1.1.1"
+parser = argparse.ArgumentParser()
+parser.add_argument('-s', '--server', choices=['edge', 'cloud'], default='edge')
+args = parser.parse_args()
+SERVER = args.server
+RESOLVER_IP = "195.197.54.100"
 
 SERVER_HOST = '195.148.127.234' if SERVER == 'edge' else '34.118.22.129'
-DOMAIN = 'exp.xuebing.me'
+DOMAIN = f'{SERVER}.xuebing.me'
 TIMEOUT = 3
 CLIENT_ID = 1
 UDP_DATA = f'C{CLIENT_ID}'.encode()

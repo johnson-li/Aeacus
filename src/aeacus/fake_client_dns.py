@@ -1,3 +1,4 @@
+import argparse
 import socket
 import time
 import traceback
@@ -7,11 +8,13 @@ from dnslib.dns import A
 
 from aeacus.fake_server_dns import UDP_PORT
 
-SERVER = 'edge'
-# SERVER = 'cloud'
+parser = argparse.ArgumentParser()
+parser.add_argument('-s', '--server', choices=['edge', 'cloud'], default='edge')
+args = parser.parse_args()
+SERVER = args.server
 RESOLVER_IP = "1.1.1.1"
 
-DOMAIN = 'mobix.xuebing.me' if SERVER == 'edge' else 'cloud.xuebing.me'
+DOMAIN = 'lab4.xuebing.me' if SERVER == 'edge' else 'gce.xuebing.me'
 SERVER_HOST = '195.148.127.230' if SERVER == 'edge' else '34.118.22.129'
 TIMEOUT = 3
 HANDSHAKE_INTERVAL = 1

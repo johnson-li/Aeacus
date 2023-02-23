@@ -106,7 +106,7 @@ def draw_cdf(values, x_label, name, legend):
     ax.tick_params(axis='both', which='major', labelsize=font_size)
     ax.tick_params(axis='both', which='minor', labelsize=font_size)
     plt.xlabel(x_label, size=font_size)
-    plt.xlim([0, 10 * 60])
+    # plt.xlim([0, 10 * 60])
     plt.ylabel('CDF', size=font_size)
     plt.ylim([0, 1])
     fig.tight_layout(pad=.3)
