@@ -1,8 +1,5 @@
 import asyncio
-import time
 from asyncio import DatagramProtocol
-
-from dnslib import DNSRecord
 
 UDP_PORT = 8084
 

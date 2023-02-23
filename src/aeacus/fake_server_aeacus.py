@@ -1,7 +1,5 @@
 import asyncio
-import time
 from asyncio import DatagramProtocol
-
 from dnslib import DNSRecord
 
 PEERS = {}
@@ -47,10 +45,10 @@ async def main():
     loop = asyncio.get_running_loop()
     await loop.create_datagram_endpoint(
         lambda: UdpServerProtocol(),
-        local_addr=('0.0.0.0', UDP_PORT))
+        local_addr=('195.148.127.234', UDP_PORT))
     await loop.create_datagram_endpoint(
         lambda: DnsServerProtocol(),
-        local_addr=('0.0.0.0', DNS_PORT))
+        local_addr=('195.148.127.234', DNS_PORT))
     await asyncio.sleep(10000000)
 
 
