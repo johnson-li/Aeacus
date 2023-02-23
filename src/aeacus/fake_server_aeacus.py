@@ -1,6 +1,6 @@
 import asyncio
 from asyncio import DatagramProtocol
-from dnslib import DNSRecord
+from dnslib import DNSRecord, RR
 
 PEERS = {}
 UDP_PORT = 8083
@@ -32,6 +32,9 @@ class DnsServerProtocol(DatagramProtocol):
 
     def datagram_received(self, data, addr):
         dns_data = DNSRecord.parse(data)
+        reply = dns_data.reply()
+        reply.add_answer(*RR.fromZone(f'{dns_data.q.qname} 60 IN A 127.0.0.1'))
+        self.transport.sendto(reply.pack(), addr)
         uuid = dns_data.q.qname.label[0].decode()
         client_id = uuid[0]
         uuid = uuid[1:]
