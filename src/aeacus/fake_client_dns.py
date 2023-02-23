@@ -3,6 +3,7 @@ import time
 import traceback
 
 from dnslib import DNSRecord, EDNS0, EDNSOption
+from dnslib.dns import A
 
 from aeacus.fake_server_dns import UDP_PORT
 
@@ -62,8 +63,8 @@ def main():
             uuid = NAME_LOOKUP_LOG[dns_response.header.id]
             query_ts = int(uuid) / 1000
             print(f'[{uuid}] DNS respond received, delay: {(time.time() - query_ts) * 1000:.02f} ms')
-            ip = dns_response.rr[0].rdata
-            udp_socket.sendto((uuid + '!' * (1200 - len(uuid))).encode(), (ip, UDP_PORT))
+            ip: A = dns_response.rr[0].rdata
+            udp_socket.sendto((uuid + '!' * (1200 - len(uuid))).encode(), (str(ip), UDP_PORT))
         except BlockingIOError:
             pass
         except Exception as e:

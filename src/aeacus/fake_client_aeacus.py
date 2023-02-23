@@ -10,8 +10,8 @@ SERVER = 'edge'
 # SERVER = 'cloud'
 RESOLVER_IP = "1.1.1.1"
 
-SERVER_HOST = '195.148.127.230' if SERVER == 'edge' else '34.118.22.129'
-DOMAIN = 'edge.xuebing.me' if SERVER == 'edge' else 'cloud.xuebing.me'
+SERVER_HOST = '195.148.127.234' if SERVER == 'edge' else '34.118.22.129'
+DOMAIN = 'exp.xuebing.me'
 TIMEOUT = 3
 CLIENT_ID = 1
 UDP_DATA = f'C{CLIENT_ID}'.encode()
@@ -23,8 +23,9 @@ def dns_sender():
     dns_socket.setblocking(False)
     while True:
         uuid = str(int(time.time() * 1000))
-        print(f'[{uuid}] Handshake sent')
+        print(f'[{uuid}] DNS query sent')
         dns_question = DNSRecord.question(f"{CLIENT_ID}{uuid}.{DOMAIN}", "A")
+        dns_question.add_ar(EDNS0(udp_len=1200))
         # dns_question.add_ar(
         #     EDNS0(udp_len=1200, opts=[EDNSOption(12, ('0' * (1200 - 15 - len(dns_question.pack()))).encode())]))
         dns_data = dns_question.pack()
@@ -45,13 +46,14 @@ def connect():
                 if msg.decode() == '0':
                     success = True
                     print(f'UDP connection established')
+                    return udp_socket
             except BlockingIOError:
                 pass
             except Exception as e:
                 print(e)
         if success:
             break
-    return udp_socket
+    return None
 
 
 def main():
