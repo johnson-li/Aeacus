@@ -6,7 +6,7 @@ from dnslib import DNSRecord
 
 PEERS = {}
 UDP_PORT = 8083
-DNS_PORT = 8053
+DNS_PORT = 53
 
 
 class UdpServerProtocol(DatagramProtocol):
