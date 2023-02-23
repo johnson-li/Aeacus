@@ -85,7 +85,7 @@ def draw_cdf(values, x_label, name, legend):
     font_size = 16
     fig, ax = plt.subplots(figsize=(4, 2))
     for value in values:
-        value = np.array(value)
+        value = np.array(list(value))
         value.sort()
         y = np.arange(0, 1, 1 / value.shape[0])
         y_new = []
