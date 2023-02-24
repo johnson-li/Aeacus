@@ -9,13 +9,14 @@ from aeacus.fake_server_aeacus import DNS_PORT, UDP_PORT
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-s', '--server', choices=['edge', 'cloud'], default='edge')
+parser.add_argument('-t', '--timeout', type=int, default=-1)
 args = parser.parse_args()
 SERVER = args.server
+TIMEOUT = args.timeout
 RESOLVER_IP = "195.197.54.100"
 
 SERVER_HOST = '195.148.127.234' if SERVER == 'edge' else '34.118.22.129'
 DOMAIN = f'{SERVER}.xuebing.me'
-TIMEOUT = 3
 CLIENT_ID = 1
 UDP_DATA = f'C{CLIENT_ID}'.encode()
 HANDSHAKE_INTERVAL = 1
@@ -26,7 +27,7 @@ def dns_sender():
     dns_socket.setblocking(False)
     while True:
         uuid = str(int(time.time() * 1000))
-        print(f'[{uuid}] DNS query sent')
+        print(f'[{uuid}] DNS query sent', flush=True)
         dns_question = DNSRecord.question(f"{CLIENT_ID}{uuid}.{DOMAIN}", "A")
         dns_question.add_ar(EDNS0(udp_len=1200))
         # dns_question.add_ar(
@@ -48,7 +49,7 @@ def connect():
                 msg, addr = udp_socket.recvfrom(1200)
                 if msg.decode() == '0':
                     success = True
-                    print(f'UDP connection established')
+                    print(f'UDP connection established', flush=True)
                     return udp_socket
             except BlockingIOError:
                 pass
@@ -67,18 +68,21 @@ def main():
 
     p = Process(target=dns_sender)
     p.start()
-    while True:
+    ts = time.time()
+    while TIMEOUT < 0 or time.time() < ts + TIMEOUT:
         try:
             msg, addr = udp_socket.recvfrom(1500)
             if len(msg) == 1200:
                 data = msg.decode()
                 uuid = data[:data.find('!')]
                 delay = time.time() - int(uuid) / 1000
-                print(f'[{uuid}] Handshake succeeded, delay: {delay * 1000:.02f} ms')
+                print(f'[{uuid}] Handshake succeeded, delay: {delay * 1000:.02f} ms', flush=True)
         except BlockingIOError:
             pass
         except Exception as e:
             print(e)
+
+    p.kill()
 
 
 if __name__ == '__main__':
