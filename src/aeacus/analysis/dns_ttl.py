@@ -81,7 +81,7 @@ async def collect_ns_delay():
     json.dump({str(k): v for k, v in data.items()}, open(os.path.join(RESULTS_PATH, 'dns_ns_delay.json'), 'w+'))
 
 
-def draw_cdf(values, x_label, name, legend):
+def draw_cdf(values, x_label, name, legend, limit=-1):
     font_size = 16
     fig, ax = plt.subplots(figsize=(4, 2))
     for value in values:
@@ -107,6 +107,8 @@ def draw_cdf(values, x_label, name, legend):
     ax.tick_params(axis='both', which='minor', labelsize=font_size)
     plt.xlabel(x_label, size=font_size)
     # plt.xlim([0, 10 * 60])
+    if limit > 0:
+        plt.xlim([0, limit])
     plt.ylabel('CDF', size=font_size)
     plt.ylim([0, 1])
     fig.tight_layout(pad=.3)
