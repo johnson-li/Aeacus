@@ -22,13 +22,13 @@ def main():
         ts = time.time()
         if ts - last_send_ts > interval:
             ts_str = str(int(1000 * ts))
-            print(f'[{ts_str}] Send RTT query')
+            print(f'[{ts_str}] Send RTT query', flush=True)
             dns_socket.sendto(ts_str.encode(), (SERVER, UDP_PORT))
             last_send_ts = time.time()
         try:
             msg, addr = dns_socket.recvfrom(1500)
             send_ts = int(msg.decode())
-            print(f'[{send_ts}] Receive RTT response, delay: {ts * 1000 - send_ts} ms')
+            print(f'[{send_ts}] Receive RTT response, delay: {ts * 1000 - send_ts} ms', flush=True)
         except Exception:
             pass
 

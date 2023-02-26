@@ -18,7 +18,7 @@ RESOLVER_IP = "1.1.1.1"
 
 DOMAIN = 'lab6.xuebing.me' if SERVER == 'edge' else 'gce.xuebing.me'
 SERVER_HOST = '195.148.127.230' if SERVER == 'edge' else '34.118.22.129'
-HANDSHAKE_INTERVAL = 1
+HANDSHAKE_INTERVAL = .3
 NAME_LOOKUP_LOG = {}
 
 

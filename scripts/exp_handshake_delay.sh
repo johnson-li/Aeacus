@@ -35,5 +35,5 @@ else
   tmux send-key -t main:2 "conda activate dev; python -m aeacus.fake_client_dns -s edge > ../resources/results/handshake_delay_edge_dns.log" Enter
   tmux send-key -t main:3 "conda activate dev; python -m aeacus.fake_client_aeacus -s edge > ../resources/results/handshake_delay_edge_aeacus.log" Enter
   tmux send-key -t main:4 "conda activate dev; python -m aeacus.rtt_mea -s 195.148.127.234  > ../resources/results/rtt_edge.log" Enter
-  tmux send-key -t main:4 "conda activate dev; python -m aeacus.rtt_mea -s 34.118.22.129  > ../resources/results/rtt_cloud.log" Enter
+  tmux send-key -t main:5 "conda activate dev; python -m aeacus.rtt_mea -s 34.118.22.129  > ../resources/results/rtt_cloud.log" Enter
 fi

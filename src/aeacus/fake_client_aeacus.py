@@ -19,7 +19,7 @@ SERVER_HOST = '195.148.127.234' if SERVER == 'edge' else '34.118.22.129'
 DOMAIN = f'{SERVER}.xuebing.me'
 CLIENT_ID = 1
 UDP_DATA = f'C{CLIENT_ID}'.encode()
-HANDSHAKE_INTERVAL = 1
+HANDSHAKE_INTERVAL = .3
 
 
 def dns_sender():
