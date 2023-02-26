@@ -25,6 +25,8 @@ def main():
                 gps_data[ts] = (data['latitude'], data['longitude'])
     ts_list = np.array(list(sorted(cellular_data.keys())))
     rsrq_list = [cellular_data[k][2] for k in ts_list]
+    ts_list = ts_list[100:]
+    rsrq_list = rsrq_list[100:]
     plt.plot(ts_list - ts_list[0], rsrq_list, 'x')
     plt.xlabel('Time (ms)')
     plt.ylabel('RSRQ (dB)')

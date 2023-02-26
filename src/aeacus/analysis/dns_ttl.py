@@ -97,16 +97,12 @@ def draw_cdf(values, x_label, name, legend, limit=-1):
                 y_new.append(y[i])
             elif v == x_new[-1] and y[i] > y_new[-1]:
                 y_new[-1] = y[i]
-        x = np.linspace(np.min(x_new), np.max(x_new), 300)
-        spl = make_interp_spline(x_new, y_new, 3)
-        y = spl(x)
-        plt.plot(x_new, y_new, linewidth=2)
+        plt.plot(x_new, y_new, linewidth=3)
     plt.legend(legend, framealpha=.0)
     matplotlib.rcParams.update({'font.size': font_size})
     ax.tick_params(axis='both', which='major', labelsize=font_size)
     ax.tick_params(axis='both', which='minor', labelsize=font_size)
     plt.xlabel(x_label, size=font_size)
-    # plt.xlim([0, 10 * 60])
     if limit > 0:
         plt.xlim([0, limit])
     plt.ylabel('CDF', size=font_size)

@@ -30,12 +30,14 @@ def main():
     for s in dataset.keys():
         values = []
         legend = []
-        for ss in ['dns', 'aeacus']:
-            d = list(filter(lambda x: x > 0, dataset[s][ss].values()))
+        for ss in ['DNS', 'Aeacus']:
+            d = list(filter(lambda x: x > 0, dataset[s][ss.lower()].values()))
             values.append(d)
             legend.append(f'{ss}')
             print(f'[{s}, {ss}] Mean: {np.mean(d)}')
-        draw_cdf(values, 'Handshake delay (ms)', f'handshake_delay_{s}.pdf', legend, limit=100)
+        dns, aeacus = np.mean(values[0]), np.mean(values[1])
+        print(f'[{s}] Aeacus reduction: {dns - aeacus} ms ({(dns - aeacus) / dns * 100}%)')
+        draw_cdf(values, 'Handshake delay (ms)', f'handshake_delay_{s}.pdf', legend, limit=150)
     # dns_mean = np.mean(list(dns_data.values()))
     # aeacus_mean = np.mean(list(aeacus_data.values()))
     # print(f'DNS: {dns_mean}, Aeacus: {aeacus_mean}, reduction: {dns_mean - aeacus_mean} ({(dns_mean - aeacus_mean) / dns_mean * 100}%)')
