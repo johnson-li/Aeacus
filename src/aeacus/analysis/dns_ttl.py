@@ -15,7 +15,7 @@ from aeacus.dns.resolver import resolve_name_iteratively_async, resolve_name_rec
 from scipy.interpolate import make_interp_spline, BSpline
 
 # test_cases = [(None, 'ns'), ('1.1.1.1', 'public_dns'), ('127.0.0.53', 'ldns')]
-test_cases = [(None, 'ns')]
+test_cases = [(None, 'ns'), ('127.0.0.53', 'ldns')]
 
 
 async def resolve(domain, results, resolver='127.0.0.53'):
@@ -83,7 +83,7 @@ async def collect_ns_delay():
 
 def draw_cdf(values, x_label, name, legend, limit=-1):
     font_size = 16
-    fig, ax = plt.subplots(figsize=(4, 2))
+    fig, ax = plt.subplots(figsize=(3.5, 2))
     for value in values:
         value = np.array(list(value))
         value.sort()
@@ -120,14 +120,16 @@ def illustrate():
         path = os.path.join(RESULTS_PATH, f'dns_ttl_{title}.json')
         data = json.load(open(path))
         data = list(filter(lambda x: x > 0, data.values()))
-        print(f'Data size: {len(data)}')
+        print(f'[{title}] Data size: {len(data)}')
+        print(np.percentile(data, 27))
         dataset.append(data)
-    draw_cdf(dataset, 'DNS TTL (s)', f"dns_ttl.pdf", ['Authoritative Name Server', 'Public DNS', 'LDNS'])
+    draw_cdf(dataset, 'DNS TTL (s)', f"dns_ttl.pdf", ['Name Server', 'Resolver'], limit=1000)
 
     path = os.path.join(RESULTS_PATH, f'dns_ns_delay.json')
     data = json.load(open(path))
     data = [d * 1000 for d in data.values() if d > 0]
     print(f'Data size: {len(data)}, median: {np.median(data)}')
+    print(np.percentile(data, 34))
     dataset = [data]
     draw_cdf(dataset, 'RTT (ms)', f"dns_ns_delay.pdf", [])
 
