@@ -12,7 +12,6 @@ from dnslib import DNSRecord, EDNS0, DNSLabel
 from aeacus import RESOURCE_PATH, RESULTS_PATH, DIAGRAM_PATH
 from aeacus.dns.resolver import resolve_name_iteratively_async, resolve_name_recursively_async, CACHE, \
     send_with_retry_async
-from scipy.interpolate import make_interp_spline, BSpline
 
 # test_cases = [(None, 'ns'), ('1.1.1.1', 'public_dns'), ('127.0.0.53', 'ldns')]
 test_cases = [(None, 'ns'), ('127.0.0.53', 'ldns')]

@@ -8,6 +8,9 @@
 mkdir -p tmp
 vagrant ssh-config >tmp/ssh-config
 
+echo Path host file in UPF
+ssh -F tmp/ssh-config upf 'lines=`wc -l < /etc/hosts`; if [[ "$lines" -lt "100" ]]; then for i in `seq 484`; do for j in edge cloud; do echo 192.168.58.13 $i.$j.aeacus| sudo tee -a /etc/hosts; done; done; fi'
+
 for host in 'upf' 'easdf'; do
   echo Setup quiche in $host
   rsync -e 'ssh -F tmp/ssh-config' -L -r ../bin $host:~/
