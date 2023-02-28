@@ -6,7 +6,7 @@ import numpy as np
 from aeacus import *
 from aeacus.analysis.dns_ttl import draw_cdf
 
-results_path = RESULTS2_PATH
+results_path = RESULTS3_PATH
 
 
 def main():
