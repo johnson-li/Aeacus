@@ -101,8 +101,8 @@ class BaseResolver(object):
     async def resolve(self, request):
         domain_name: DNSLabel = request.q.qname
         reply = request.reply(ra=1, aa=0)
-        index, server = domain_name.label[0].decode(), domain_name.label[1].decode()
-        delay = 0 if index == 1000 else NS_DELAY[int(index)]
+        index, server = int(domain_name.label[0].decode()), domain_name.label[1].decode()
+        delay = 0 if index == 1000 else NS_DELAY[index]
         server = '195.148.127.230' if server == 'edge' else '34.118.22.129'
         print(f'Domain: {domain_name}, delay: {delay}, server: {server}')
         await asyncio.sleep(delay)
