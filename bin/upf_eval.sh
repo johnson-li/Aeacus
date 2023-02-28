@@ -35,7 +35,7 @@ function run1() {
 }
 
 function run2() {
-  rounds=100
+  rounds=200
   for i in `seq $rounds`; do
     echo Round "$i/$rounds"
     rtt=$(python3 -m aeacus.sample_ran_rtt)
