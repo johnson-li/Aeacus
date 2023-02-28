@@ -74,6 +74,8 @@
           ovs-ofctl del-flows br0
           ovs-ofctl add-flow br0 in_port=gre0,actions=br0
           ovs-ofctl add-flow br0 in_port=br0,actions=gre0
+          ip route del default
+          ip route add default via 10.0.10.11
 - hosts: asdf
   become: yes
   tasks:
