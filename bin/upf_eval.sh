@@ -15,7 +15,8 @@ function run0() {
     {
       echo Sample domain name: "$domain", ip: $ip
       echo Evaluate DNS
-      dig "$domain" @195.148.127.230 -p 8053 | grep 'Query time'
+      echo miss: `dig "$domain" @195.148.127.230 -p 8053 | grep 'Query time'`
+      echo hit: `dig "$domain_hit" @195.148.127.230 -p 8053 | grep 'Query time'`
       ~/bin/http3-client https://${ip}:4433 2>&1 | grep handshake
       echo Evaluate Aeacus with cache hit
       ~/bin/http3-client https://${domain_hit}:4433 2>&1 | grep handshake

@@ -29,8 +29,8 @@ def load_upf_eval_data():
             if match:
                 if eval_round:
                     rounds.append(eval_round)
-                eval_round = {'RAN RTT': int(match[1]), 'Dig': {}, 'cloud': {'Aeacus': {}, 'DNS': {}},
-                              'edge': {'Aeacus': {}, 'DNS': {}}}
+                eval_round = {'RAN RTT': int(match[1]), 'Dig hit': {}, 'Dig miss': {},
+                              'cloud': {'Aeacus': {}, 'DNS': {}}, 'edge': {'Aeacus': {}, 'DNS': {}}}
                 continue
             match = re.compile("Sample domain name: (\\d+).*").match(l)
             if match:
@@ -51,9 +51,9 @@ def load_upf_eval_data():
                 delay = float(match[3])
                 eval_round[server][platform].setdefault(domain_index, []).append(delay)
                 continue
-            match = re.compile(";; Query time: ([0-9]+) msec").match(l)
+            match = re.compile("([a-z]+): ;; Query time: ([0-9]+) msec").match(l)
             if match:
-                eval_round['Dig'].setdefault(domain_index, []).append(int(match[1]))
+                eval_round[f'Dig {match[1]}'].setdefault(domain_index, []).append(int(match[2]))
                 continue
     if eval_round:
         rounds.append(eval_round)
@@ -69,20 +69,19 @@ def analyse(server):
     print(f'Rounds: {len(rounds)}')
     for server in ['edge', 'cloud']:
         for r in rounds:
-            dns_delay = r['Dig']
-            ran_delay = r['RAN RTT']
+            dns_hit_delay = r['Dig hit']
+            dns_miss_delay = r['Dig miss']
             handshake_delay = r[server]
-            keys = list(dns_delay.keys())
+            keys = list(dns_miss_delay.keys())
 
             for k in keys:
                 data['h'][server]['DNS'].append(handshake_delay['DNS'][k])
                 data['h'][server]['Aeacus'].append(handshake_delay['Aeacus'][1000])
-                data['mh'][server]['DNS'].append(
-                    [d + ran_delay for d in handshake_delay['DNS'][k]])  # TODO: use dig instead of ran_delay
+                data['mh'][server]['DNS'].append([sum(x) for x in zip(dns_hit_delay[k], handshake_delay['DNS'][k])])
                 data['mh'][server]['Aeacus'].append(handshake_delay['Aeacus'][1000])
-                data['mm1'][server]['DNS'].append([sum(x) for x in zip(dns_delay[k], handshake_delay['DNS'][k])])
+                data['mm1'][server]['DNS'].append([sum(x) for x in zip(dns_miss_delay[k], handshake_delay['DNS'][k])])
                 data['mm1'][server]['Aeacus'].append(handshake_delay['Aeacus'][1000])
-                data['mm2'][server]['DNS'].append([sum(x) for x in zip(dns_delay[k], handshake_delay['DNS'][k])])
+                data['mm2'][server]['DNS'].append([sum(x) for x in zip(dns_miss_delay[k], handshake_delay['DNS'][k])])
                 data['mm2'][server]['Aeacus'].append(handshake_delay['Aeacus'][k])
 
         for k in data.keys():
@@ -100,9 +99,9 @@ def analyse(server):
         elif k == 'mh':
             pre = 'Miss & Hit'
         elif k == 'mm1':
-            pre = 'Miss & Miss (UTD)'
+            pre = 'Miss & Miss (up to date)'
         elif k == 'mm2':
-            pre = 'Miss & Miss (OOD)'
+            pre = 'Miss & Miss (outdated)'
         print(f'{pre} & {res[k]["edge"]["Aeacus"][0]:.01f} ({res[k]["edge"]["Aeacus"][1]:.01f}) & '
               f'{res[k]["edge"]["DNS"][0]:.01f} ({res[k]["edge"]["DNS"][1]:.01f}) & '
               f'{res[k]["cloud"]["Aeacus"][0]:.01f} ({res[k]["cloud"]["Aeacus"][1]:.01f})  & '
