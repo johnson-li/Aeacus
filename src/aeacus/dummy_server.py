@@ -238,6 +238,7 @@ def handle_udp_msg(server_socket, msg, addr, config, args):
     if connection is not None:
         connection.receive_datagram(msg, addr, time.time())
         process_quic_events(connection)
+        # connection.close()
 
 
 def serve(server_socket, config, args):
