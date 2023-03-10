@@ -133,6 +133,7 @@ def connect(client_socket, config, args):
         if info[0] == socket.AF_INET:
             addr = info[4]
             config.server_name = server_name
+            # config.server_name = "mobix.xuebing.me"
             conn = QuicConnection(configuration=config, session_ticket_handler=save_session_ticket)
             conn.connect(addr, time.time())
             break

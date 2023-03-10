@@ -39,7 +39,7 @@ def main():
             print(f'[{s}, {ss}] Mean: {np.mean(d)}, min: {np.min(d)}, median: {np.median(d)}, variance: {np.std(d)}')
         dns, aeacus = np.mean(values[0]), np.mean(values[1])
         print(f'[{s}] Aeacus reduction: {dns - aeacus} ms ({(dns - aeacus) / dns * 100}%)')
-        draw_cdf(values, 'Handshake delay (ms)', f'handshake_delay_{s}.pdf', legend, limit=150)
+        draw_cdf(values, 'Connection setup delay (ms)', f'handshake_delay_{s}.pdf', legend, limit=150)
     # dns_mean = np.mean(list(dns_data.values()))
     # aeacus_mean = np.mean(list(aeacus_data.values()))
     # print(f'DNS: {dns_mean}, Aeacus: {aeacus_mean}, reduction: {dns_mean - aeacus_mean} ({(dns_mean - aeacus_mean) / dns_mean * 100}%)')
