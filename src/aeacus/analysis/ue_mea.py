@@ -73,7 +73,7 @@ def main():
     rtt_list = np.array([rtt_data[t] for t in rtt_ts_list])
     rtt_ts_list = rtt_ts_list[rtt_list > 0]
     rtt_list = rtt_list[rtt_list > 0]
-    print(np.min(rtt_list), np.percentile(rtt_list, 99))
+    print(np.min(rtt_list), np.median(rtt_list), np.percentile(rtt_list, 99))
     plt.plot(rtt_ts_list, rtt_list)
     # plt.xlim([rtt_ts_list[3300], rtt_ts_list[3370]])
     ts_list = np.array(sorted(cell_data.keys()))

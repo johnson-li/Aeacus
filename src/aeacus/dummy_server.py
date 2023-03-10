@@ -155,7 +155,8 @@ def init_quic(args):
 
 def handle_stream_data_received(conn, event: events.StreamDataReceived):
     log(f'Stream data received, id: {event.stream_id}, data: {event.data.decode()}')
-    conn.send_stream_data(event.stream_id, ("0123456789" * 50).encode(), end_stream=True)
+    # conn.send_stream_data(event.stream_id, ("0123456789" * 50).encode(), end_stream=True)
+    conn.send_stream_data(event.stream_id, event.data, end_stream=True)
 
 
 def process_quic_events(conn: QuicConnection):
