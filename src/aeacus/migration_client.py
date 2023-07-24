@@ -134,7 +134,9 @@ def benchmark_dns():
 
 def main():
     benchmark_aeacus()
-    benchmark_dns()
+    global SESSION_TICKET
+    SESSION_TICKET = None
+    # benchmark_dns()
 
 
 if __name__ == '__main__':
