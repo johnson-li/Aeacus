@@ -106,6 +106,7 @@ def main():
     non_handover_rtt_list = []
     duration = 000
     bias = -200
+    print(f'Mean RTT: {np.mean(rtt_list)}')
     for ts, rtt in zip(rtt_ts_list, rtt_list):
         is_handover = False
         if handover_durations and ts > handover_durations[0][1] + duration + bias:
@@ -119,7 +120,7 @@ def main():
         if not is_handover:
             non_handover_ts_list.append(ts)
             non_handover_rtt_list.append(rtt)
-    print(np.mean(handover_rtt_list), np.mean(non_handover_rtt_list))
+    print('During handover: ', np.mean(handover_rtt_list), ', outside handover: ', np.mean(non_handover_rtt_list))
     draw_cdf([handover_rtt_list, non_handover_rtt_list], 'RTT (ms)', f'rtt_handover_vs_non.pdf',
              ['During handover', 'Outside handover'], limit=130)
 
