@@ -1,3 +1,4 @@
 git submodule update --init --recursive
-cd ../submodules/quiche
+cd submodules/quiche
 cargo build --examples
+cd --
