@@ -80,7 +80,7 @@ def draw_diagram():
 
 def main():
     # dump_resolved_ip()
-    # measure_rtt_to_server()
+    measure_rtt_to_server()
     measure_rtt_to_ns()
     # draw_diagram()
 
