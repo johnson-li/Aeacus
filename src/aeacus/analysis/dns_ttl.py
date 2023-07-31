@@ -10,7 +10,7 @@ import numpy as np
 from dnslib import DNSRecord, EDNS0, DNSLabel
 
 from aeacus import RESOURCE_PATH, RESULTS_PATH, DIAGRAM_PATH
-from aeacus.dns.resolver import resolve_name_iteratively_async, resolve_name_recursively_async, CACHE, \
+from aeacus.dns.resolver import resolve_name_iteratively_async, resolve_name_recursively_async, CACHE, resolve_ns_async, \
     send_with_retry_async
 
 # test_cases = [(None, 'ns'), ('1.1.1.1', 'public_dns'), ('127.0.0.53', 'ldns')]
@@ -132,15 +132,44 @@ def illustrate():
     dataset = [data]
     draw_cdf(dataset, 'RTT (ms)', f"dns_ns_delay.pdf", [])
 
+    ns_ttl_data = json.load(open(os.path.join(RESULTS_PATH, 'ns_ttl.json')))
+    ns_ttl = [d['NS TTL'] / 3600 for d in ns_ttl_data.values() if d['NS TTL'] > 0]
+    ns_a_ttl = [d['NS_A TTL'] / 3600 for d in ns_ttl_data.values() if d['NS_A TTL'] > 0]
+    print(max(ns_ttl), max(ns_a_ttl))
+    draw_cdf([ns_ttl, ns_a_ttl], 'DNS TTL (hours)', f"ns_ttl.pdf", ['NS Record', 'A Record'])
+
 
 async def main():
     for i in range(1):
         for tc in test_cases:
             await collect_ttl_data(*tc)
     await collect_ns_delay()
+    
+
+async def collect_ns_ttl():
+    CACHE.clear()
+    domains = open(os.path.join(RESOURCE_PATH, 'alexa_top_500.txt')).readlines()
+    domains = [d.strip() for d in domains]
+    data = {}
+    for d in domains:
+        try:
+            domain = DNSLabel(d)
+            ns = await resolve_ns_async(domain)
+            _, ns_ip, ns_ttl = ns
+            ns_ip = str(ns_ip)
+            a = await resolve_name_recursively_async(ns_ip)
+            _, _, a_ttl = a
+            data[d] = {'NS IP': ns_ip, 'NS TTL': ns_ttl, 
+                       'NS_A TTL': a_ttl}
+            print(f'{domain}: {data[d]}')
+        except Exception as e:
+            print(e)
+    json.dump(data, open(os.path.join(RESULTS_PATH, 'ns_ttl.json'), 'w+'))
+    
 
 
 if __name__ == '__main__':
     # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     # asyncio.run(main())
+    # asyncio.run(collect_ns_ttl())
     illustrate()
