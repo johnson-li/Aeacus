@@ -11,14 +11,12 @@ Execute `./scripts/build_quiche.sh` in the root directory of the project.
 
 Setup the environment
 ===
-Execute `vagrant up && vagrant provision` in the root directory of the project to start the vms.
+Execute `vagrant up && vagrant provision` in the `vms` directory of the project to start the vms.
 
+Then, run `vms/start.sh` to provision the vms.
 
 
 Run the code
 ===
 
-1. Run the QUIC server
-2. Run the QUIC middleware
-3. Run the QUIC client
-
+Execute `scripts/run.sh` in the root directory of the project to run the programs.

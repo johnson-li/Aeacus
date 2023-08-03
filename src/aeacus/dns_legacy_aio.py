@@ -1,6 +1,7 @@
 import asyncio
 import socket
 import struct
+import time
 
 import traceback
 from asyncio import DatagramProtocol, Future
@@ -190,7 +191,9 @@ class UdpServerProtocol(DatagramProtocol):
 
     async def get_reply(self, data):
         request = DNSRecord.parse(data)
+        ts = time.time()
         reply = await self.resolver.resolve(request)
+        print(f'It takes {(time.time() - ts) * 1000:.01f} ms to resolve {request.q.qname}')
         rdata = reply.pack()
         return rdata
 
