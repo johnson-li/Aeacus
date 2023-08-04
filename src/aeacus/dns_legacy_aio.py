@@ -1,3 +1,4 @@
+import argparse
 import asyncio
 import socket
 import struct
@@ -190,8 +191,8 @@ class UdpServerProtocol(DatagramProtocol):
         self.transport = None
 
     async def get_reply(self, data):
-        request = DNSRecord.parse(data)
         ts = time.time()
+        request = DNSRecord.parse(data)
         reply = await self.resolver.resolve(request)
         print(f'It takes {(time.time() - ts) * 1000:.01f} ms to resolve {request.q.qname}')
         rdata = reply.pack()
@@ -209,15 +210,15 @@ class UdpServerProtocol(DatagramProtocol):
 
 
 async def main():
-    ns = None
-    # ns = '1.1.1.1'
-    # ns = '8.8.8.8'
-    ns = '127.0.0.53'
-    resolver = BaseResolver(ns)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--port', type=str, default=8053)
+    parser.add_argument('-n', '--ns', type=str, default=None)
+    args = parser.parse_args()
+    resolver = BaseResolver(args.ns)
     loop = asyncio.get_running_loop()
     await loop.create_datagram_endpoint(
         lambda: UdpServerProtocol(resolver),
-        local_addr=('0.0.0.0', 8053))
+        local_addr=('0.0.0.0', args.port))
     await asyncio.sleep(10000000)
 
 
