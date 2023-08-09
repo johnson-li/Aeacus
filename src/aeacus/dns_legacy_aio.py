@@ -169,12 +169,14 @@ class BaseResolver(object):
             while cname:
                 record = CACHE.get((cname, 'A', 'IN'), None)
                 if record:
-                    reply.add_answer(*RR.fromZone(f"{cname} {record[2]} A {record[1]}"))
+                    ttl = max(int(record[2] - (time.time() - record[0])), 0)
+                    reply.add_answer(*RR.fromZone(f"{cname} {ttl} A {record[1]}"))
                     # reply.add_answer([RR(cname, QTYPE.A, CLASS.IN, record[2], A(record[1]))])
                     break
                 record = CACHE.get((cname, 'CNAME', 'IN'), None)
                 if record:
-                    reply.add_answer(*RR.fromZone(f"{cname} {record[2]} CNAME {record[1]}"))
+                    ttl = max(int(record[2] - (time.time() - record[0])), 0)
+                    reply.add_answer(*RR.fromZone(f"{cname} {ttl} CNAME {record[1]}"))
                     # reply.add_answer([RR(cname, QTYPE.CNAME, CLASS.IN, record[2], CNAME(record[1]))])
                     cname = record[1]
                 else:
