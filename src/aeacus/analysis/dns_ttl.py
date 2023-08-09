@@ -83,7 +83,7 @@ async def collect_ns_delay():
 def draw_cdf(values, x_label, name, legend, limit=-1, figsize=(4, 2.3)):
     font_size = 16
     fig, ax = plt.subplots(figsize=figsize)
-    for value in values:
+    for k, value in enumerate(values):
         value = np.array(list(value))
         value.sort()
         y = np.arange(0, 1, 1 / value.shape[0])
@@ -96,7 +96,12 @@ def draw_cdf(values, x_label, name, legend, limit=-1, figsize=(4, 2.3)):
                 y_new.append(y[i])
             elif v == x_new[-1] and y[i] > y_new[-1]:
                 y_new[-1] = y[i]
-        plt.plot(x_new, y_new, linewidth=3)
+        line='-'
+        if k == 1:
+            line = '--'
+        elif k == 2:
+            line = ':'
+        plt.plot(x_new, y_new, line, linewidth=3)
     if legend:
         plt.legend(legend, loc='lower right')
     matplotlib.rcParams.update({'font.size': font_size})
@@ -121,9 +126,9 @@ def illustrate():
         data = json.load(open(path))
         data = list(filter(lambda x: x > 0, data.values()))
         print(f'[{title}] Data size: {len(data)}')
-        print(np.percentile(data, 27))
+        print(np.percentile(data, 80))
         dataset.append(data)
-    draw_cdf(dataset, 'DNS TTL (s)', f"dns_ttl.pdf", ['Name Server', 'Resolver'], limit=1000)
+    draw_cdf(dataset, 'DNS TTL (s)', f"dns_ttl.pdf", ['Name Server', 'Resolver'], limit=1000, figsize=(4, 3))
 
     path = os.path.join(RESULTS_PATH, f'dns_ns_delay.json')
     data = json.load(open(path))
@@ -136,8 +141,9 @@ def illustrate():
     ns_ttl_data = json.load(open(os.path.join(RESULTS_PATH, 'ns_ttl.json')))
     ns_ttl = [d['NS TTL'] / 3600 for d in ns_ttl_data.values() if d['NS TTL'] > 0]
     ns_a_ttl = [d['NS_A TTL'] / 3600 for d in ns_ttl_data.values() if d['NS_A TTL'] > 0]
-    print(max(ns_ttl), max(ns_a_ttl))
-    draw_cdf([ns_ttl, ns_a_ttl], 'DNS TTL (hours)', f"ns_ttl.pdf", ['NS Record', 'A Record'])
+    print(f'==== NS TTL ====')
+    print(np.percentile(ns_ttl, 10), np.percentile(ns_a_ttl, 10))
+    draw_cdf([ns_ttl, ns_a_ttl], 'DNS Cache TTL (hours)', f"ns_ttl.pdf", ['NS Record', 'A Record'], figsize=(4, 3))
 
 
 async def main():
