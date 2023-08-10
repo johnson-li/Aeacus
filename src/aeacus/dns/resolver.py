@@ -49,7 +49,7 @@ class DnsSendProtocol(DatagramProtocol):
 async def dns_send(address, port, request: DNSRecord, future):
     address = str(address)
     loop = asyncio.get_running_loop()
-    await loop.create_datagram_endpoint(lambda: DnsSendProtocol(request, future), remote_addr=(address, port))
+    return await loop.create_datagram_endpoint(lambda: DnsSendProtocol(request, future), remote_addr=(address, port))
 
 
 def get_from_cache(key, check_ttl=True):
@@ -84,8 +84,9 @@ async def send_with_retry_async(request, addr, timeout=3, retries=3):
     record = asyncio.get_running_loop().create_future()
     for i in range(retries):
         try:
-            await dns_send(*addr, request.pack(), record)
+            transport, protocol = await dns_send(*addr, request.pack(), record)
             ans = await asyncio.wait_for(record, timeout)
+            transport.close()
             reply = DNSRecord.parse(ans)
             if reply.header.id != request.header.id:
                 raise DNSError("Reply ID mismatch", request, reply)
