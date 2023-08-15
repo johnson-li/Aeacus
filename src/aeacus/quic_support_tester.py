@@ -108,7 +108,7 @@ def test_support():
             test_domain(domain, args, result)
         except Exception as e:
             print(e)
-    with open(os.path.join(RESULTS_PATH, 'quic_support.json'), 'w+') as f:
+    with open(os.path.join(RESULTS_PATH, 'quic_support2.json'), 'w+') as f:
         json.dump(result, f)
 
 
@@ -138,6 +138,6 @@ def analysis():
 
 
 if __name__ == '__main__':
-    # test_support()
+    test_support()
     # analysis()
-    verify_support()
+    # verify_support()

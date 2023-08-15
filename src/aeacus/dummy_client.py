@@ -163,7 +163,7 @@ def handle_quic_events(conn: QuicConnection):
             log(f'Early data accepted: {event.early_data_accepted}')
             send_new_query_stream(conn)
         elif isinstance(event, events.StreamDataReceived):
-            on_stream_data_received(event.data.decode())
+            on_stream_data_received(event.data)
             if event.end_stream:
                 conn.close()
                 global CLOSE

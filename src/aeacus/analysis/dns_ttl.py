@@ -14,7 +14,8 @@ from aeacus.dns.resolver import resolve_name_iteratively_async, resolve_name_rec
     send_with_retry_async
 
 # test_cases = [(None, 'ns'), ('1.1.1.1', 'public_dns'), ('127.0.0.53', 'ldns')]
-test_cases = [(None, 'ns'), ('127.0.0.53', 'ldns')]
+# test_cases = [(None, 'ns'), ('127.0.0.53', 'ldns')]
+test_cases = [(None, 'ns'), ]
 
 
 async def resolve(domain, results, resolver='127.0.0.53'):
@@ -55,14 +56,14 @@ async def collect_ttl_data(resolver, title):
         json.dump(data, f)
 
 
-async def measure_delay(data, ns):
-    data.setdefault(ns, -1)
+async def measure_delay(data):
+    ns = data['ns']
     ns_ip = await resolve_name_iteratively_async(ns, resolver="127.0.0.53")
     a_request = DNSRecord.question("example.org", "A")
     a_request.add_ar(EDNS0(udp_len=1024))
     ts = time.time()
     await send_with_retry_async(a_request, (ns_ip[1], 53))
-    data[ns] = time.time() - ts
+    data['delay'] = time.time() - ts
 
 
 async def collect_ns_delay():
@@ -74,8 +75,9 @@ async def collect_ns_delay():
     loop = asyncio.get_event_loop()
     step = 10
     for i in range(0, len(ns_list), step):
-        for d in ns_list[i: i + step]:
-            loop.create_task(measure_delay(data, ns=d))
+        for domain, ns in zip(domains[i: i + step], ns_list[i: i + step]):
+            data[domain] = {'ns': str(ns), 'delay': -1}
+            loop.create_task(measure_delay(data[domain]))
         await asyncio.sleep(1)
     json.dump({str(k): v for k, v in data.items()}, open(os.path.join(RESULTS_PATH, 'dns_ns_delay.json'), 'w+'))
 
@@ -177,6 +179,6 @@ async def collect_ns_ttl():
 
 if __name__ == '__main__':
     # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    # asyncio.run(main())
+    asyncio.run(main())
     # asyncio.run(collect_ns_ttl())
-    illustrate()
+    # illustrate()

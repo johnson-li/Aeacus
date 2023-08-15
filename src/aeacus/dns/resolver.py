@@ -76,7 +76,7 @@ def update_cache(record: DNSRecord):
             data = data.mname
         elif type(data) == list:
             continue
-        print(f'[{time.time()}] Update cache, {(r.rname, QTYPE.get(r.rtype), CLASS.get(r.rclass))} : {(data, r.ttl)}')
+        # print(f'[{time.time()}] Update cache, {(r.rname, QTYPE.get(r.rtype), CLASS.get(r.rclass))} : {(data, r.ttl)}')
         CACHE[(r.rname, QTYPE.get(r.rtype), CLASS.get(r.rclass))] = (time.time(), data, r.ttl)
 
 
