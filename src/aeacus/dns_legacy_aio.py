@@ -1,5 +1,8 @@
 import argparse
 import asyncio
+import json
+import os
+import pickle
 import socket
 import struct
 import time
@@ -53,8 +56,9 @@ async def send_with_retry(request: DNSRecord, address_and_port, timeout, max_ret
     record = asyncio.get_running_loop().create_future()
     while tries < max_retries:
         try:
-            await dns_send(*address_and_port, request.pack(), record)
+            transport, _ = await dns_send(*address_and_port, request.pack(), record)
             ans = await asyncio.wait_for(record, timeout)
+            transport.close()
             reply = DNSRecord.parse(ans)
             if reply.header.id != request.header.id:
                 raise DNSError("Reply ID mismatch", request, reply)
@@ -165,12 +169,14 @@ class BaseResolver(object):
             while cname:
                 record = CACHE.get((cname, 'A', 'IN'), None)
                 if record:
-                    reply.add_answer(*RR.fromZone(f"{cname} {record[2]} A {record[1]}"))
+                    ttl = max(int(record[2] - (time.time() - record[0])), 0)
+                    reply.add_answer(*RR.fromZone(f"{cname} {ttl} A {record[1]}"))
                     # reply.add_answer([RR(cname, QTYPE.A, CLASS.IN, record[2], A(record[1]))])
                     break
                 record = CACHE.get((cname, 'CNAME', 'IN'), None)
                 if record:
-                    reply.add_answer(*RR.fromZone(f"{cname} {record[2]} CNAME {record[1]}"))
+                    ttl = max(int(record[2] - (time.time() - record[0])), 0)
+                    reply.add_answer(*RR.fromZone(f"{cname} {ttl} CNAME {record[1]}"))
                     # reply.add_answer([RR(cname, QTYPE.CNAME, CLASS.IN, record[2], CNAME(record[1]))])
                     cname = record[1]
                 else:
@@ -209,11 +215,7 @@ class UdpServerProtocol(DatagramProtocol):
         self.transport.sendto(rdata, addr)
 
 
-async def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-p', '--port', type=str, default=8053)
-    parser.add_argument('-n', '--ns', type=str, default=None)
-    args = parser.parse_args()
+async def main(args):
     resolver = BaseResolver(args.ns)
     loop = asyncio.get_running_loop()
     await loop.create_datagram_endpoint(
@@ -223,4 +225,21 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--port', type=str, default=8053)
+    parser.add_argument('-n', '--ns', type=str, default=None)
+    args = parser.parse_args()
+    cache_path = f'/tmp/dns_legacy_aio_cache.{args.port}'
+    try:
+        if os.path.exists(cache_path):
+            with open(cache_path, 'rb') as f:
+                print("Load cache from", cache_path)
+                CACHE.update(pickle.load(f))
+    except Exception as e:
+        print('Failed to load cache: ', e)
+    try:
+        asyncio.run(main(args))
+    except KeyboardInterrupt:
+        with open(cache_path, 'wb+') as f:
+            pickle.dump(CACHE, f)
+            print('Dump cache to', cache_path)

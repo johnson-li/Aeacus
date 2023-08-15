@@ -69,7 +69,26 @@ def dump_test():
             f.write(f'{domain}\n')
 
 
+def test_quic_support0():
+    result_path = os.path.join(RESULTS_PATH, "quiche_test")
+    success_count = 0
+    quic_error_count = 0
+    program_error_count = 0
+    for f in os.listdir(result_path):
+        f = os.path.join(result_path, f)
+        data = open(f).read()
+        if 'handshake completed' in data:
+            success_count += 1
+        elif 'initial send failed: Done' in data:
+            program_error_count += 1
+            os.remove(f)
+        else:
+            quic_error_count += 1
+    print(f'Success: {success_count}, Quic error: {quic_error_count}'
+          f', Program error: {program_error_count}'
+          f', total: {success_count + quic_error_count + program_error_count}')
+
 if __name__ == '__main__':
     # eval()
-    test_quic_support()
-    # dump_test()
+    # test_quic_support()
+    test_quic_support0()

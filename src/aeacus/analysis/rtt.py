@@ -10,6 +10,7 @@ from icmplib import resolve, multiping
 from icmplib.models import Host
 from dnslib import DNSRecord, EDNS0, DNSLabel
 from aeacus.analysis.dns_ttl import draw_cdf
+from aeacus.analysis.ue_mea import load_rtt_data
 
 from aeacus.dns.resolver import resolve_name_iteratively_async, resolve_ns_async
 
@@ -77,28 +78,19 @@ def measure_rtt_to_ns():
 
 
 def draw_diagram():
-    rtt_data = json.load(open(os.path.join(RESOURCE_PATH, 'alexa_top_500_rtt.json')))
+    srv_rtt_data = json.load(open(os.path.join(RESOURCE_PATH, 'alexa_top_500_rtt.json')))
     ns_rtt_data = json.load(open(os.path.join(RESOURCE_PATH, 'alexa_top_500_ns_rtt.json')))
-    for rtt_ran in [10, 100]:
-        hit_list = []
-        ue_miss_list = []
-        ldns_miss_list = []
-        for d in rtt_data.keys():
-            if d in ns_rtt_data:
-                hit_list.append(rtt_data[d] + rtt_ran)
-                ue_miss_list.append(rtt_data[d] + rtt_ran * 2)
-                ldns_miss_list.append(ns_rtt_data[d] + rtt_data[d] + rtt_ran * 2)
-        draw_cdf([hit_list, ue_miss_list, ldns_miss_list], 'Connection Setup Delay (ms)', 
-                f'alexa_top_500_rtt_ran_{rtt_ran}.pdf', 
-                ['Cache hit', 'Cache miss (UE)', 'Cache miss (LDNS)'] if rtt_ran == 10 else None, 
-                limit=700, figsize=(4, 3))
-        hit_list = np.array(hit_list)
-        ue_miss_list = np.array(ue_miss_list)
-        ldns_miss_list = np.array(ldns_miss_list)
-        ldns_hit = (ue_miss_list - hit_list) / hit_list * 100
-        ldns_miss = (ldns_miss_list - hit_list) / hit_list * 100
-        print(f'[{rtt_ran}] LDNS hit: {np.mean(ldns_hit), np.max(ldns_hit)}'
-              f', miss: {np.median(ldns_miss), np.max(ldns_miss)}')
+    ran_rtt_data = load_rtt_data('edge')
+    srv = srv_rtt_data.values()
+    ns = ns_rtt_data.values()
+    ran = list(ran_rtt_data.values())
+    srv = list(filter(lambda x: x > 0, srv))
+    ns = list(filter(lambda x: x > 0, ns))
+    ran = list(filter(lambda x: x > 0, ran))
+    print(np.percentile(ran, 99))
+    print(np.median(ran) / np.min(srv))
+    draw_cdf([srv, ns, ran], 'RTT (ms)', f"rtt.pdf", ['RTT_SRV', 'RTT_NS', 'RTT_RAN'], 
+             figsize=(4, 3), limit=280)
 
 
 def main():
