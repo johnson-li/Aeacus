@@ -5,7 +5,7 @@ from dnslib import DNSRecord, DNSError, SOA, QTYPE, RCODE, RR, EDNS0, CLASS, DNS
 
 def main():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.bind(("195.148.127.234", 53))
+    s.bind(("195.148.127.230", 53))
     buf_size = 65535
     ip_path = '/tmp/server_ip.txt'
     while True:
