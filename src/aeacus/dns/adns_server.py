@@ -1,7 +1,7 @@
 import asyncio
 import os
 import socket
-from dnslib import DNSRecord, DNSError, QTYPE, RCODE, RR, EDNS0, CLASS, DNSQuestion, EDNSOption, A, CNAME
+from dnslib import DNSRecord, DNSError, SOA, QTYPE, RCODE, RR, EDNS0, CLASS, DNSQuestion, EDNSOption, A, CNAME
 
 def main():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -19,11 +19,16 @@ def main():
                         ip = i
             request = DNSRecord.parse(data)
             q: DNSQuestion = request.questions[0]
-            # Respond only to the 'A' record
+            # Respond to the 'A' query 
             if q.qtype == 1:
                 reply = request.reply(ra=1, aa=0)
                 reply.add_answer(*RR.fromZone(f"{q.qname} A {ip}"))
                 s.sendto(reply.pack(), addr)
+            # Respond to the 'NS' query
+            elif q.qtype == 2:
+                reply = request.reply(ra=1, aa=0)
+                reply.add_auth(RR("ns7.xuebing.online",QTYPE.SOA,ttl=60,rdata=SOA("mobix.xuebing.online","dns-admin.xuebing.online",(20140101,3600,3600,3600,3600))))
+                reply.add_ar(RR("mobix.xuebing.online",ttl=3600,rdata=A("195.148.127.230")))
         except Exception as e:
             print(e)
 
