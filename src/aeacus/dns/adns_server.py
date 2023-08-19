@@ -19,16 +19,17 @@ def main():
                         ip = i
             request = DNSRecord.parse(data)
             q: DNSQuestion = request.questions[0]
-            # Respond to the 'A' query 
+            # Respond to the 'A' query
             if q.qtype == 1:
                 reply = request.reply(ra=1, aa=0)
-                reply.add_answer(*RR.fromZone(f"{q.qname} A {ip}"))
+                reply.add_answer(*RR.fromZone(f"{q.qname} 60 A {ip}"))
                 s.sendto(reply.pack(), addr)
             # Respond to the 'NS' query
             elif q.qtype == 2:
                 reply = request.reply(ra=1, aa=0)
                 reply.add_auth(RR("ns7.xuebing.online",QTYPE.SOA,ttl=60,rdata=SOA("mobix.xuebing.online","dns-admin.xuebing.online",(20140101,3600,3600,3600,3600))))
                 reply.add_ar(RR("mobix.xuebing.online",ttl=3600,rdata=A("195.148.127.230")))
+                s.sendto(reply.pack(), addr)
         except Exception as e:
             print(e)
 
