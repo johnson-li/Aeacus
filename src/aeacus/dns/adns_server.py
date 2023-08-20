@@ -29,6 +29,7 @@ def main():
                 reply = request.reply(ra=1, aa=0)
                 reply.add_auth(RR("ns7.xuebing.online",QTYPE.SOA,ttl=60,rdata=SOA("mobix.xuebing.online","dns-admin.xuebing.online",(20140101,3600,3600,3600,3600))))
                 reply.add_ar(RR("mobix.xuebing.online",ttl=3600,rdata=A("195.148.127.230")))
+                s.sendto(reply.pack(), addr)
         except Exception as e:
             print(e)
 

@@ -91,4 +91,5 @@ def test_quic_support0():
 if __name__ == '__main__':
     # eval()
     # test_quic_support()
-    test_quic_support0()
+    # test_quic_support0()
+    dump_test()

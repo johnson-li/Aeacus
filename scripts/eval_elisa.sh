@@ -2,8 +2,6 @@
 
 readarray -t domains < ~/Workspace/Aeacus/resources/results/quiche_support.txt
 
-echo ${domains[1]}
-
 while true 
 do
     domain=${domains[ $RANDOM % ${#domains[@]} ]}

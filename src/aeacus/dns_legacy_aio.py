@@ -156,9 +156,9 @@ class BaseResolver(object):
     async def resolve(self, request):
         domain_name = request.q.qname
         reply = request.reply(ra=1, aa=0)
-        edns_options = [EDNSOption(PCI_EDNS_OPTION_CODE, struct.pack(PCI_EDNS_OPTION_DATA_FMT, PCI))]
+        # edns_options = [EDNSOption(PCI_EDNS_OPTION_CODE, struct.pack(PCI_EDNS_OPTION_DATA_FMT, PCI))]
         req = DNSRecord.question(request.q.qname, qtype=QTYPE[request.q.qtype])
-        req.add_ar(EDNS0(udp_len=self.udplen, opts=edns_options))
+        # req.add_ar(EDNS0(udp_len=self.udplen, opts=edns_options))
         try:
             resolver = self.system_resolver[0]
             if resolver:

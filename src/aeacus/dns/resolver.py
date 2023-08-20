@@ -84,6 +84,7 @@ async def send_with_retry_async(request, addr, timeout=3, retries=3):
     record = asyncio.get_running_loop().create_future()
     for i in range(retries):
         try:
+            print(f'Send dns query to {addr}')
             transport, protocol = await dns_send(*addr, request.pack(), record)
             ans = await asyncio.wait_for(record, timeout)
             transport.close()
@@ -108,7 +109,7 @@ def get_ns_from_soa(domain_name: DNSLabel):
 
 
 async def resolve_ns_async(domain_name: DNSLabel, ns_level=0):
-    print(f'[{time.time()}] Resolve NS for {domain_name}')
+    print(f'[{time.time()}] Resolve NS for {domain_name}, ns_level: {ns_level}')
     ns = get_ns_from_soa(domain_name)
     if ns and ns[1] != domain_name:
         return ns
