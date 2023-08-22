@@ -132,15 +132,16 @@ async def resolve_ns_async(domain_name: DNSLabel, ns_level=0):
     return None
 
 
-async def resolve_name_recursively_async(domain_name):
+async def resolve_name_recursively_async(domain_name, ignore_cache=False):
     print(f'[{time.time()}] Resolve {domain_name} recursively')
     domain_name = DNSLabel(domain_name)
-    cached = get_from_cache((domain_name, 'A', 'IN'))
-    if cached:
-        return cached
-    cached = get_from_cache((domain_name, 'CNAME', 'IN'))
-    if cached:
-        return await resolve_name_recursively_async(cached[1])
+    if not ignore_cache:
+        cached = get_from_cache((domain_name, 'A', 'IN'))
+        if cached:
+            return cached
+        cached = get_from_cache((domain_name, 'CNAME', 'IN'))
+        if cached:
+            return await resolve_name_recursively_async(cached[1])
     ns = await resolve_ns_async(domain_name)
     if ns:
         ns = await resolve_name_recursively_async(ns[1])

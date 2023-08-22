@@ -31,7 +31,10 @@ ssh -F tmp/ssh-config upf 'lines=`wc -l < /etc/hosts`; if [[ "$lines" -lt "100" 
 #   rsync -e 'ssh -F tmp/ssh-config' -r ../resources $host:~/
 # done
 
-for host in 'easdf' 'upf' 'server1' 'server2'; do
+rsync -e 'ssh -F tmp/ssh-config' ../resources/results/quic_support.txt ue:~/
+rsync -e 'ssh -F tmp/ssh-config' ../scripts/eval_0-rtt.sh ue:~/
+
+for host in 'easdf' 'ue'; do
   echo Setup project files in $host
   rsync -e 'ssh -F tmp/ssh-config' -r ../src/aeacus $host:~/python
   rsync -e 'ssh -F tmp/ssh-config' -r ../scripts/run.sh $host:~/
