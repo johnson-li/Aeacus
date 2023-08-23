@@ -199,21 +199,23 @@ class ControlProtocol(DatagramProtocol):
         super().__init__() 
         self.resolver: BaseResolver = resolver
         self.transport = None
+        self.update_record = {}
 
     def connection_made(self, transport):
         self.transport = transport
 
     async def update_dns_cache(self, domain, addr):
+        if time.time() - self.update_record.get(domain, 0) < 1:
+            return
         print(f'[{time.time()}] Update cache for {domain}')
+        self.update_record[domain] = time.time()
         cache = self.resolver.get_from_cache(domain)
         request = DNSRecord.question(domain)
         await self.resolver.resolve(request, ignore_cache=True)
         cache2 = self.resolver.get_from_cache(domain)
-        print(cache2)
+        print(f'[{time.time()}] Update cache for {domain} from {cache[1]} to {cache2[1]}')
         if cache2:
-            print(cache, cache2)
             if not cache or cache[1] != cache2[1]:
-                print(f'[{time.time()}] Update cache for {domain} from {cache} to {cache2}')
                 data = f'{domain} {cache2[1]}'
                 self.transport.sendto(data.encode(), addr)
 
