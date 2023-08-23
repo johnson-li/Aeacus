@@ -225,14 +225,19 @@ class ControlProtocol(DatagramProtocol):
 
 
 class UdpServerProtocol(DatagramProtocol):
-    def __init__(self, resolver):
+    def __init__(self, resolver, response):
         self.resolver: BaseResolver = resolver
         self.transport = None
+        self.response = response
 
     async def get_reply(self, data):
         ts = time.time()
         request = DNSRecord.parse(data)
-        reply = await self.resolver.resolve(request)
+        if self.response:
+            reply = request.reply(ra=1, aa=0)
+            reply.add_answer(*RR.fromZone(f"{request.q.get_qname()} {60} A {self.response}"))
+        else:
+            reply = await self.resolver.resolve(request)
         print(f'It takes {(time.time() - ts) * 1000:.01f} ms to resolve {request.q.qname}')
         rdata = reply.pack()
         return rdata
@@ -252,7 +257,7 @@ async def main(args):
     resolver = BaseResolver(args.ns)
     loop = asyncio.get_running_loop()
     await loop.create_datagram_endpoint(
-        lambda: UdpServerProtocol(resolver),
+        lambda: UdpServerProtocol(resolver, args.response),
         local_addr=('0.0.0.0', args.port))
     await loop.create_datagram_endpoint(
         lambda: ControlProtocol(resolver),
@@ -264,6 +269,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--port', type=str, default=8053)
     parser.add_argument('-n', '--ns', type=str, default=None)
+    parser.add_argument('-r', '--response', type=str, default=None)
     args = parser.parse_args()
     cache_path = f'/tmp/dns_legacy_aio_cache.{args.port}'
     try:
