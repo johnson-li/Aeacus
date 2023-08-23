@@ -61,10 +61,10 @@ def test_quic_support():
         
 
 def dump_test():
-    path = os.path.join(RESULTS_PATH, "quiche_support.json")
+    path = os.path.join(RESULTS_PATH, "quic_support2.json")
     data = json.load(open(path))
-    domains = [k for k, v in data.items() if v == 1]
-    with open(os.path.join(RESULTS_PATH, "quiche_support.txt"), 'w+') as f:
+    domains = [k for k, v in data.items() if v == 2]
+    with open(os.path.join(RESULTS_PATH, "quic_support.txt"), 'w+') as f:
         for domain in domains:
             f.write(f'{domain}\n')
 
@@ -91,4 +91,5 @@ def test_quic_support0():
 if __name__ == '__main__':
     # eval()
     # test_quic_support()
-    test_quic_support0()
+    # test_quic_support0()
+    dump_test()

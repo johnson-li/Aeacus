@@ -1,13 +1,12 @@
 Vagrant.configure("2") do |config|
-  config.vm.define "upf" do |vm|
+  config.vm.define "ue" do |vm|
     vm.vm.box = "ubuntu/focal64"
-    vm.vm.hostname = "upf"
+    vm.vm.hostname = "ue"
 
     vm.vm.provider "virtualbox" do |vb|
-      vb.memory = "1024"
+      vb.memory = "2048"
       vb.cpus = 4
       vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
-      # vb.customize ["modifyvm", :id, "--nic3", "hostonly", "--hostonlyadapter3", "vboxnet2"]
     end
 
     vm.vm.provision "ansible" do |ansible|
@@ -21,15 +20,36 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define "upf" do |vm|
+    vm.vm.box = "ubuntu/focal64"
+    vm.vm.hostname = "upf"
+
+    vm.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      vb.cpus = 4
+      vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
+    end
+
+    vm.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/playbook.yml"
+      ansible.extra_vars = {
+        ovs: true,
+        python: false,
+        aioquic: false,
+        dnslib: false,
+      }
+    end
+  end
+
   config.vm.define "easdf" do |vm|
     vm.vm.box = "ubuntu/focal64"
     vm.vm.hostname = "easdf"
 
     vm.vm.provider "virtualbox" do |vb|
-      vb.memory = "1024"
+      vb.memory = "2048"
       vb.cpus = 4
       vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
-      vb.customize ["modifyvm", :id, "--nic3", "hostonly", "--hostonlyadapter3", "vboxnet2"]
+      # vb.customize ["modifyvm", :id, "--nic3", "hostonly", "--hostonlyadapter3", "vboxnet2"]
     end
 
     vm.vm.provision "ansible" do |ansible|
@@ -43,34 +63,34 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "asdf" do |vm|
-    vm.vm.box = "ubuntu/focal64"
-    vm.vm.hostname = "asdf"
+  # config.vm.define "asdf" do |vm|
+  #   vm.vm.box = "ubuntu/focal64"
+  #   vm.vm.hostname = "asdf"
 
-    vm.vm.provider "virtualbox" do |vb|
-      vb.memory = "1024"
-      vb.cpus = 4
-      vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
-      vb.customize ["modifyvm", :id, "--nic3", "hostonly", "--hostonlyadapter3", "vboxnet2"]
-    end
+  #   vm.vm.provider "virtualbox" do |vb|
+  #     vb.memory = "2048"
+  #     vb.cpus = 4
+  #     vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
+  #     vb.customize ["modifyvm", :id, "--nic3", "hostonly", "--hostonlyadapter3", "vboxnet2"]
+  #   end
 
-    vm.vm.provision "ansible" do |ansible|
-      ansible.playbook = "provisioning/playbook.yml"
-      ansible.extra_vars = {
-        ovs: true,
-        python: true, 
-        aioquic: true,
-        dnslib: false,
-      }
-    end
-  end
+  #   vm.vm.provision "ansible" do |ansible|
+  #     ansible.playbook = "provisioning/playbook.yml"
+  #     ansible.extra_vars = {
+  #       ovs: true,
+  #       python: true, 
+  #       aioquic: true,
+  #       dnslib: false,
+  #     }
+  #   end
+  # end
 
   # config.vm.define "pubsub" do |vm|
   #   vm.vm.box = "ubuntu/focal64"
   #   vm.vm.hostname = "pubsub"
 
   #   vm.vm.provider "virtualbox" do |vb|
-  #     vb.memory = "1024"
+  #     vb.memory = "2048"
   #     vb.customize ["modifyvm", :id, "--nic3", "hostonly", "--hostonlyadapter3", "vboxnet2"]
   #   end
 
@@ -85,43 +105,43 @@ Vagrant.configure("2") do |config|
   #   end
   # end
 
-  # config.vm.define "server1" do |vm|
-  #   vm.vm.box = "ubuntu/focal64"
-  #   vm.vm.hostname = "server1"
+  config.vm.define "server1" do |vm|
+    vm.vm.box = "ubuntu/focal64"
+    vm.vm.hostname = "server1"
 
-  #   vm.vm.provider "virtualbox" do |vb|
-  #     vb.memory = "1024"
-  #     vb.customize ["modifyvm", :id, "--nic3", "hostonly", "--hostonlyadapter3", "vboxnet2"]
-  #   end
+    vm.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
+    end
 
-  #   vm.vm.provision "ansible" do |ansible|
-  #     ansible.playbook = "provisioning/playbook.yml"
-  #     ansible.extra_vars = {
-  #       ovs: false,
-  #       python: true,
-  #       aioquic: true,
-  #       dnslib: false,
-  #     }
-  #   end
-  # end
+    vm.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/playbook.yml"
+      ansible.extra_vars = {
+        ovs: false,
+        python: true,
+        aioquic: true,
+        dnslib: false,
+      }
+    end
+  end
 
-  # config.vm.define "server2" do |vm|
-  #   vm.vm.box = "ubuntu/focal64"
-  #   vm.vm.hostname = "server2"
+  config.vm.define "server2" do |vm|
+    vm.vm.box = "ubuntu/focal64"
+    vm.vm.hostname = "server2"
 
-  #   vm.vm.provider "virtualbox" do |vb|
-  #     vb.memory = "1024"
-  #     vb.customize ["modifyvm", :id, "--nic3", "hostonly", "--hostonlyadapter3", "vboxnet2"]
-  #   end
+    vm.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet1"]
+    end
 
-  #   vm.vm.provision "ansible" do |ansible|
-  #     ansible.playbook = "provisioning/playbook.yml"
-  #     ansible.extra_vars = {
-  #       ovs: false,
-  #       python: true,
-  #       aioquic: true,
-  #       dnslib: false,
-  #     }
-  #   end
-  # end
+    vm.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/playbook.yml"
+      ansible.extra_vars = {
+        ovs: false,
+        python: true,
+        aioquic: true,
+        dnslib: false,
+      }
+    end
+  end
 end

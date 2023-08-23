@@ -10,9 +10,9 @@ import time
 import traceback
 from asyncio import DatagramProtocol, Future
 
-from dnslib import DNSRecord, DNSError, QTYPE, RCODE, RR, EDNS0, CLASS, DNSQuestion, EDNSOption, A, CNAME
+from dnslib import DNSRecord, DNSError, QTYPE, RCODE, RR, EDNS0, CLASS, DNSQuestion, EDNSOption, A, CNAME, DNSLabel
 
-from aeacus.dns.resolver import resolve_name_recursively_async, resolve_name_iteratively_async, get_ns_from_soa, \
+from aeacus.dns.resolver import get_from_cache, resolve_name_recursively_async, resolve_name_iteratively_async, get_ns_from_soa, \
     resolve_ns_async, send_with_retry_async, CACHE
 
 PCI_EDNS_OPTION_CODE = 65001
@@ -104,6 +104,9 @@ class BaseResolver(object):
         self.system_resolver = (ns, 53)
         self.timeout = 3
         self.max_retries = 3
+    
+    def get_from_cache(self, domain):
+        return get_from_cache((DNSLabel(domain), 'A', 'IN'))
 
     def try_fail_early(self, request):
         reply = request.reply(ra=1, aa=0)
@@ -153,18 +156,18 @@ class BaseResolver(object):
         except DNSError as exc:
             raise Exception(f"Querying the authoritative nameserver for '{auth_request.q}'") from exc
 
-    async def resolve(self, request):
+    async def resolve(self, request, ignore_cache=False):
         domain_name = request.q.qname
         reply = request.reply(ra=1, aa=0)
-        edns_options = [EDNSOption(PCI_EDNS_OPTION_CODE, struct.pack(PCI_EDNS_OPTION_DATA_FMT, PCI))]
+        # edns_options = [EDNSOption(PCI_EDNS_OPTION_CODE, struct.pack(PCI_EDNS_OPTION_DATA_FMT, PCI))]
         req = DNSRecord.question(request.q.qname, qtype=QTYPE[request.q.qtype])
-        req.add_ar(EDNS0(udp_len=self.udplen, opts=edns_options))
+        # req.add_ar(EDNS0(udp_len=self.udplen, opts=edns_options))
         try:
             resolver = self.system_resolver[0]
             if resolver:
                 await resolve_name_iteratively_async(domain_name, resolver)
             else:
-                await resolve_name_recursively_async(domain_name)
+                await resolve_name_recursively_async(domain_name, ignore_cache)
             cname = domain_name
             while cname:
                 record = CACHE.get((cname, 'A', 'IN'), None)
@@ -189,6 +192,34 @@ class BaseResolver(object):
             #     reply.add_ar(EDNS0(udp_len=self.udplen))
         # print(f'Ts: {datetime.now().strftime("%Y/%m/%d-%H:%M:%S")}\nReply: {reply}', flush=True)
         return reply
+
+
+class ControlProtocol(DatagramProtocol):
+    def __init__(self, resolver) -> None:
+        super().__init__() 
+        self.resolver: BaseResolver = resolver
+        self.transport = None
+
+    def connection_made(self, transport):
+        self.transport = transport
+
+    async def update_dns_cache(self, domain, addr):
+        print(f'[{time.time()}] Update cache for {domain}')
+        cache = self.resolver.get_from_cache(domain)
+        request = DNSRecord.question(domain)
+        await self.resolver.resolve(request, ignore_cache=True)
+        cache2 = self.resolver.get_from_cache(domain)
+        print(cache2)
+        if cache2:
+            print(cache, cache2)
+            if not cache or cache[1] != cache2[1]:
+                print(f'[{time.time()}] Update cache for {domain} from {cache} to {cache2}')
+                data = f'{domain} {cache2[1]}'
+                self.transport.sendto(data.encode(), addr)
+
+    def datagram_received(self, data, addr):
+        domain = data.decode().strip()
+        asyncio.create_task(self.update_dns_cache(domain, addr))
 
 
 class UdpServerProtocol(DatagramProtocol):
@@ -221,6 +252,9 @@ async def main(args):
     await loop.create_datagram_endpoint(
         lambda: UdpServerProtocol(resolver),
         local_addr=('0.0.0.0', args.port))
+    await loop.create_datagram_endpoint(
+        lambda: ControlProtocol(resolver),
+        local_addr=('0.0.0.0', 8888))
     await asyncio.sleep(10000000)
 
 

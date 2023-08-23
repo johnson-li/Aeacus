@@ -84,6 +84,7 @@ async def send_with_retry_async(request, addr, timeout=3, retries=3):
     record = asyncio.get_running_loop().create_future()
     for i in range(retries):
         try:
+            print(f'Send dns query to {addr}')
             transport, protocol = await dns_send(*addr, request.pack(), record)
             ans = await asyncio.wait_for(record, timeout)
             transport.close()
@@ -108,7 +109,7 @@ def get_ns_from_soa(domain_name: DNSLabel):
 
 
 async def resolve_ns_async(domain_name: DNSLabel, ns_level=0):
-    print(f'[{time.time()}] Resolve NS for {domain_name}')
+    print(f'[{time.time()}] Resolve NS for {domain_name}, ns_level: {ns_level}')
     ns = get_ns_from_soa(domain_name)
     if ns and ns[1] != domain_name:
         return ns
@@ -131,15 +132,16 @@ async def resolve_ns_async(domain_name: DNSLabel, ns_level=0):
     return None
 
 
-async def resolve_name_recursively_async(domain_name):
+async def resolve_name_recursively_async(domain_name, ignore_cache=False):
     print(f'[{time.time()}] Resolve {domain_name} recursively')
     domain_name = DNSLabel(domain_name)
-    cached = get_from_cache((domain_name, 'A', 'IN'))
-    if cached:
-        return cached
-    cached = get_from_cache((domain_name, 'CNAME', 'IN'))
-    if cached:
-        return await resolve_name_recursively_async(cached[1])
+    if not ignore_cache:
+        cached = get_from_cache((domain_name, 'A', 'IN'))
+        if cached:
+            return cached
+        cached = get_from_cache((domain_name, 'CNAME', 'IN'))
+        if cached:
+            return await resolve_name_recursively_async(cached[1])
     ns = await resolve_ns_async(domain_name)
     if ns:
         ns = await resolve_name_recursively_async(ns[1])
