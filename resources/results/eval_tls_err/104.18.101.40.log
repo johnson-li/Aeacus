@@ -1,0 +1,24 @@
+[2023-08-23T20:54:55Z INFO  http3_client] connecting to 104.18.101.40:443 from 0.0.0.0:50783 with scid 8a8874eae821baca4276376010e7f0402cc3d28c (len: 20), dsid 65c8b354b340d86c10bd48d0397f99ec6897b65d (len: 20)
+[2023-08-23T20:54:55Z INFO  http3_client] [215.815µs] Send 1200 bytes to 104.18.101.40:443
+[2023-08-23T20:54:55Z INFO  http3_client] [238.015µs] Early data: false
+[2023-08-23T20:54:55Z INFO  http3_client] [13.079672ms] Recv 1200 bytes from 104.18.101.40:443
+[2023-08-23T20:54:55Z INFO  quiche] Recv single, type: Initial
+[2023-08-23T20:54:55Z INFO  quiche] Recv single, type: Short
+[2023-08-23T20:54:55Z INFO  http3_client] got packet Initial version=1 dcid=8a8874eae821baca4276376010e7f0402cc3d28c scid=018c3540b340feca6b8cb5404f40cb380201c68b token=
+[2023-08-23T20:54:55Z INFO  http3_client] [15.842009ms] Recv 1200 bytes from 104.18.101.40:443
+[2023-08-23T20:54:55Z INFO  quiche] Recv single, type: Initial
+[2023-08-23T20:54:55Z INFO  quiche] Recv single, type: Short
+[2023-08-23T20:54:55Z INFO  http3_client] got packet Initial version=1 dcid=8a8874eae821baca4276376010e7f0402cc3d28c scid=018c3540b340feca6b8cb5404f40cb380201c68b token=
+[2023-08-23T20:54:55Z INFO  http3_client] [15.9523ms] Send 1200 bytes to 104.18.101.40:443
+[2023-08-23T20:54:55Z INFO  http3_client] [16.362943ms] Recv 1200 bytes from 104.18.101.40:443
+[2023-08-23T20:54:55Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:55Z INFO  http3_client] got packet Handshake version=1 dcid=8a8874eae821baca4276376010e7f0402cc3d28c scid=018c3540b340feca6b8cb5404f40cb380201c68b
+[2023-08-23T20:54:55Z INFO  http3_client] [16.41407ms] Recv 1200 bytes from 104.18.101.40:443
+[2023-08-23T20:54:55Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:55Z INFO  http3_client] got packet Handshake version=1 dcid=8a8874eae821baca4276376010e7f0402cc3d28c scid=018c3540b340feca6b8cb5404f40cb380201c68b
+[2023-08-23T20:54:55Z INFO  http3_client] [16.435487ms] Recv 552 bytes from 104.18.101.40:443
+[2023-08-23T20:54:55Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:55Z ERROR http3_client] recv failed: TlsFail
+[2023-08-23T20:54:55Z INFO  http3_client] [16.676565ms] Send 71 bytes to 104.18.101.40:443
+[2023-08-23T20:54:56Z INFO  http3_client] connection closed, recv=4 sent=3 lost=0 rtt=12.8841ms cwnd=13500 peer_tps={ max_idle_timeout=180000, max_udp_payload_size=65527, initial_max_data=10485760, initial_max_stream_data_bidi_local=0, initial_max_stream_data_bidi_remote=1048576, initial_max_stream_data_uni=1048576, initial_max_streams_bidi=256, initial_max_streams_uni=3, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=None }
+do start connect

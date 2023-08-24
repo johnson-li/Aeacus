@@ -1,0 +1,26 @@
+[2023-08-23T20:54:46Z INFO  http3_client] connecting to 157.240.205.60:443 from 0.0.0.0:41561 with scid 3a6ae1f7110456c72327162bfea74e4e93550ff2 (len: 20), dsid 0b271b3d735862ecdbacbbe427b4d209bd0cf286 (len: 20)
+[2023-08-23T20:54:46Z INFO  http3_client] [207.582µs] Send 1200 bytes to 157.240.205.60:443
+[2023-08-23T20:54:46Z INFO  http3_client] [233.139µs] Early data: false
+[2023-08-23T20:54:46Z INFO  http3_client] [2.110782ms] Recv 1232 bytes from 157.240.205.60:443
+[2023-08-23T20:54:46Z INFO  quiche] Recv single, type: Initial
+[2023-08-23T20:54:46Z INFO  http3_client] got packet Initial version=1 dcid=3a6ae1f7110456c72327162bfea74e4e93550ff2 scid=b61d00d13c023c60 token=
+[2023-08-23T20:54:46Z INFO  http3_client] [2.215919ms] Recv 1232 bytes from 157.240.205.60:443
+[2023-08-23T20:54:46Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:46Z INFO  http3_client] got packet Handshake version=1 dcid=3a6ae1f7110456c72327162bfea74e4e93550ff2 scid=b61d00d13c023c60
+[2023-08-23T20:54:46Z INFO  http3_client] [2.241057ms] Recv 1232 bytes from 157.240.205.60:443
+[2023-08-23T20:54:46Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:46Z INFO  http3_client] got packet Handshake version=1 dcid=3a6ae1f7110456c72327162bfea74e4e93550ff2 scid=b61d00d13c023c60
+[2023-08-23T20:54:46Z INFO  http3_client] [2.259377ms] Recv 822 bytes from 157.240.205.60:443
+[2023-08-23T20:54:46Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:46Z ERROR http3_client] recv failed: TlsFail
+[2023-08-23T20:54:46Z INFO  http3_client] [2.49476ms] Recv 80 bytes from 157.240.205.60:443
+[2023-08-23T20:54:46Z INFO  http3_client] got packet Short dcid=3a6ae1f7110456c72327162bfea74e4e93550ff2 key_phase=false
+[2023-08-23T20:54:46Z INFO  http3_client] [2.509268ms] Send 59 bytes to 157.240.205.60:443
+[2023-08-23T20:54:46Z INFO  http3_client] [3.600684ms] Recv 56 bytes from 157.240.205.60:443
+[2023-08-23T20:54:46Z INFO  http3_client] got packet Short dcid=3a6ae1f7110456c72327162bfea74e4e93550ff2 key_phase=false
+[2023-08-23T20:54:46Z INFO  http3_client] [3.6182ms] Recv 71 bytes from 157.240.205.60:443
+[2023-08-23T20:54:46Z INFO  http3_client] got packet Handshake version=1 dcid=3a6ae1f7110456c72327162bfea74e4e93550ff2 scid=b61d00d13c023c60
+[2023-08-23T20:54:46Z INFO  http3_client] [3.627565ms] Recv 72 bytes from 157.240.205.60:443
+[2023-08-23T20:54:46Z INFO  http3_client] got packet Initial version=1 dcid=3a6ae1f7110456c72327162bfea74e4e93550ff2 scid=b61d00d13c023c60 token=
+[2023-08-23T20:54:46Z INFO  http3_client] connection closed, recv=3 sent=2 lost=0 rtt=1.921757ms cwnd=13500 peer_tps={ max_idle_timeout=180000, max_udp_payload_size=1404, initial_max_data=10485760, initial_max_stream_data_bidi_local=10485760, initial_max_stream_data_bidi_remote=10485760, initial_max_stream_data_uni=10485760, initial_max_streams_bidi=300, initial_max_streams_uni=100000, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=None }
+do start connect

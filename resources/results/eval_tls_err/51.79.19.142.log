@@ -1,0 +1,10 @@
+[2023-08-23T20:55:23Z INFO  http3_client] connecting to 51.79.19.142:443 from 0.0.0.0:46148 with scid 6dd512bbdd1accbb3c42bcd3c204077ad237234a (len: 20), dsid 3d80dd65f464e0420fb3d1e4acae198bc873916e (len: 20)
+[2023-08-23T20:55:23Z INFO  http3_client] [228.496µs] Send 1200 bytes to 51.79.19.142:443
+[2023-08-23T20:55:23Z INFO  http3_client] [261.628µs] Early data: false
+[2023-08-23T20:55:23Z INFO  http3_client] [119.129284ms] Recv 1220 bytes from 51.79.19.142:443
+[2023-08-23T20:55:23Z INFO  quiche] Recv single, type: Initial
+[2023-08-23T20:55:23Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:55:23Z ERROR http3_client] recv failed: TlsFail
+[2023-08-23T20:55:23Z INFO  http3_client] [119.442643ms] Send 71 bytes to 51.79.19.142:443
+[2023-08-23T20:55:24Z INFO  http3_client] connection closed, recv=1 sent=2 lost=0 rtt=118.93579ms cwnd=13500 peer_tps={ max_idle_timeout=65000, max_udp_payload_size=65527, initial_max_data=8585216, initial_max_stream_data_bidi_local=65536, initial_max_stream_data_bidi_remote=65536, initial_max_stream_data_uni=65536, initial_max_streams_bidi=128, initial_max_streams_uni=3, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=None }
+do start connect

@@ -1,0 +1,23 @@
+[2023-08-23T20:55:44Z INFO  http3_client] connecting to 35.201.95.83:443 from 0.0.0.0:57266 with scid 7ec599b4f4d8cff249eb95c042ef58f2a7eab55a (len: 20), dsid cca8c3714848544a9f5f9c3f1dbb6120fc9b1119 (len: 20)
+[2023-08-23T20:55:44Z INFO  http3_client] [239.685µs] Send 1200 bytes to 35.201.95.83:443
+[2023-08-23T20:55:44Z INFO  http3_client] [267.215µs] Early data: false
+[2023-08-23T20:55:44Z INFO  http3_client] [19.252784ms] Recv 1200 bytes from 35.201.95.83:443
+[2023-08-23T20:55:44Z INFO  quiche] Recv single, type: Initial
+[2023-08-23T20:55:44Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:55:44Z INFO  http3_client] got packet Initial version=1 dcid=7ec599b4f4d8cff249eb95c042ef58f2a7eab55a scid=cca8c3714848544a token=
+[2023-08-23T20:55:44Z INFO  http3_client] [19.415925ms] Recv 1200 bytes from 35.201.95.83:443
+[2023-08-23T20:55:44Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:55:44Z INFO  http3_client] got packet Handshake version=1 dcid=7ec599b4f4d8cff249eb95c042ef58f2a7eab55a scid=cca8c3714848544a
+[2023-08-23T20:55:44Z INFO  http3_client] [19.43517ms] Recv 1200 bytes from 35.201.95.83:443
+[2023-08-23T20:55:44Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:55:44Z INFO  http3_client] got packet Handshake version=1 dcid=7ec599b4f4d8cff249eb95c042ef58f2a7eab55a scid=cca8c3714848544a
+[2023-08-23T20:55:44Z INFO  http3_client] [19.45683ms] Send 1200 bytes to 35.201.95.83:443
+[2023-08-23T20:55:44Z INFO  http3_client] [35.964417ms] Recv 1200 bytes from 35.201.95.83:443
+[2023-08-23T20:55:44Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:55:44Z INFO  http3_client] got packet Handshake version=1 dcid=7ec599b4f4d8cff249eb95c042ef58f2a7eab55a scid=cca8c3714848544a
+[2023-08-23T20:55:44Z INFO  http3_client] [36.163205ms] Recv 344 bytes from 35.201.95.83:443
+[2023-08-23T20:55:44Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:55:44Z ERROR http3_client] recv failed: TlsFail
+[2023-08-23T20:55:44Z INFO  http3_client] [36.404123ms] Send 59 bytes to 35.201.95.83:443
+[2023-08-23T20:55:44Z INFO  http3_client] connection closed, recv=5 sent=4 lost=0 rtt=19.031982ms cwnd=13500 peer_tps={ max_idle_timeout=300000, max_udp_payload_size=1472, initial_max_data=196608, initial_max_stream_data_bidi_local=131072, initial_max_stream_data_bidi_remote=131072, initial_max_stream_data_uni=131072, initial_max_streams_bidi=100, initial_max_streams_uni=103, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=Some(65536) }
+do start connect

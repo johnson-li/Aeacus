@@ -1,0 +1,37 @@
+[2023-08-21T14:07:59Z INFO  http3_client] Resuming session for cnn.com
+[2023-08-21T14:07:59Z INFO  http3_client] connecting to 192.168.57.12:443 from 0.0.0.0:34026 with scid b681d64aa291c7abb7e07f32b30d77e7da45ba0f (len: 20), dsid 618e6bb87a513e715e82077aea0884da0fcc4c60 (len: 20)
+[2023-08-21T14:07:59Z INFO  http3_client] [629.692µs] Send 1200 bytes to 192.168.57.12:443
+[2023-08-21T14:07:59Z INFO  http3_client] [711.953µs] Early data: false
+[2023-08-21T14:07:59Z INFO  http3_client] [54.684437ms] Recv 1280 bytes from 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [0] migrate server to Some(151.101.131.5:443)
+[2023-08-21T14:07:59Z INFO  http3_client] got packet Initial version=1 dcid=b681d64aa291c7abb7e07f32b30d77e7da45ba0f scid=92e1e38815fcb49ac27cffc62c4440c137 token=
+[2023-08-21T14:07:59Z INFO  http3_client] [54.902183ms] Recv 1280 bytes from 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [0] migrate server to Some(151.101.131.5:443)
+[2023-08-21T14:07:59Z INFO  http3_client] got packet Handshake version=1 dcid=b681d64aa291c7abb7e07f32b30d77e7da45ba0f scid=92e1e38815fcb49ac27cffc62c4440c137
+[2023-08-21T14:07:59Z INFO  http3_client] [54.950971ms] Recv 1280 bytes from 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [0] migrate server to Some(151.101.131.5:443)
+[2023-08-21T14:07:59Z INFO  http3_client] got packet Handshake version=1 dcid=b681d64aa291c7abb7e07f32b30d77e7da45ba0f scid=92e1e38815fcb49ac27cffc62c4440c137
+[2023-08-21T14:07:59Z INFO  http3_client] [54.974256ms] Recv 1274 bytes from 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [0] migrate server to Some(151.101.131.5:443)
+[2023-08-21T14:07:59Z INFO  http3_client] got packet Handshake version=1 dcid=b681d64aa291c7abb7e07f32b30d77e7da45ba0f scid=92e1e38815fcb49ac27cffc62c4440c137
+[2023-08-21T14:07:59Z INFO  http3_client] [https://cnn.com/] handshake completed in 55.484392ms
+[2023-08-21T14:07:59Z INFO  http3_client] Invalid preferred address
+[2023-08-21T14:07:59Z INFO  http3_client] [55.521812ms] Sending HTTP request [Header([58, 109, 101, 116, 104, 111, 100], [71, 69, 84]), Header([58, 115, 99, 104, 101, 109, 101], [104, 116, 116, 112, 115]), Header([58, 97, 117, 116, 104, 111, 114, 105, 116, 121], [99, 110, 110, 46, 99, 111, 109]), Header([58, 112, 97, 116, 104], [47]), Header([117, 115, 101, 114, 45, 97, 103, 101, 110, 116], [113, 117, 105, 99, 104, 101])]
+[2023-08-21T14:07:59Z INFO  http3_client] [55.577823ms] Send 1350 bytes to 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [55.625891ms] Send 41 bytes to 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [55.653416ms] Send 41 bytes to 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [55.663974ms] Send 98 bytes to 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [55.674578ms] Send 66 bytes to 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [57.678338ms] Recv 45 bytes from 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [0] migrate server to Some(151.101.131.5:443)
+[2023-08-21T14:07:59Z INFO  http3_client] got packet Short dcid=b681d64aa291c7abb7e07f32b30d77e7da45ba0f key_phase=false
+[2023-08-21T14:07:59Z INFO  http3_client] [57.737757ms] Send 40 bytes to 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [58.243979ms] Recv 433 bytes from 151.101.131.5:443
+[2023-08-21T14:07:59Z INFO  http3_client] [0] migrate server to Some(151.101.131.5:443)
+[2023-08-21T14:07:59Z INFO  http3_client] got packet Short dcid=b681d64aa291c7abb7e07f32b30d77e7da45ba0f key_phase=false
+[2023-08-21T14:07:59Z INFO  http3_client] [58.297148ms] got response headers Header([58, 115, 116, 97, 116, 117, 115], [51, 48, 49]) on stream id 0
+[2023-08-21T14:07:59Z INFO  http3_client] response received in 58.306035ms, closing...
+[2023-08-21T14:07:59Z INFO  http3_client] [58.312986ms] Send 45 bytes to 151.101.131.5:443
+[2023-08-21T14:08:00Z INFO  http3_client] connection closed, recv=8 sent=10 lost=0 rtt=47.593915ms cwnd=13500 peer_tps={ max_idle_timeout=30000, max_udp_payload_size=1472, initial_max_data=16777216, initial_max_stream_data_bidi_local=1048576, initial_max_stream_data_bidi_remote=32768, initial_max_stream_data_uni=1048576, initial_max_streams_bidi=100, initial_max_streams_uni=10, ack_delay_exponent=10, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=4, max_datagram_frame_size=Some(1500) }
+[2023-08-21T14:08:00Z INFO  http3_client] Save session to /tmp/http3-client-session.bin
+do start connect

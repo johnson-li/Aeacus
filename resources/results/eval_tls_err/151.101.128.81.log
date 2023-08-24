@@ -1,0 +1,21 @@
+[2023-08-23T20:54:56Z INFO  http3_client] connecting to 151.101.128.81:443 from 0.0.0.0:55743 with scid 95d505642735155bb7ac8f1453da5577f2377631 (len: 20), dsid 7ddc1ac28e8eba5594a2c38d79e5bf04a6a29047 (len: 20)
+[2023-08-23T20:54:56Z INFO  http3_client] [205.273µs] Send 1200 bytes to 151.101.128.81:443
+[2023-08-23T20:54:56Z INFO  http3_client] [229.198µs] Early data: false
+[2023-08-23T20:54:56Z INFO  http3_client] [3.143937ms] Recv 1280 bytes from 151.101.128.81:443
+[2023-08-23T20:54:56Z INFO  quiche] Recv single, type: Initial
+[2023-08-23T20:54:56Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:56Z INFO  http3_client] got packet Initial version=1 dcid=95d505642735155bb7ac8f1453da5577f2377631 scid=f563893867cd202ebbab2b50fc000dcf21 token=
+[2023-08-23T20:54:56Z INFO  http3_client] [3.274948ms] Recv 1280 bytes from 151.101.128.81:443
+[2023-08-23T20:54:56Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:56Z INFO  http3_client] got packet Handshake version=1 dcid=95d505642735155bb7ac8f1453da5577f2377631 scid=f563893867cd202ebbab2b50fc000dcf21
+[2023-08-23T20:54:56Z INFO  http3_client] [3.293651ms] Recv 1280 bytes from 151.101.128.81:443
+[2023-08-23T20:54:56Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:56Z INFO  http3_client] got packet Handshake version=1 dcid=95d505642735155bb7ac8f1453da5577f2377631 scid=f563893867cd202ebbab2b50fc000dcf21
+[2023-08-23T20:54:56Z INFO  http3_client] [3.31018ms] Recv 1280 bytes from 151.101.128.81:443
+[2023-08-23T20:54:56Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:56Z ERROR http3_client] recv failed: TlsFail
+[2023-08-23T20:54:56Z INFO  http3_client] [3.531978ms] Recv 142 bytes from 151.101.128.81:443
+[2023-08-23T20:54:56Z INFO  http3_client] got packet Short dcid=95d505642735155bb7ac8f1453da5577f2377631 key_phase=false
+[2023-08-23T20:54:56Z INFO  http3_client] [3.546258ms] Send 68 bytes to 151.101.128.81:443
+[2023-08-23T20:54:56Z INFO  http3_client] connection closed, recv=4 sent=2 lost=0 rtt=2.956011ms cwnd=13500 peer_tps={ max_idle_timeout=30000, max_udp_payload_size=1472, initial_max_data=16777216, initial_max_stream_data_bidi_local=1048576, initial_max_stream_data_bidi_remote=32768, initial_max_stream_data_uni=1048576, initial_max_streams_bidi=100, initial_max_streams_uni=10, ack_delay_exponent=10, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=4, max_datagram_frame_size=Some(1500) }
+do start connect

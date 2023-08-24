@@ -1,0 +1,35 @@
+[2023-08-21T14:10:07Z INFO  http3_client] Resuming session for flaticon.com
+[2023-08-21T14:10:07Z INFO  http3_client] connecting to 192.168.57.12:443 from 0.0.0.0:49748 with scid 5e9ff166692f5a51dcfbba5624b95ffe257fd4e1 (len: 20), dsid 503c8d435189d4fc19009226bd5decb7195fa75d (len: 20)
+[2023-08-21T14:10:07Z INFO  http3_client] [472.619µs] Send 1200 bytes to 192.168.57.12:443
+[2023-08-21T14:10:07Z INFO  http3_client] [529.876µs] Early data: false
+[2023-08-21T14:10:07Z INFO  http3_client] [25.22883ms] Recv 1200 bytes from 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [0] migrate server to Some(34.149.47.137:443)
+[2023-08-21T14:10:07Z INFO  http3_client] got packet Initial version=1 dcid=5e9ff166692f5a51dcfbba5624b95ffe257fd4e1 scid=d03c8d435189d4fc token=
+[2023-08-21T14:10:07Z INFO  http3_client] [https://flaticon.com/] handshake completed in 25.602066ms
+[2023-08-21T14:10:07Z INFO  http3_client] Invalid preferred address
+[2023-08-21T14:10:07Z INFO  http3_client] [25.64764ms] Sending HTTP request [Header([58, 109, 101, 116, 104, 111, 100], [71, 69, 84]), Header([58, 115, 99, 104, 101, 109, 101], [104, 116, 116, 112, 115]), Header([58, 97, 117, 116, 104, 111, 114, 105, 116, 121], [102, 108, 97, 116, 105, 99, 111, 110, 46, 99, 111, 109]), Header([58, 112, 97, 116, 104], [47]), Header([117, 115, 101, 114, 45, 97, 103, 101, 110, 116], [113, 117, 105, 99, 104, 101])]
+[2023-08-21T14:10:07Z INFO  http3_client] [25.726762ms] Send 1350 bytes to 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [25.78537ms] Send 32 bytes to 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [25.843159ms] Send 32 bytes to 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [25.898105ms] Send 93 bytes to 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [25.94016ms] Send 57 bytes to 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [43.322825ms] Recv 523 bytes from 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [0] migrate server to Some(34.149.47.137:443)
+[2023-08-21T14:10:07Z INFO  http3_client] got packet Short dcid=5e9ff166692f5a51dcfbba5624b95ffe257fd4e1 key_phase=false
+[2023-08-21T14:10:07Z INFO  http3_client] [43.451568ms] Recv 141 bytes from 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [0] migrate server to Some(34.149.47.137:443)
+[2023-08-21T14:10:07Z INFO  http3_client] got packet Short dcid=5e9ff166692f5a51dcfbba5624b95ffe257fd4e1 key_phase=false
+[2023-08-21T14:10:07Z INFO  http3_client] [43.482186ms] Recv 47 bytes from 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [0] migrate server to Some(34.149.47.137:443)
+[2023-08-21T14:10:07Z INFO  http3_client] got packet Short dcid=5e9ff166692f5a51dcfbba5624b95ffe257fd4e1 key_phase=false
+[2023-08-21T14:10:07Z INFO  http3_client] [43.532017ms] Send 36 bytes to 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [57.821129ms] Recv 331 bytes from 34.149.47.137:443
+[2023-08-21T14:10:07Z INFO  http3_client] [0] migrate server to Some(34.149.47.137:443)
+[2023-08-21T14:10:07Z INFO  http3_client] got packet Short dcid=5e9ff166692f5a51dcfbba5624b95ffe257fd4e1 key_phase=false
+[2023-08-21T14:10:07Z INFO  http3_client] [57.891484ms] got response headers Header([58, 115, 116, 97, 116, 117, 115], [51, 48, 49]) on stream id 0
+[2023-08-21T14:10:07Z INFO  http3_client] [57.905579ms] got 162 bytes of response data on stream 0
+[2023-08-21T14:10:07Z INFO  http3_client] response received in 57.909958ms, closing...
+[2023-08-21T14:10:07Z INFO  http3_client] [57.918409ms] Send 36 bytes to 34.149.47.137:443
+[2023-08-21T14:10:08Z INFO  http3_client] connection closed, recv=7 sent=10 lost=0 rtt=23.912424ms cwnd=13500 peer_tps={ max_idle_timeout=300000, max_udp_payload_size=1472, initial_max_data=196608, initial_max_stream_data_bidi_local=131072, initial_max_stream_data_bidi_remote=131072, initial_max_stream_data_uni=131072, initial_max_streams_bidi=100, initial_max_streams_uni=103, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=Some(65536) }
+[2023-08-21T14:10:08Z INFO  http3_client] Save session to /tmp/http3-client-session.bin
+do start connect

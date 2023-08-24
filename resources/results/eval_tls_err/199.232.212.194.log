@@ -1,0 +1,19 @@
+[2023-08-23T20:54:46Z INFO  http3_client] connecting to 199.232.212.194:443 from 0.0.0.0:44787 with scid 34506402236492eb1b1193f6131fc045cffba43e (len: 20), dsid 72116af00c540a1c3796e27a7b30f8f6a04ad9aa (len: 20)
+[2023-08-23T20:54:46Z INFO  http3_client] [212.827µs] Send 1200 bytes to 199.232.212.194:443
+[2023-08-23T20:54:46Z INFO  http3_client] [239.273µs] Early data: false
+[2023-08-23T20:54:46Z INFO  http3_client] [4.421167ms] Recv 1280 bytes from 199.232.212.194:443
+[2023-08-23T20:54:46Z INFO  quiche] Recv single, type: Initial
+[2023-08-23T20:54:46Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:46Z INFO  http3_client] got packet Initial version=1 dcid=34506402236492eb1b1193f6131fc045cffba43e scid=f50dc50ed204acffee187c63f626ea55d1 token=
+[2023-08-23T20:54:46Z INFO  http3_client] [4.552174ms] Recv 1280 bytes from 199.232.212.194:443
+[2023-08-23T20:54:46Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:46Z INFO  http3_client] got packet Handshake version=1 dcid=34506402236492eb1b1193f6131fc045cffba43e scid=f50dc50ed204acffee187c63f626ea55d1
+[2023-08-23T20:54:46Z INFO  http3_client] [4.571374ms] Recv 1280 bytes from 199.232.212.194:443
+[2023-08-23T20:54:46Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:46Z INFO  http3_client] got packet Handshake version=1 dcid=34506402236492eb1b1193f6131fc045cffba43e scid=f50dc50ed204acffee187c63f626ea55d1
+[2023-08-23T20:54:46Z INFO  http3_client] [4.587597ms] Recv 1256 bytes from 199.232.212.194:443
+[2023-08-23T20:54:46Z INFO  quiche] Recv single, type: Handshake
+[2023-08-23T20:54:46Z ERROR http3_client] recv failed: TlsFail
+[2023-08-23T20:54:46Z INFO  http3_client] [4.828615ms] Send 68 bytes to 199.232.212.194:443
+[2023-08-23T20:54:46Z INFO  http3_client] connection closed, recv=4 sent=2 lost=0 rtt=4.23041ms cwnd=13500 peer_tps={ max_idle_timeout=30000, max_udp_payload_size=1472, initial_max_data=16777216, initial_max_stream_data_bidi_local=1048576, initial_max_stream_data_bidi_remote=32768, initial_max_stream_data_uni=1048576, initial_max_streams_bidi=100, initial_max_streams_uni=10, ack_delay_exponent=10, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=4, max_datagram_frame_size=Some(1500) }
+do start connect

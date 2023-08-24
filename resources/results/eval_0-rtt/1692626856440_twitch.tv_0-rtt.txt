@@ -1,0 +1,27 @@
+[2023-08-21T14:07:36Z INFO  http3_client] Resuming session for twitch.tv
+[2023-08-21T14:07:36Z INFO  http3_client] connecting to 192.168.57.12:443 from 0.0.0.0:56191 with scid a669e4f94435152524a8f2af9adcdfb482d1f75d (len: 20), dsid 03aa186498c5995ee50b22cae391c547d011da19 (len: 20)
+[2023-08-21T14:07:36Z INFO  http3_client] [348.877µs] Send 1200 bytes to 192.168.57.12:443
+[2023-08-21T14:07:36Z INFO  http3_client] [407.542µs] Early data: false
+[2023-08-21T14:07:36Z INFO  http3_client] [4.502399ms] Recv 1280 bytes from 151.101.66.167:443
+[2023-08-21T14:07:36Z INFO  http3_client] [0] migrate server to Some(151.101.66.167:443)
+[2023-08-21T14:07:36Z INFO  http3_client] got packet Initial version=1 dcid=a669e4f94435152524a8f2af9adcdfb482d1f75d scid=921c1c847df943022e6e1faa75c58e9381 token=
+[2023-08-21T14:07:36Z INFO  http3_client] [https://twitch.tv/] handshake completed in 4.860104ms
+[2023-08-21T14:07:36Z INFO  http3_client] Invalid preferred address
+[2023-08-21T14:07:36Z INFO  http3_client] [4.901387ms] Sending HTTP request [Header([58, 109, 101, 116, 104, 111, 100], [71, 69, 84]), Header([58, 115, 99, 104, 101, 109, 101], [104, 116, 116, 112, 115]), Header([58, 97, 117, 116, 104, 111, 114, 105, 116, 121], [116, 119, 105, 116, 99, 104, 46, 116, 118]), Header([58, 112, 97, 116, 104], [47]), Header([117, 115, 101, 114, 45, 97, 103, 101, 110, 116], [113, 117, 105, 99, 104, 101])]
+[2023-08-21T14:07:36Z INFO  http3_client] [4.96639ms] Send 1350 bytes to 151.101.66.167:443
+[2023-08-21T14:07:36Z INFO  http3_client] [5.005956ms] Send 41 bytes to 151.101.66.167:443
+[2023-08-21T14:07:36Z INFO  http3_client] [5.070055ms] Send 41 bytes to 151.101.66.167:443
+[2023-08-21T14:07:36Z INFO  http3_client] [5.104184ms] Send 100 bytes to 151.101.66.167:443
+[2023-08-21T14:07:36Z INFO  http3_client] [5.165042ms] Send 66 bytes to 151.101.66.167:443
+[2023-08-21T14:07:36Z INFO  http3_client] [7.167573ms] Recv 45 bytes from 151.101.66.167:443
+[2023-08-21T14:07:36Z INFO  http3_client] [0] migrate server to Some(151.101.66.167:443)
+[2023-08-21T14:07:36Z INFO  http3_client] got packet Short dcid=a669e4f94435152524a8f2af9adcdfb482d1f75d key_phase=false
+[2023-08-21T14:07:36Z INFO  http3_client] [7.240383ms] Recv 195 bytes from 151.101.66.167:443
+[2023-08-21T14:07:36Z INFO  http3_client] [0] migrate server to Some(151.101.66.167:443)
+[2023-08-21T14:07:36Z INFO  http3_client] got packet Short dcid=a669e4f94435152524a8f2af9adcdfb482d1f75d key_phase=false
+[2023-08-21T14:07:36Z INFO  http3_client] [7.340224ms] got response headers Header([58, 115, 116, 97, 116, 117, 115], [51, 48, 49]) on stream id 0
+[2023-08-21T14:07:36Z INFO  http3_client] response received in 7.367527ms, closing...
+[2023-08-21T14:07:36Z INFO  http3_client] [7.406307ms] Send 45 bytes to 151.101.66.167:443
+[2023-08-21T14:07:36Z INFO  http3_client] connection closed, recv=5 sent=9 lost=0 rtt=3.950617ms cwnd=13500 peer_tps={ max_idle_timeout=30000, max_udp_payload_size=1472, initial_max_data=16777216, initial_max_stream_data_bidi_local=1048576, initial_max_stream_data_bidi_remote=32768, initial_max_stream_data_uni=1048576, initial_max_streams_bidi=100, initial_max_streams_uni=10, ack_delay_exponent=10, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=4, max_datagram_frame_size=Some(1500) }
+[2023-08-21T14:07:36Z INFO  http3_client] Save session to /tmp/http3-client-session.bin
+do start connect

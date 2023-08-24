@@ -1,0 +1,33 @@
+[2023-08-21T14:10:04Z INFO  http3_client] Resuming session for google.com.br
+[2023-08-21T14:10:04Z INFO  http3_client] connecting to 192.168.57.12:443 from 0.0.0.0:35825 with scid e0ae4119bc1dfdb45c996e9eddc703670296615f (len: 20), dsid 8e1b4e491c74d7f720137e7a8c8770c37809f7cc (len: 20)
+[2023-08-21T14:10:04Z INFO  http3_client] [798.643µs] Send 1200 bytes to 192.168.57.12:443
+[2023-08-21T14:10:04Z INFO  http3_client] [869.62µs] Early data: true
+[2023-08-21T14:10:04Z INFO  http3_client] [976.594µs] Sending HTTP request
+[2023-08-21T14:10:04Z INFO  http3_client] [1.039425ms] Send 465 bytes to 192.168.57.12:443
+[2023-08-21T14:10:04Z INFO  http3_client] [28.57805ms] Recv 1200 bytes from 172.217.23.195:443
+[2023-08-21T14:10:04Z INFO  http3_client] [0] migrate server to Some(172.217.23.195:443)
+[2023-08-21T14:10:04Z INFO  http3_client] got packet Initial version=1 dcid=e0ae4119bc1dfdb45c996e9eddc703670296615f scid=ce1b4e491c74d7f7 token=
+[2023-08-21T14:10:04Z INFO  http3_client] [28.918134ms] Send 1350 bytes to 172.217.23.195:443
+[2023-08-21T14:10:04Z INFO  http3_client] [29.114243ms] Recv 633 bytes from 172.217.23.195:443
+[2023-08-21T14:10:04Z INFO  http3_client] [0] migrate server to Some(172.217.23.195:443)
+[2023-08-21T14:10:04Z INFO  http3_client] got packet Short dcid=e0ae4119bc1dfdb45c996e9eddc703670296615f key_phase=false
+[2023-08-21T14:10:04Z INFO  http3_client] [29.202406ms] Send 31 bytes to 172.217.23.195:443
+[2023-08-21T14:10:04Z INFO  http3_client] [29.238306ms] Recv 45 bytes from 172.217.23.195:443
+[2023-08-21T14:10:04Z INFO  http3_client] [0] migrate server to Some(172.217.23.195:443)
+[2023-08-21T14:10:04Z INFO  http3_client] got packet Short dcid=e0ae4119bc1dfdb45c996e9eddc703670296615f key_phase=false
+[2023-08-21T14:10:04Z INFO  http3_client] [37.79862ms] Recv 770 bytes from 172.217.23.195:443
+[2023-08-21T14:10:04Z INFO  http3_client] [0] migrate server to Some(172.217.23.195:443)
+[2023-08-21T14:10:04Z INFO  http3_client] got packet Short dcid=e0ae4119bc1dfdb45c996e9eddc703670296615f key_phase=false
+[2023-08-21T14:10:04Z INFO  http3_client] [37.850158ms] Recv 43 bytes from 172.217.23.195:443
+[2023-08-21T14:10:04Z INFO  http3_client] [0] migrate server to Some(172.217.23.195:443)
+[2023-08-21T14:10:04Z INFO  http3_client] got packet Short dcid=e0ae4119bc1dfdb45c996e9eddc703670296615f key_phase=false
+[2023-08-21T14:10:04Z INFO  http3_client] [37.89657ms] got response headers Header([58, 115, 116, 97, 116, 117, 115], [51, 48, 49]) on stream id 0
+[2023-08-21T14:10:04Z INFO  http3_client] [37.910533ms] got 223 bytes of response data on stream 0
+[2023-08-21T14:10:04Z INFO  http3_client] response received in 37.916885ms, closing...
+[2023-08-21T14:10:04Z INFO  http3_client] [37.926009ms] Send 36 bytes to 172.217.23.195:443
+[2023-08-21T14:10:04Z INFO  http3_client] [52.736013ms] Recv 144 bytes from 172.217.23.195:443
+[2023-08-21T14:10:04Z INFO  http3_client] [0] migrate server to Some(172.217.23.195:443)
+[2023-08-21T14:10:04Z INFO  http3_client] got packet Short dcid=e0ae4119bc1dfdb45c996e9eddc703670296615f key_phase=false
+[2023-08-21T14:10:04Z INFO  http3_client] connection closed, recv=7 sent=11 lost=0 rtt=27.865051ms cwnd=13500 peer_tps={ max_idle_timeout=240000, max_udp_payload_size=1472, initial_max_data=196608, initial_max_stream_data_bidi_local=131072, initial_max_stream_data_bidi_remote=131072, initial_max_stream_data_uni=131072, initial_max_streams_bidi=100, initial_max_streams_uni=103, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=Some(65536) }
+[2023-08-21T14:10:04Z INFO  http3_client] Save session to /tmp/http3-client-session.bin
+do start connect

@@ -114,7 +114,7 @@ def draw_cdf(values, x_label, name, legend, limit=-1, figsize=(4, 2.3)):
         plt.xlim([0, limit])
     plt.ylabel('CDF', size=font_size)
     plt.ylim([0, 1])
-    fig.tight_layout(pad=.3)
+    fig.tight_layout()
     # if avg:
     #     plt.plot(np.mean(values).repeat(values.shape[0]), np.arange(0, 1, 1 / values.shape[0]), 'g--', linewidth=2)
     plt.savefig(os.path.join(DIAGRAM_PATH, f'{name}'), dpi=600)

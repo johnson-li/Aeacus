@@ -1,0 +1,29 @@
+[2023-08-21T14:07:27Z INFO  http3_client] Resuming session for pinterest.com
+[2023-08-21T14:07:27Z INFO  http3_client] connecting to 192.168.57.12:443 from 0.0.0.0:57507 with scid 17358976622cf271029fa3cdd1178736a7dfe792 (len: 20), dsid b98b725e4012e0f6e9af3732a865a1a325fa017b (len: 20)
+[2023-08-21T14:07:27Z INFO  http3_client] [330.354µs] Send 1200 bytes to 192.168.57.12:443
+[2023-08-21T14:07:27Z INFO  http3_client] [380.98µs] Early data: false
+[2023-08-21T14:07:27Z INFO  http3_client] [6.079572ms] Recv 1280 bytes from 151.101.0.84:443
+[2023-08-21T14:07:27Z INFO  http3_client] [0] migrate server to Some(151.101.0.84:443)
+[2023-08-21T14:07:27Z INFO  http3_client] got packet Initial version=1 dcid=17358976622cf271029fa3cdd1178736a7dfe792 scid=92966c03a3044334b391d1451f8e74e65a token=
+[2023-08-21T14:07:27Z INFO  http3_client] [https://pinterest.com/] handshake completed in 6.366895ms
+[2023-08-21T14:07:27Z INFO  http3_client] Invalid preferred address
+[2023-08-21T14:07:27Z INFO  http3_client] [6.403048ms] Sending HTTP request [Header([58, 109, 101, 116, 104, 111, 100], [71, 69, 84]), Header([58, 115, 99, 104, 101, 109, 101], [104, 116, 116, 112, 115]), Header([58, 97, 117, 116, 104, 111, 114, 105, 116, 121], [112, 105, 110, 116, 101, 114, 101, 115, 116, 46, 99, 111, 109]), Header([58, 112, 97, 116, 104], [47]), Header([117, 115, 101, 114, 45, 97, 103, 101, 110, 116], [113, 117, 105, 99, 104, 101])]
+[2023-08-21T14:07:27Z INFO  http3_client] [6.46058ms] Send 1350 bytes to 151.101.0.84:443
+[2023-08-21T14:07:27Z INFO  http3_client] [6.504426ms] Send 41 bytes to 151.101.0.84:443
+[2023-08-21T14:07:27Z INFO  http3_client] [6.540889ms] Send 41 bytes to 151.101.0.84:443
+[2023-08-21T14:07:27Z INFO  http3_client] [6.591268ms] Send 102 bytes to 151.101.0.84:443
+[2023-08-21T14:07:27Z INFO  http3_client] [6.663903ms] Send 66 bytes to 151.101.0.84:443
+[2023-08-21T14:07:27Z INFO  http3_client] [8.751511ms] Recv 45 bytes from 151.101.0.84:443
+[2023-08-21T14:07:27Z INFO  http3_client] [0] migrate server to Some(151.101.0.84:443)
+[2023-08-21T14:07:27Z INFO  http3_client] got packet Short dcid=17358976622cf271029fa3cdd1178736a7dfe792 key_phase=false
+[2023-08-21T14:07:27Z INFO  http3_client] [8.807288ms] Send 40 bytes to 151.101.0.84:443
+[2023-08-21T14:07:27Z INFO  http3_client] [9.097304ms] Recv 412 bytes from 151.101.0.84:443
+[2023-08-21T14:07:27Z INFO  http3_client] [0] migrate server to Some(151.101.0.84:443)
+[2023-08-21T14:07:27Z INFO  http3_client] got packet Short dcid=17358976622cf271029fa3cdd1178736a7dfe792 key_phase=false
+[2023-08-21T14:07:27Z INFO  http3_client] [9.148341ms] got response headers Header([58, 115, 116, 97, 116, 117, 115], [51, 48, 56]) on stream id 0
+[2023-08-21T14:07:27Z INFO  http3_client] [9.158246ms] got 247 bytes of response data on stream 0
+[2023-08-21T14:07:27Z INFO  http3_client] response received in 9.162833ms, closing...
+[2023-08-21T14:07:27Z INFO  http3_client] [9.169859ms] Send 45 bytes to 151.101.0.84:443
+[2023-08-21T14:07:27Z INFO  http3_client] connection closed, recv=5 sent=10 lost=0 rtt=5.348284ms cwnd=13500 peer_tps={ max_idle_timeout=30000, max_udp_payload_size=1472, initial_max_data=16777216, initial_max_stream_data_bidi_local=1048576, initial_max_stream_data_bidi_remote=32768, initial_max_stream_data_uni=1048576, initial_max_streams_bidi=100, initial_max_streams_uni=10, ack_delay_exponent=10, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=4, max_datagram_frame_size=Some(1500) }
+[2023-08-21T14:07:27Z INFO  http3_client] Save session to /tmp/http3-client-session.bin
+do start connect

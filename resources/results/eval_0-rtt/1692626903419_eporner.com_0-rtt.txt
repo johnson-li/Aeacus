@@ -1,0 +1,33 @@
+[2023-08-21T14:08:23Z INFO  http3_client] Resuming session for eporner.com
+[2023-08-21T14:08:23Z INFO  http3_client] connecting to 192.168.57.12:443 from 0.0.0.0:55138 with scid 509be7f535defa933fcd0a583a8730d1e4238b25 (len: 20), dsid 08d1c4af34b2195235f24e005d224262929d504a (len: 20)
+[2023-08-21T14:08:23Z INFO  http3_client] [456.857µs] Send 1200 bytes to 192.168.57.12:443
+[2023-08-21T14:08:23Z INFO  http3_client] [505.943µs] Early data: true
+[2023-08-21T14:08:23Z INFO  http3_client] [557.276µs] Sending HTTP request
+[2023-08-21T14:08:23Z INFO  http3_client] [640.375µs] Send 366 bytes to 192.168.57.12:443
+[2023-08-21T14:08:23Z INFO  http3_client] [26.757894ms] Recv 1200 bytes from 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [0] migrate server to Some(94.75.220.1:443)
+[2023-08-21T14:08:23Z INFO  http3_client] got packet Initial version=1 dcid=509be7f535defa933fcd0a583a8730d1e4238b25 scid=0000000000004001434643511655a434024c87fa token=
+[2023-08-21T14:08:23Z INFO  http3_client] [27.051241ms] Send 1350 bytes to 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [52.461444ms] Recv 218 bytes from 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [0] migrate server to Some(94.75.220.1:443)
+[2023-08-21T14:08:23Z INFO  http3_client] got packet Handshake version=1 dcid=509be7f535defa933fcd0a583a8730d1e4238b25 scid=0000000000004001434643511655a434024c87fa
+[2023-08-21T14:08:23Z INFO  http3_client] [52.560063ms] Send 43 bytes to 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [94.679514ms] Send 68 bytes to 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [147.338975ms] Recv 44 bytes from 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [0] migrate server to Some(94.75.220.1:443)
+[2023-08-21T14:08:23Z INFO  http3_client] got packet Short dcid=509be7f535defa933fcd0a583a8730d1e4238b25 key_phase=false
+[2023-08-21T14:08:23Z INFO  http3_client] [147.405759ms] Send 44 bytes to 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [147.487439ms] Send 44 bytes to 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [147.54631ms] Send 104 bytes to 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [171.308747ms] Recv 43 bytes from 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [0] migrate server to Some(94.75.220.1:443)
+[2023-08-21T14:08:23Z INFO  http3_client] got packet Short dcid=509be7f535defa933fcd0a583a8730d1e4238b25 key_phase=false
+[2023-08-21T14:08:23Z INFO  http3_client] [171.431623ms] Recv 297 bytes from 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] [0] migrate server to Some(94.75.220.1:443)
+[2023-08-21T14:08:23Z INFO  http3_client] got packet Short dcid=509be7f535defa933fcd0a583a8730d1e4238b25 key_phase=false
+[2023-08-21T14:08:23Z INFO  http3_client] [171.53819ms] got response headers Header([58, 115, 116, 97, 116, 117, 115], [51, 48, 49]) on stream id 0
+[2023-08-21T14:08:23Z INFO  http3_client] response received in 171.553286ms, closing...
+[2023-08-21T14:08:23Z INFO  http3_client] [171.634827ms] Send 48 bytes to 94.75.220.1:443
+[2023-08-21T14:08:23Z INFO  http3_client] connection closed, recv=8 sent=14 lost=4 rtt=26.122481ms cwnd=9450 peer_tps={ max_idle_timeout=120000, max_udp_payload_size=65527, initial_max_data=146800640, initial_max_stream_data_bidi_local=4194304, initial_max_stream_data_bidi_remote=4194304, initial_max_stream_data_uni=4194304, initial_max_streams_bidi=32, initial_max_streams_uni=3, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=None }
+[2023-08-21T14:08:23Z INFO  http3_client] Save session to /tmp/http3-client-session.bin
+do start connect
