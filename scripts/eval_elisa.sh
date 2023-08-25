@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readarray -t domains < ~/Workspace/Aeacus/resources/results/quiche_support.txt
+readarray -t domains < ~/Workspace/Aeacus/resources/results/quic_support.txt
 
 while true 
 do
