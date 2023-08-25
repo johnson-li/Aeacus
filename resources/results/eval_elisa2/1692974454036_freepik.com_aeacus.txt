@@ -1,0 +1,15 @@
+[2023-08-25T14:40:54Z INFO  http3_client] connecting to 195.148.127.234:443 from 0.0.0.0:40959 with scid 8eef45f185ac40e291172d261aa7f275331447a0 (len: 20), dsid 5dea5fad1adec3b6ae9f51a3a4956325c1e8f249 (len: 20)
+[2023-08-25T14:40:54Z INFO  http3_client] [444.934µs] Send 1200 bytes to 195.148.127.234:443
+[2023-08-25T14:40:54Z INFO  http3_client] [480.105µs] Early data: false
+[2023-08-25T14:40:55Z INFO  http3_client] [1.000637329s] Send 1200 bytes to 195.148.127.234:443
+[2023-08-25T14:40:55Z INFO  http3_client] [1.513220336s] Recv 324 bytes from 195.148.127.234:443
+[2023-08-25T14:40:55Z INFO  quiche] Recv single, type: Initial
+[2023-08-25T14:40:55Z INFO  quiche] Recv single, payload_len: 76
+[2023-08-25T14:40:55Z INFO  quiche] hdr decrypted
+[2023-08-25T14:40:55Z INFO  quiche] starting decrypt: 1, 76
+[2023-08-25T14:40:55Z INFO  quiche] payload decrypted, pn: 1
+[2023-08-25T14:40:55Z INFO  quiche] asdf2
+[2023-08-25T14:40:55Z INFO  quiche] asdf
+[2023-08-25T14:40:55Z INFO  quiche] Recv frame: CONNECTION_CLOSE err=1 frame=6 reason=[31, 39, 34, 3a, 50, 65, 65, 72, 20, 61, 64, 64, 72, 65, 73, 73, 20, 63, 68, 61, 6e, 67, 65, 64, 20, 62, 65, 66, 6f, 72, 65, 20, 68, 61, 6e, 64, 73, 68, 61, 6b, 65, 20, 69, 73, 20, 63, 6f, 6e, 66, 69, 72, 6d, 65, 64, 2e]
+[2023-08-25T14:40:55Z INFO  http3_client] got packet Initial version=1 dcid=8eef45f185ac40e291172d261aa7f275331447a0 scid=ddea5fad1adec3b6 token=
+[2023-08-25T14:40:58Z INFO  http3_client] connection closed, recv=1 sent=2 lost=0 rtt=333ms cwnd=13500 peer_tps={ max_idle_timeout=0, max_udp_payload_size=65527, initial_max_data=0, initial_max_stream_data_bidi_local=0, initial_max_stream_data_bidi_remote=0, initial_max_stream_data_uni=0, initial_max_streams_bidi=0, initial_max_streams_uni=0, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=None }

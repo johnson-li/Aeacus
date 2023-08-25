@@ -1,0 +1,527 @@
+[2023-08-25T14:27:08Z INFO  http3_client] connecting to 195.148.127.234:443 from 0.0.0.0:40161 with scid 7a59ec4848999b5bda1935d246d7062a90d941d5 (len: 20), dsid 95660cadfe187e8878a68158a9c5d963506e54c7 (len: 20)
+[2023-08-25T14:27:08Z INFO  http3_client] [570.307µs] Send 1200 bytes to 195.148.127.234:443
+[2023-08-25T14:27:08Z INFO  http3_client] [617.162µs] Early data: false
+[2023-08-25T14:27:09Z INFO  http3_client] [50.310304ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Initial
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 117
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 0, 117
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 0
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: ACK delay=89 blocks=[0..0] ecn_counts=None
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: CRYPTO off=0 len=90
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1012
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Initial version=1 dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 scid=01e5f9d41070fc8b93e5b6d47d70d67b13e08fec token=
+[2023-08-25T14:27:09Z INFO  http3_client] [50.66821ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Handshake
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1151
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 0, 1151
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 0
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: CRYPTO off=0 len=1130
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Handshake version=1 dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 scid=01e5f9d41070fc8b93e5b6d47d70d67b13e08fec
+[2023-08-25T14:27:09Z INFO  http3_client] [50.736627ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Handshake
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1151
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 1, 1151
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 1
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: CRYPTO off=1130 len=1129
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Handshake version=1 dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 scid=01e5f9d41070fc8b93e5b6d47d70d67b13e08fec
+[2023-08-25T14:27:09Z INFO  http3_client] [50.793437ms] Recv 367 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Handshake
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 318
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 2, 318
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 2
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: CRYPTO off=2259 len=296
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Handshake version=1 dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 scid=01e5f9d41070fc8b93e5b6d47d70d67b13e08fec
+[2023-08-25T14:27:09Z INFO  http3_client] [https://discord.com/] handshake completed in 51.932432ms
+[2023-08-25T14:27:09Z INFO  http3_client] Invalid preferred address, ignore
+[2023-08-25T14:27:09Z INFO  http3_client] [52.014165ms] Sending HTTP request [Header([58, 109, 101, 116, 104, 111, 100], [71, 69, 84]), Header([58, 115, 99, 104, 101, 109, 101], [104, 116, 116, 112, 115]), Header([58, 97, 117, 116, 104, 111, 114, 105, 116, 121], [100, 105, 115, 99, 111, 114, 100, 46, 99, 111, 109]), Header([58, 112, 97, 116, 104], [47]), Header([117, 115, 101, 114, 45, 97, 103, 101, 110, 116], [113, 117, 105, 99, 104, 101])]
+[2023-08-25T14:27:09Z INFO  http3_client] [52.126325ms] Send 1350 bytes to 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  http3_client] [52.161038ms] Send 44 bytes to 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  http3_client] [52.17422ms] Send 44 bytes to 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  http3_client] [52.185977ms] Send 104 bytes to 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  http3_client] [80.973241ms] Recv 554 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 533
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 0, 533
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 0
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: ACK delay=79 blocks=[0..3] ecn_counts=None
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: HANDSHAKE_DONE
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: CRYPTO off=0 len=476
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=3 off=0 len=24 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [81.269499ms] Send 43 bytes to 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  http3_client] [81.937799ms] Recv 44 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 23
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 1, 23
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 1
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=7 off=0 len=1 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [82.02787ms] Recv 44 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 23
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 2, 23
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 2
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=11 off=0 len=1 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [82.077656ms] Recv 69 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 48
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 3, 48
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 3
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=15 off=0 len=26 fin=true
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [82.150632ms] Send 43 bytes to 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  http3_client] [116.672702ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 4, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 4
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=0 len=1157 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [116.827905ms] Recv 986 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 965
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 5, 965
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 5
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=1157 len=942 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [116.879722ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 6, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 6
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=2099 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [116.927636ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 7, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 7
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=3255 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [116.985885ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 8, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 8
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=4411 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [117.034852ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 9, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 9
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=5567 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [117.081769ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 10, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 10
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=6723 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [117.138177ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 11, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 11
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=7879 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [117.187018ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 12, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 12
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=9035 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [117.234221ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 13, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 13
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=10191 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [117.285218ms] Recv 214 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 193
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 14, 193
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 14
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=11347 len=170 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [117.444883ms] got response headers Header([58, 115, 116, 97, 116, 117, 115], [50, 48, 48]) on stream id 0
+[2023-08-25T14:27:09Z INFO  http3_client] [117.466288ms] got 9415 bytes of response data on stream 0
+[2023-08-25T14:27:09Z INFO  http3_client] [117.487938ms] Send 43 bytes to 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  http3_client] [160.63704ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 15, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 15
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=11517 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [160.777348ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 16, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 16
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=12673 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [160.849273ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 17, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 17
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=13829 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [160.897736ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 18, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 18
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=14985 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [160.946405ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 19, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 19
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=16141 len=1156 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [160.993973ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 20, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 20
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=17297 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.041909ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 21, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 21
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=18451 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.089902ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 22, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 22
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=19605 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.142046ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 23, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 23
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=20759 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.189441ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 24, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 24
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=21913 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.236955ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 25, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 25
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=23067 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.284416ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 26, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 26
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=24221 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.333827ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 27, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 27
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=25375 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.381906ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 28, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 28
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=26529 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.433886ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 29, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 29
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=27683 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.4924ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 30, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 30
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=28837 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.540117ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 31, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 31
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=29991 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.592189ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 32, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 32
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=31145 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.639886ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 33, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 33
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=32299 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.697164ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 34, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 34
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=33453 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [161.771054ms] got 23082 bytes of response data on stream 0
+[2023-08-25T14:27:09Z INFO  http3_client] [161.794297ms] Send 43 bytes to 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  http3_client] [185.891388ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 35, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 35
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=34607 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.026826ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 36, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 36
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=35761 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.077159ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 37, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 37
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=36915 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.125085ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 38, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 38
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=38069 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.17253ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 39, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 39
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=39223 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.241291ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 40, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 40
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=40377 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.289851ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 41, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 41
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=41531 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.337403ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 42, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 42
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=42685 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.385219ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 43, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 43
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=43839 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.432503ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 1179
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 44, 1179
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 44
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=44993 len=1154 fin=false
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.481111ms] Recv 68 bytes from 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:27:09Z INFO  quiche] Recv single, payload_len: 47
+[2023-08-25T14:27:09Z INFO  quiche] hdr decrypted
+[2023-08-25T14:27:09Z INFO  quiche] starting decrypt: 45, 47
+[2023-08-25T14:27:09Z INFO  quiche] payload decrypted, pn: 45
+[2023-08-25T14:27:09Z INFO  quiche] asdf2
+[2023-08-25T14:27:09Z INFO  quiche] asdf
+[2023-08-25T14:27:09Z INFO  quiche] Recv frame: STREAM id=0 off=46147 len=22 fin=true
+[2023-08-25T14:27:09Z INFO  http3_client] got packet Short dcid=7a59ec4848999b5bda1935d246d7062a90d941d5 key_phase=false
+[2023-08-25T14:27:09Z INFO  http3_client] [186.557239ms] got 11554 bytes of response data on stream 0
+[2023-08-25T14:27:09Z INFO  http3_client] response received in 186.56486ms, closing...
+[2023-08-25T14:27:09Z INFO  http3_client] [186.586034ms] Send 48 bytes to 195.148.127.234:443
+[2023-08-25T14:27:09Z INFO  http3_client] connection closed, recv=50 sent=12 lost=0 rtt=47.179676ms cwnd=13500 peer_tps={ max_idle_timeout=180000, max_udp_payload_size=65527, initial_max_data=10485760, initial_max_stream_data_bidi_local=0, initial_max_stream_data_bidi_remote=1048576, initial_max_stream_data_uni=1048576, initial_max_streams_bidi=256, initial_max_streams_uni=3, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=None }

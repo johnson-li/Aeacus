@@ -1,0 +1,43 @@
+[2023-08-25T14:32:56Z INFO  http3_client] connecting to 195.148.127.234:443 from 0.0.0.0:39419 with scid a51830af3f5b96059f79986c781668ed3205669d (len: 20), dsid 3d4e9e68bb68fc4bfec9ce0ace05cce0ba0813ac (len: 20)
+[2023-08-25T14:32:56Z INFO  http3_client] [425.65µs] Send 1200 bytes to 195.148.127.234:443
+[2023-08-25T14:32:56Z INFO  http3_client] [457.147µs] Early data: false
+[2023-08-25T14:32:57Z INFO  http3_client] [1.000517209s] Send 1200 bytes to 195.148.127.234:443
+[2023-08-25T14:32:58Z INFO  http3_client] [2.744283097s] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:32:58Z INFO  quiche] Recv single, type: Initial
+[2023-08-25T14:32:58Z INFO  quiche] Recv single, payload_len: 1162
+[2023-08-25T14:32:58Z INFO  quiche] hdr decrypted
+[2023-08-25T14:32:58Z INFO  quiche] starting decrypt: 1, 1162
+[2023-08-25T14:32:58Z INFO  quiche] payload decrypted, pn: 1
+[2023-08-25T14:32:58Z INFO  quiche] asdf2
+[2023-08-25T14:32:58Z INFO  quiche] asdf
+[2023-08-25T14:32:58Z INFO  quiche] Recv frame: ACK delay=0 blocks=[1..1] ecn_counts=None
+[2023-08-25T14:32:58Z INFO  quiche] Recv frame: CRYPTO off=0 len=90
+[2023-08-25T14:32:58Z INFO  quiche] Recv frame: PADDING len=1046
+[2023-08-25T14:32:58Z INFO  http3_client] got packet Initial version=1 dcid=a51830af3f5b96059f79986c781668ed3205669d scid=fd4e9e68bb68fc4b token=
+[2023-08-25T14:32:58Z INFO  http3_client] [2.74472519s] Send 1200 bytes to 195.148.127.234:443
+[2023-08-25T14:32:59Z INFO  http3_client] [2.817405177s] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:32:59Z INFO  quiche] Recv single, type: Handshake
+[2023-08-25T14:32:59Z INFO  quiche] Recv single, payload_len: 1163
+[2023-08-25T14:32:59Z INFO  quiche] hdr decrypted
+[2023-08-25T14:32:59Z INFO  quiche] starting decrypt: 2, 1163
+[2023-08-25T14:32:59Z INFO  quiche] payload decrypted, pn: 2
+[2023-08-25T14:32:59Z INFO  quiche] asdf2
+[2023-08-25T14:32:59Z INFO  quiche] asdf
+[2023-08-25T14:32:59Z INFO  quiche] Recv frame: CRYPTO off=0 len=1142
+[2023-08-25T14:32:59Z INFO  http3_client] got packet Handshake version=1 dcid=a51830af3f5b96059f79986c781668ed3205669d scid=fd4e9e68bb68fc4b
+[2023-08-25T14:32:59Z INFO  http3_client] [2.817603122s] Send 59 bytes to 195.148.127.234:443
+[2023-08-25T14:32:59Z INFO  http3_client] [2.939094523s] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:32:59Z INFO  quiche] Recv single, type: Handshake
+[2023-08-25T14:32:59Z INFO  quiche] Recv single, payload_len: 1163
+[2023-08-25T14:32:59Z INFO  quiche] hdr decrypted
+[2023-08-25T14:32:59Z INFO  quiche] starting decrypt: 3, 1163
+[2023-08-25T14:32:59Z INFO  quiche] payload decrypted, pn: 3
+[2023-08-25T14:32:59Z INFO  quiche] asdf2
+[2023-08-25T14:32:59Z INFO  quiche] asdf
+[2023-08-25T14:32:59Z INFO  quiche] Recv frame: CRYPTO off=1142 len=1141
+[2023-08-25T14:32:59Z INFO  http3_client] got packet Handshake version=1 dcid=a51830af3f5b96059f79986c781668ed3205669d scid=fd4e9e68bb68fc4b
+[2023-08-25T14:32:59Z INFO  http3_client] [2.939251885s] Send 59 bytes to 195.148.127.234:443
+[2023-08-25T14:33:04Z INFO  http3_client] [8.054595455s] Send 63 bytes to 195.148.127.234:443
+[2023-08-25T14:33:14Z INFO  http3_client] [18.527945999s] Send 63 bytes to 195.148.127.234:443
+[2023-08-25T14:33:14Z INFO  http3_client] [18.528060644s] Send 63 bytes to 195.148.127.234:443
+[2023-08-25T14:33:19Z INFO  http3_client] connection closed, recv=3 sent=8 lost=1 rtt=1.743839202s cwnd=9450 peer_tps={ max_idle_timeout=240000, max_udp_payload_size=1472, initial_max_data=196608, initial_max_stream_data_bidi_local=131072, initial_max_stream_data_bidi_remote=131072, initial_max_stream_data_uni=131072, initial_max_streams_bidi=100, initial_max_streams_uni=103, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=Some(65536) }

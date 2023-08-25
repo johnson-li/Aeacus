@@ -1,0 +1,26 @@
+[2023-08-25T14:30:27Z INFO  http3_client] connecting to 195.148.127.234:443 from 0.0.0.0:35013 with scid 20af7b07406e99a035f5019254f76b23a08e2939 (len: 20), dsid d25808ffad3c646db8e070a08712721066796eb4 (len: 20)
+[2023-08-25T14:30:27Z INFO  http3_client] [462.277µs] Send 1200 bytes to 195.148.127.234:443
+[2023-08-25T14:30:27Z INFO  http3_client] [492.875µs] Early data: false
+[2023-08-25T14:30:27Z INFO  http3_client] [61.923516ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:30:27Z INFO  quiche] Recv single, type: Initial
+[2023-08-25T14:30:27Z INFO  quiche] Recv single, payload_len: 23
+[2023-08-25T14:30:27Z INFO  quiche] hdr decrypted
+[2023-08-25T14:30:27Z INFO  quiche] starting decrypt: 0, 23
+[2023-08-25T14:30:27Z INFO  quiche] payload decrypted, pn: 0
+[2023-08-25T14:30:27Z INFO  quiche] asdf2
+[2023-08-25T14:30:27Z INFO  quiche] asdf
+[2023-08-25T14:30:27Z INFO  quiche] Recv frame: ACK delay=69 blocks=[0..0] ecn_counts=None
+[2023-08-25T14:30:27Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:30:27Z INFO  quiche] Recv single, payload_len: 1106
+[2023-08-25T14:30:27Z INFO  http3_client] got packet Initial version=1 dcid=20af7b07406e99a035f5019254f76b23a08e2939 scid=01ab83009d37049d56abcc00d7372be5b0ad8a09 token=
+[2023-08-25T14:30:27Z INFO  http3_client] [62.902363ms] Recv 1200 bytes from 195.148.127.234:443
+[2023-08-25T14:30:27Z INFO  quiche] Recv single, type: Initial
+[2023-08-25T14:30:27Z INFO  quiche] Recv single, payload_len: 22
+[2023-08-25T14:30:27Z INFO  quiche] hdr decrypted
+[2023-08-25T14:30:27Z INFO  quiche] starting decrypt: 1, 22
+[2023-08-25T14:30:27Z INFO  quiche] payload decrypted, pn: 1
+[2023-08-25T14:30:27Z INFO  quiche] asdf2
+[2023-08-25T14:30:27Z INFO  quiche] asdf
+[2023-08-25T14:30:27Z INFO  quiche] Recv frame: CONNECTION_CLOSE err=128 frame=0 reason=[]
+[2023-08-25T14:30:27Z INFO  http3_client] got packet Initial version=1 dcid=20af7b07406e99a035f5019254f76b23a08e2939 scid=01ab83009d37049d56abcc00d7372be5b0ad8a09 token=
+[2023-08-25T14:30:27Z INFO  http3_client] connection closed, recv=2 sent=1 lost=0 rtt=61.526146ms cwnd=13500 peer_tps={ max_idle_timeout=0, max_udp_payload_size=65527, initial_max_data=0, initial_max_stream_data_bidi_local=0, initial_max_stream_data_bidi_remote=0, initial_max_stream_data_uni=0, initial_max_streams_bidi=0, initial_max_streams_uni=0, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=None }

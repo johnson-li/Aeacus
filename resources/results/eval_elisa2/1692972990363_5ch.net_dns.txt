@@ -1,0 +1,27 @@
+[2023-08-25T14:16:30Z INFO  http3_client] It takes 34.508587ms to resolve 5ch.net to 104.22.1.109
+[2023-08-25T14:16:30Z INFO  http3_client] connecting to 195.148.127.234:8443 from 0.0.0.0:56238 with scid 7810168be984c832e1cfba71a44632ca859e2393 (len: 20), dsid a26bd3c2edae4eced60421ab21d511dff0e1a0e2 (len: 20)
+[2023-08-25T14:16:30Z INFO  http3_client] [35.120359ms] Send 1204 bytes to 195.148.127.234:8443
+[2023-08-25T14:16:30Z INFO  http3_client] [35.158859ms] Early data: false
+[2023-08-25T14:16:30Z INFO  http3_client] [63.239136ms] Recv 1200 bytes from 195.148.127.234:8443
+[2023-08-25T14:16:30Z INFO  quiche] Recv single, type: Initial
+[2023-08-25T14:16:30Z INFO  quiche] Recv single, payload_len: 22
+[2023-08-25T14:16:30Z INFO  quiche] hdr decrypted
+[2023-08-25T14:16:30Z INFO  quiche] starting decrypt: 0, 22
+[2023-08-25T14:16:30Z INFO  quiche] payload decrypted, pn: 0
+[2023-08-25T14:16:30Z INFO  quiche] asdf2
+[2023-08-25T14:16:30Z INFO  quiche] asdf
+[2023-08-25T14:16:30Z INFO  quiche] Recv frame: ACK delay=59 blocks=[0..0] ecn_counts=None
+[2023-08-25T14:16:30Z INFO  quiche] Recv single, type: Short
+[2023-08-25T14:16:30Z INFO  quiche] Recv single, payload_len: 1107
+[2023-08-25T14:16:30Z INFO  http3_client] got packet Initial version=1 dcid=7810168be984c832e1cfba71a44632ca859e2393 scid=01778b3e97ce4a5bac77c43ed0ce7acde5baf062 token=
+[2023-08-25T14:16:30Z INFO  http3_client] [64.062402ms] Recv 1200 bytes from 195.148.127.234:8443
+[2023-08-25T14:16:30Z INFO  quiche] Recv single, type: Initial
+[2023-08-25T14:16:30Z INFO  quiche] Recv single, payload_len: 22
+[2023-08-25T14:16:30Z INFO  quiche] hdr decrypted
+[2023-08-25T14:16:30Z INFO  quiche] starting decrypt: 1, 22
+[2023-08-25T14:16:30Z INFO  quiche] payload decrypted, pn: 1
+[2023-08-25T14:16:30Z INFO  quiche] asdf2
+[2023-08-25T14:16:30Z INFO  quiche] asdf
+[2023-08-25T14:16:30Z INFO  quiche] Recv frame: CONNECTION_CLOSE err=128 frame=0 reason=[]
+[2023-08-25T14:16:30Z INFO  http3_client] got packet Initial version=1 dcid=7810168be984c832e1cfba71a44632ca859e2393 scid=01778b3e97ce4a5bac77c43ed0ce7acde5baf062 token=
+[2023-08-25T14:16:30Z INFO  http3_client] connection closed, recv=2 sent=1 lost=0 rtt=28.179067ms cwnd=13500 peer_tps={ max_idle_timeout=0, max_udp_payload_size=65527, initial_max_data=0, initial_max_stream_data_bidi_local=0, initial_max_stream_data_bidi_remote=0, initial_max_stream_data_uni=0, initial_max_streams_bidi=0, initial_max_streams_uni=0, ack_delay_exponent=3, max_ack_delay=25, disable_active_migration=false, active_conn_id_limit=2, max_datagram_frame_size=None }
