@@ -45,8 +45,8 @@ def main():
                 delay = float(s.group(1))
                 pkt_num_count.append(pkt_num)
                 pkt_round_count.append(pkt_round)
-                if pkt_round == 1:
-                    print(filename)
+                # if pkt_round == 1:
+                #     print(filename)
             s = re.search(r'It takes (\d+.?\d+)ms to resolve', log)
             dns_delay = -1
             if s:
@@ -61,6 +61,8 @@ def main():
     pkt_round_count = np.array(pkt_round_count)
     print('1-RTT handshake: ', np.sum(pkt_round_count == 1), len(pkt_round_count))
     print(f'Avg pkt num: {np.mean(pkt_num_count)}, avg pkt round: {np.mean(pkt_round_count)}')
+    print(f'Min RTT, src: {np.min([rtt_data0[domain][0] for domain in rtt_data0])}'
+          f', ns: {np.min([rtt_data0[domain][1] for domain in rtt_data0])}')
     print(f'Max RTT, src: {np.max([rtt_data0[domain][0] for domain in rtt_data0])}'
           f', ns: {np.max([rtt_data0[domain][1] for domain in rtt_data0])}')
 
