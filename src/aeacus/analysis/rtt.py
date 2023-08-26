@@ -90,7 +90,7 @@ def draw_diagram():
     print(np.percentile(ran, 99))
     print(np.median(ran) / np.min(srv))
     draw_cdf([srv, ns, ran], 'RTT (ms)', f"rtt.pdf", ['RTT_SRV', 'RTT_NS', 'RTT_RAN'], 
-             figsize=(4, 3), limit=280)
+             figsize=(5, 2), limit=280)
 
 
 def main():

@@ -48,7 +48,7 @@ def save_session_ticket(ticket: SessionTicket) -> None:
 
 
 def connect(config, rnd):
-    url = "https://mobix.xuebing.me:4433"
+    url = "https://mobix.xuebing.online:4433"
     parsed = urlparse(url)
     host = parsed.hostname
     port = parsed.port

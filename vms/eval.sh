@@ -3,7 +3,7 @@
 
 mkdir -p /tmp/benchmark
 
-num=800
+num=500
 mkdir -p /tmp/benchmark/$num
 for i in `seq $num`
 do
