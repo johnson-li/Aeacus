@@ -122,6 +122,11 @@ def main():
         error_list[0].append(median - bottom)
         error_list[1].append(top - median)
 
+    reduction_list = np.array(reduction_list)
+    error_list = np.array(error_list)
+    sort_index = np.argsort(reduction_list)
+    reduction_list = reduction_list[sort_index]
+    error_list = error_list[:, sort_index]
     print(f'Median reduction: {np.median(reduction_all)} ms ({np.median(reduction_ratio_all)}%), #{len(reduction_all)}/{len(reduction_ratio_all)}')
     print(f'Mean reduction0: {np.median(reduction0_all)} ms ({np.median(reduction0_ratio_all)}%), #{len(reduction0_all)}/{len(reduction0_ratio_all)}')
     fig, ax = plt.subplots(figsize=(6, 2.5))
